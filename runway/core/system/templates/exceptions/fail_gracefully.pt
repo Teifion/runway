@@ -1,0 +1,53 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    Exception
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li class="active">System Exception</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <div class="first-row row">
+      
+      <div class="col-md-12">
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <i class="fa fa-question fa-fw"></i>
+            We might be able to fix it!
+          </div>
+          
+          <div class="panel-body" style="font-size: 1.2em;">
+            <!-- start_graceful_message -->${structure:exc.message}<!-- end_graceful_message -->
+            
+            <div tal:condition="exc.log_anyway == True">
+              The error has been automatically logged but the admin(s) may not be made aware of it yet. If the issue is urgent then you can email <a href="mailto:#">###</a>.
+              <br /><br />
+            </div>
+      
+            <div tal:condition="exc.echo_input">
+              Below is a copy of all information you submitted:
+              <br /><br />
+              
+              <table class="table table-striped">
+                <tr tal:repeat="k request.params.keys()" class="rrow0">
+                  <td style="width:200px;">${k}</td>
+                  <td><textarea class="form-control" rows="${min(8,len(request.params[k].split('\n')))}">${request.params[k]}</textarea></td>
+                </tr>
+              </table>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    
+    <!--
+        The above is a description of an error in a Python program, formatted
+for a Web browser because the 'cgitb' module was enabled.  In case you
+are not reading this in a Web browser, here is the original traceback:
+    -->
+  </div>
+</div>

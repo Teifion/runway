@@ -1,0 +1,1 @@
+Actions are what happens when a trigger is fired, e.g. Send Email

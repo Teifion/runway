@@ -1,0 +1,51 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    cron
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('user.control_panel')}">User control panel</a></li>
+    <li><a href="${request.route_url('cron.user.control_panel')}">Cron jobs</a></li>
+    <li class="active">Delete job</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script src="${request.rel('static/validator.js')}"></script>
+    
+    <div class="row first-row" style="margin-top:70px;">
+      <div class="col-md-12 col-lg-8 col-lg-offset-2">
+        <div class="panel panel-warning">
+          <div class="panel-heading">
+            <i class="fa fa-file-text fa-fw"></i>
+            Run job now
+          </div>
+          
+          <div class="panel-body">
+            This will cause the job to run right away outside of the usual scheduler process.
+            <br /><br />
+            
+            <div class="alert alert-info">
+              This will attempt to run the cron job within the web page rather than the server background process. This means the job is more likely to not complete and this should only be used for smaller, quicker jobs.
+              <br /><br />
+              
+              If you are unsure, please run the job via the <a href="" class="alert-link">background process.</a>
+            </div>
+            <br /><br />
+            
+            <form action="${request.route_url('cron.user.run_now', job_id=job_id)}" method="post" accept-charset="utf-8" style="text-align:center;">
+              <input type="hidden" name="confirm" id="confirm" value="${job_id}" class="form-control" />
+              
+              <a href="${request.route_url('cron.user.edit', job_id=job_id)}" class="btn btn-default">Run at the usual time</a>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <input type="submit" value="Run it immediately" name="form.submitted" class="btn btn-warning" />
+            </form>
+            
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    
+  </div>
+</div>

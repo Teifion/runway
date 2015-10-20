@@ -1,0 +1,73 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    Admin
+  </div>
+    
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('admin.home')}">Admin</a></li>
+    <li class="active">User search (by username)</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        $('#sidebar_admin').addClass('menu-active');
+        $('#sidebar_admin a').addClass('icon-active');
+      });
+    </script>
+    
+    <div class="row first-row">
+        
+      <div class="col-md-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <i class="fa fa-list fa-fw"></i>
+            Search results
+            
+            <div class="pull-right">
+              <a href="${request.route_url('admin.home')}">
+                <i class="fa fa-angle-left"></i>
+                <i class="fa fa-angle-left"></i>
+                Back to admin home
+              </a>
+            </div>
+          </div>
+          
+          <div class="panel-body">
+            
+            <table class="table table-striped table-hover table-condensed">
+              <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Display name</th>
+                <th>Join date</th>
+                <th>&nbsp;</th>
+              </tr>
+              <tr tal:repeat="u results">
+                <td>${u.id}</td>
+                <td>${u.username}</td>
+                <td>${u.display_name}</td>
+                <td>${u.join_date.strftime("%Y/%m/%d")}</td>
+                <td>
+                  <a href="${request.route_url('admin.user.edit', user_id=u.id)}" class="btn btn-default ">
+                    <i class="fa fa-cog"></i>
+                    Edit
+                  </a>
+                </td>
+              </tr>
+            </table>
+            
+            
+            <ul class="pagination" tal:define="username request.params['display_name']">
+              <li><a href="?username=${username}&amp;page=${page-1}">&lt;</a></li>
+              <li><a class="active" href="#" onclick="return false;">${page}</a></li>
+              <li><a href="?username=${username}&amp;page=${page+1}">&gt;</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>

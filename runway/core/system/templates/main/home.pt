@@ -1,0 +1,52 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    ${request.runway_settings.system['name']}
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li class="active">${request.runway_settings.system['name']} home</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        $('#sidebar_home').addClass('menu-active');
+        $('#sidebar_home a').addClass('icon-active');
+      });
+    </script>
+    
+    <link href="${request.rel(c)}" rel="stylesheet" tal:repeat="c css_libs" />
+    <script src="${request.rel(j)}" tal:repeat="j js_libs"></script>
+    
+    <div class="row first-row" tal:condition="messages['runway.system.dev_message'] != '' or messages['runway.system.admin_message'] != ''">
+      <div class="col-md-12" tal:condition="messages['runway.system.dev_message'] != ''">
+        <div class="alert alert-info">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          
+          ${messages['runway.system.dev_message']}
+        </div>
+      </div>
+      
+      <div class="col-md-12" tal:condition="messages['runway.system.admin_message'] != ''">
+        <div class="alert alert-info">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          
+          ${messages['runway.system.admin_message']}
+        </div>
+      </div>
+    </div>
+    
+    <div class="row first-row" style="height:0;">
+      &nbsp;
+    </div>
+    
+    <div tal:repeat="r renders">
+      <div class="row">
+        <div class="col-md-12">
+          ${structure:r}
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>

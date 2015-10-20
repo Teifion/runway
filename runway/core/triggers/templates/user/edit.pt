@@ -1,0 +1,253 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    Triggers
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('user.control_panel')}">User control panel</a></li>
+    <li><a href="${request.route_url('triggers.user.control_panel')}">Triggers</a></li>
+    <li class="active">Edit trigger</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script src="${request.rel('static/validator.js')}"></script>
+    <script src="${request.rel('static/js/ace/ace.js')}"></script>
+    
+    <link href="${request.rel('static/nvd3.css')}" rel="stylesheet" tal:condition="not parse_errors">
+    <script src="${request.rel('static/d3.js')}" tal:condition="not parse_errors"></script>
+    <script src="${request.rel('static/nvd3.js')}" tal:condition="not parse_errors"></script>
+    
+    <script src="${request.rel('static/js/indented_tree.js')}" tal:condition="not parse_errors"></script>
+    
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        var editor = ace.edit("trigger_code");
+        
+        editor.setTheme("ace/theme/xcode");
+        editor.getSession().setMode("ace/mode/javascript");
+        
+        editor.getSession().setUseWrapMode(true);
+        editor.setShowPrintMargin(false);
+        //editor.renderer.setShowGutter(false);
+        
+        nv.addGraph(function() {
+          var chart = runway_models_indentedTree()
+            .tableClass('table table-striped') //for bootstrap styling
+            //.iconOpen('XYZ')
+            .columns([
+              {
+                key: 'key',
+                label: 'Name',
+                showCount: true,
+                width: '40%',
+                type: 'text',
+                classes: function(d) { return d.url ? 'clickable name' : 'name' },
+                click: function(d) {
+                   if (d.url) window.location.href = d.url;
+                }
+              },
+              {
+                key: 'type',
+                label: 'Type',
+                width: '10%',
+                type: 'text'
+              },
+              {
+                key: 'example',
+                label: 'Example',
+                width: '20%',
+                type: 'text'
+              },
+              {
+                key: 'description',
+                label: 'Description',
+                width: '30%',
+                type: 'text'
+              }
+            ]);
+          
+          chart.icon = function (d) {
+            return "YYY";
+            //return (d._values && d._values.length) ? iconOpen : (d.values && d.values.length) ? iconClose : '';
+          }
+          
+          d3.select('#values_tree')
+            .datum(${json_value_tree})
+          .call(chart);
+
+          return chart;
+        });
+      });
+    </script>
+    
+    <style type="text/css" media="screen">
+      #trigger_code { 
+        position: relative;
+        height: 800px;
+      }
+    </style>
+    
+    <div class="row first-row" tal:condition="message != None">
+      <div class="col-md-12">
+        <div class="alert alert-${message[0]} alert-dismissable">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          ${structure:message[1]}
+        </div>
+      </div>
+    </div>
+    
+    <div class="row first-row">
+      <div class="col-lg-6 col-sm-12" id="main_form_col">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <!-- <i class="fa fa-wrench fa-fw"></i> -->
+            Trigger
+            
+            <div class="btn btn-default btn-xs pull-right" style="display:none;" id="main_form_col_icon" onclick="
+              $('#main_form_col').addClass('col-lg-6');
+              $('#action_form_col').addClass('col-lg-6');
+              
+              $('#main_form_col').removeClass('col-lg-4');
+              $('#action_form_col').removeClass('col-lg-8');
+              
+              $('#main_form_col_icon').hide();
+              $('#action_form_col_icon').show();">
+              <i class="fa fa-expand fa-fw"></i>
+              Expand
+            </div>
+          </div>
+          
+          <div class="panel-body">
+            <a href="${request.route_url('triggers.user.control_panel')}" class="btn btn-default">
+              <i class="fa fa-level-up fa-fw"></i>
+              Back to Trigger Control Panel
+            </a>
+            <a href="${request.route_url('triggers.user.gui_edit', trigger_script_id=the_trigger_script.id)}" class="btn btn-default" tal:condition="not parse_errors">
+              <!-- <i class="fa fa-code fa-fw"></i> -->
+              Edit conditions/actions
+            </a>
+            
+            <a href="${request.route_url('triggers.user.test_trigger_script', trigger_script_id=the_trigger_script.id)}" class="btn btn-default" tal:condition="not parse_errors">
+              <i class="fa fa-check fa-fw"></i>
+              Test
+            </a>
+            
+            <a href="${request.route_url('triggers.user.delete', trigger_script_id=the_trigger_script.id)}" class="btn btn-danger pull-right">
+              <i class="fa fa-trash fa-fw"></i>
+              Remove
+            </a>
+            
+            <br /><br />
+            
+            <form action="${request.route_url('triggers.user.edit', trigger_script_id=the_trigger_script.id)}" method="post" class="form-horizontal" data-toggle="validator">
+              
+              <div class="form-group">
+                <label for="trigger_label" class="col-sm-2 control-label">Label:</label>
+                <div class="col-sm-10">
+                  <input type="text" name="trigger_label" id="trigger_label" value="${the_trigger_script.label}" placeholder="" class="form-control" autofocus="autofocus"/>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="trigger_type" class="col-sm-2 control-label">Trigger type:</label>
+                <div class="col-sm-10">
+                  <input type="text" value="${the_trigger.group}: ${the_trigger.label}" disabled="disabled" class="form-control" />
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="active" class="col-sm-2 control-label">Active:</label>
+                <div class="col-sm-10">
+                  <input type="checkbox" name="active" id="active" value="${the_trigger_script.active}" class="form-control" ${'checked="checked"' if the_trigger_script.active else ''}/>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="comments" class="col-sm-2 control-label">Comments:</label><br />
+                <div class="col-sm-12" style="padding-top:5px;">
+                  <textarea name="comments" id="comments" rows="8" class="form-control">${the_trigger_script.comments}</textarea>
+                </div>
+              </div>
+              
+              <input type="submit" value="Submit" id="submit_button" name="form.submitted" class="btn btn-primary pull-right" />
+            </form>
+            
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-6 col-sm-12" id="action_form_col">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <i class="fa fa-code fa-fw"></i>
+            Code
+            
+            <div class="btn btn-default btn-xs pull-right" id="action_form_col_icon" onclick="
+              $('#main_form_col').addClass('col-lg-4');
+              $('#action_form_col').addClass('col-lg-8');
+              
+              $('#main_form_col').removeClass('col-lg-6');
+              $('#action_form_col').removeClass('col-lg-6');
+              
+              $('#main_form_col_icon').show();
+              $('#action_form_col_icon').hide();">
+              <i class="fa fa-expand fa-fw"></i>
+              Expand
+            </div>
+          </div>
+          
+          <div class="panel-body">
+            <div class="alert alert-${'danger' if parse_errors else 'warning'} alert-dismissable" tal:condition="not the_trigger_script.valid_code">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              <div tal:condition="parse_errors">
+                The code structure of this Trigger Script is invalid and can only be edited manually.
+              </div>
+              <div tal:condition="not parse_errors">
+                There are some errors
+              </div>
+              
+              <div tal:condition="validity != []">
+                <br />
+                
+                <ul>
+                  <li tal:repeat="reason validity">${reason}</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div tal:condition="json_error != None and False">
+              ${json_error}
+            </div>
+            
+            <div style="height:50px;">
+              <div class="btn btn-default" onclick="$('#values_tree').toggle();">Show/Hide values table</div>
+            </div>
+            
+            <div id="values_tree" style="display:none;">
+              
+            </div>
+            
+            <div id="code_panel">
+              <form action="${request.route_url('triggers.user.edit', trigger_script_id=the_trigger_script.id)}" method="post" class="form-horizontal" data-toggle="validator" onsubmit="var editor = ace.edit('trigger_code'); $('#trigger_code_textarea').val(editor.getSession().getValue());">
+                
+                <div id="trigger_code">${pretty_printed_source}</div>
+                
+                <textarea name="trigger_code" id="trigger_code_textarea" style="display:none;"></textarea>
+                
+                <input type="submit" value="Submit" name="form.submitted" class="btn btn-primary pull-right" />
+              </form>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    
+    
+    
+    
+    
+  </div>
+</div>

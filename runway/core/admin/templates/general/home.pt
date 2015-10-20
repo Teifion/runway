@@ -1,0 +1,218 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    Admin
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li class="active">Admin</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        $('#sidebar_admin').addClass('menu-active');
+        $('#sidebar_admin a').addClass('icon-active');
+      });
+    </script>
+    
+    <div class="row first-row">
+      <div class="col-md-8 col-lg-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <i class="fa fa-search fa-fw"></i>
+            Searches
+          </div>
+          
+          <div class="panel-body">
+            
+            <form action="${request.route_url('admin.user.search_username')}" method="post" class="form-horizontal">
+              <div class="form-group">
+                <label for="username_search" class="col-sm-3 control-label" style="text-align:right;">Username:</label>
+                <div class="col-sm-7">
+                  <div class="input-group">
+                    <span class="input-group-addon btn-info btn" onclick="user_picker('#username_search');">
+                      <i class="fa fa-user fa-fw"></i>
+                    </span>
+                    <input type="text" class="form-control" id="username_search" name="username" placeholder="${request.user.username}" autofocus="autofocus" />
+                  </div>
+                </div>
+                <div class="col-sm-2">
+                  <input type="submit" value="Search" name="form.submitted" class="btn btn-primary" />
+                </div>
+              </div>
+            </form>
+            
+            <form action="${request.route_url('admin.user.search_display_name')}" method="post" class="form-horizontal">
+              
+              <div class="form-group">
+                <label for="display_name_search" class="col-sm-3 control-label" style="text-align:right;">Actual name:</label>
+                <div class="col-sm-7">
+                  <input type="text" class="form-control" id="display_name_search" name="display_name" placeholder="${request.user.display_name}" />
+                </div>
+                <div class="col-sm-2">
+                  <input type="submit" value="Search" name="form.submitted" class="btn btn-primary" />
+                </div>
+              </div>
+            </form>
+            
+            <form action="${request.route_url('admin.user.search_permission')}" method="post" class="form-horizontal">
+              
+              <div class="form-group">
+                <label for="permission_group_search" class="col-sm-3 control-label" style="text-align:right;">Permission group:</label>
+                <div class="col-sm-7">
+                  <input type="text" class="form-control" id="permission_group_search" name="group_name" placeholder="" />
+                </div>
+                <div class="col-sm-2">
+                  <input type="submit" value="Search" name="form.submitted" class="btn btn-primary" />
+                </div>
+              </div>
+            </form>
+            
+            <form action="${request.route_url('admin.groups.search')}" method="post" class="form-horizontal">
+              
+              <div class="form-group">
+                <label for="group_name_search" class="col-sm-3 control-label" style="text-align:right;">Group name:</label>
+                <div class="col-sm-7">
+                  <input type="text" class="form-control" id="group_name_search" name="group_name" placeholder="" />
+                </div>
+                <div class="col-sm-2">
+                  <input type="submit" value="Search" name="form.submitted" class="btn btn-primary" />
+                </div>
+              </div>
+            </form>
+            
+          </div>
+        </div>
+        
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <i class="fa fa-cog fa-fw"></i>
+            Tools
+          </div>
+          
+          <div class="panel-body">
+            <form action="${request.route_url('admin.user.quick_add')}" method="post" accept-charset="utf-8" class="form-horizontal">
+              <div class="form-group">
+                <label for="quick_username" class="col-sm-3 control-label">Quick add user: </label>
+                <div class="col-sm-7">
+                  <input type="text" name="username" id="quick_username" value="" class="form-control" placeholder="First and surname of new user"/>
+                </div>
+                <div class="col-sm-2">
+                  <input type="submit" value="Add" name="form.submitted" class="btn btn-primary" />
+                </div>
+              </div>
+            </form>
+            
+            <form action="${request.route_url('admin.groups.create')}" method="post" accept-charset="utf-8" class="form-horizontal">
+              <div class="form-group">
+                <label for="quick_group_name" class="col-sm-3 control-label">Quick add group: </label>
+                <div class="col-sm-7">
+                  <input type="text" name="groupname" id="quick_group_name" value="" class="form-control" placeholder="Group name"/>
+                </div>
+                <div class="col-sm-2">
+                  <input type="submit" value="Add" name="form.submitted" class="btn btn-primary" />
+                </div>
+              </div>
+            </form>
+            
+            <hr />
+            
+            <div class="row">
+              <div class="col-md-6">
+                <a href="${request.route_url('admin.user.mass_add')}" class="btn btn-default btn-block">
+                  Mass add users
+                </a>
+                <!-- <a href="" class="btn btn-default btn-block">Mass edit users</a> -->
+              </div>
+              
+              <div class="col-md-6">
+                <a href="${request.route_url('admin.schedule_restart')}" class="btn btn-default btn-block" tal:condition="'admin.su' in request.user.permissions()">
+                  Schedule restart
+                </a>
+              </div>
+            </div>
+            
+            
+            
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+          
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <i class="fa fa-cog fa-fw"></i>
+            Sections
+          </div>
+          
+          <div class="panel-body">
+            <a href="${request.route_url('admin.settings')}" class="btn btn-default btn-block" style="text-align:left;padding-left:10px;" tal:condition="'su' in request.user.permissions()">
+              <i class="fa fa-gears fa-fw"></i>
+              Settings
+            </a>
+            <a href="${request.route_url('themes.admin.home')}" style="text-align:left;padding-left:10px;" class="btn btn-default btn-block" tal:condition="'su' in request.user.permissions()">
+              <i class="fa fa-paste fa-fw"></i>
+              Themes
+            </a>
+            <a href="${request.route_url('admin.usage.home')}" style="text-align:left;padding-left:10px;" class="btn btn-default btn-block" tal:condition="'admin.usage' in request.user.permissions()">
+              <i class="fa fa-line-chart fa-fw"></i>
+              Usage reports
+            </a>
+            
+            <a href="${request.route_url('admin.user.list_relationship_types')}" class="btn btn-default btn-block" style="text-align:left;padding-left:10px;" tal:condition="'admin.super' in request.user.permissions()">
+              <i class="fa fa-bars fa-fw"></i>
+              Relationships
+            </a>
+            
+            <a href="${request.route_url('cron.admin.home')}" class="btn btn-default btn-block" style="text-align:left;padding-left:10px;" tal:condition="request.runway_settings.users['allow_cron'] == 'True' or 'cron.admin' in request.user.permissions()">
+                <i class="fa fa-clock-o fa-fw"></i> Cron jobs
+            </a>
+            <a href="${request.route_url('triggers.admin.home')}" class="btn btn-default btn-block" style="text-align:left;padding-left:10px;" tal:condition="request.runway_settings.users['allow_triggers'] == 'True' or 'triggers.admin' in request.user.permissions()">
+                <i class="fa fa-link fa-fw"></i>
+                Triggers
+            </a>
+            <a href="${request.route_url('widgets.admin.home')}" class="btn btn-default btn-block" style="text-align:left;padding-left:10px;" tal:condition="request.runway_settings.users['allow_widgets'] == 'True' or 'widgets.admin' in request.user.permissions()">
+                <i class="fa fa-tachometer fa-fw"></i>
+                Widgets
+            </a>
+            <a href="${request.route_url('taxonomies.home')}" class="btn btn-default btn-block" style="text-align:left;padding-left:10px;" tal:condition="False">
+                <i class="fa fa-bars fa-fw"></i> Taxonomies
+            </a>
+            
+            <a href="${request.route_url('admin.groups.list')}" class="btn btn-default btn-block" style="text-align:left;padding-left:10px;">
+                <i class="fa fa-group fa-fw"></i> User groups
+            </a>
+            
+          </div>
+        </div>
+      </div>
+      
+      
+      <div class="col-md-2">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <i class="fa fa-cog fa-fw"></i>
+            Quick lists
+          </div>
+          
+          <div class="panel-body">
+            <a href="${request.route_url('admin.site_stats')}" class="btn btn-default btn-block" style="text-align:left;padding-left:10px;" tal:condition="'admin.usage' in request.user.permissions()">
+              <!-- <i class="fa fa-users fa-fw"></i> -->
+              Site stats
+            </a>
+            
+            <a href="${request.route_url('admin.user.list')}?mode=latest" class="btn btn-default btn-block" style="text-align:left;padding-left:10px;" tal:condition="'admin.user.search' in request.user.permissions()">
+              <i class="fa fa-users fa-fw"></i>
+              Newest users
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      
+    </div>
+  
+  </div>
+</div>

@@ -1,0 +1,442 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    Triggers
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('user.control_panel')}">User control panel</a></li>
+    <li><a href="${request.route_url('triggers.user.control_panel')}">Triggers</a></li>
+    <li><a href="${request.route_url('triggers.user.edit', trigger_script_id=the_trigger_script.id)}">Edit trigger</a></li>
+    <li class="active">Trigger code</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script src="${request.rel('static/validator.js')}"></script>
+    
+    <link href="${request.rel('static/nvd3.css')}" rel="stylesheet">
+    <script src="${request.rel('static/d3.js')}"></script>
+    <script src="${request.rel('static/nvd3.js')}"></script>
+    
+    <script src="${request.rel('static/js/indented_tree.js')}"></script>
+    
+    
+
+    <style type="text/css" media="screen">
+      .popover{
+        min-width:400px;
+      }
+    </style>
+    
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        $('.btn-popover').popover({});
+        
+        nv.addGraph(function() {
+          var chart = runway_models_indentedTree()
+            .tableClass('table table-striped') //for bootstrap styling
+            //.iconOpen('XYZ')
+            .columns([
+              {
+                key: 'key',
+                label: 'Name',
+                showCount: true,
+                width: '40%',
+                type: 'text',
+                classes: function(d) { return d.url ? 'clickable name' : 'name' },
+                click: function(d) {
+                   if (d.url) window.location.href = d.url;
+                }
+              },
+              {
+                key: 'type',
+                label: 'Type',
+                width: '10%',
+                type: 'text'
+              },
+              {
+                key: 'example',
+                label: 'Example',
+                width: '20%',
+                type: 'text'
+              },
+              {
+                key: 'description',
+                label: 'Description',
+                width: '30%',
+                type: 'text'
+              }
+            ]);
+          
+          chart.icon = function (d) {
+            return "YYY";
+            //return (d._values && d._values.length) ? iconOpen : (d.values && d.values.length) ? iconClose : '';
+          }
+          
+          d3.select('#values_tree')
+            .datum(${json_value_tree})
+          .call(chart);
+
+          return chart;
+        });
+      });
+    </script>
+    
+    <div class="row first-row" tal:condition="message != None">
+      <div class="col-md-12">
+        <div class="alert alert-${message[0]} alert-dismissable">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          ${structure:message[1]}
+        </div>
+      </div>
+    </div>
+    
+    <div class="row first-row">
+      <div class="col-md-12 col-sm-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <!-- <i class="fa fa-wrench fa-fw"></i> -->
+            Conditions and Actions
+          </div>
+          
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-lg-12">
+                <a href="${request.route_url('triggers.user.control_panel')}" class="btn btn-default">
+                  <i class="fa fa-level-up fa-fw"></i>
+                  Back to Trigger Control Panel
+                </a>
+                <a href="${request.route_url('triggers.user.edit', trigger_script_id=the_trigger_script.id)}" class="btn btn-default">
+                  Edit Trigger
+                </a>
+                <a href="${request.route_url('triggers.user.test_trigger_script', trigger_script_id=the_trigger_script.id)}" class="btn btn-default">
+                  <i class="fa fa-check fa-fw"></i>
+                  Test
+                </a>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="btn btn-default" onclick="$('#values_tree').toggle();">
+                  Show/Hide values table
+                </div>
+                
+                <div class="btn btn-info pull-right" onclick="alert('Not completed yet');">
+                  <i class="fa fa-question-circle fa-fw"></i>
+                  Help
+                </div>
+              </div>
+            </div>
+            
+            <div class="alert alert-warning alert-dismissable" tal:condition="validity != []" style="margin-top: 20px;">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              
+              There are some errors
+              
+              <ul>
+                <li tal:repeat="reason validity">${reason}</li>
+              </ul>
+            </div>
+            
+            <div id="values_tree" style="display:none;">
+              
+            </div>
+            
+            <div>
+              
+              <br /><br />
+              
+              <h3>Conditions</h3>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <div class="col-sm-4">
+                      <strong>Source variable</strong>
+                    </div>
+                    
+                    <div class="col-sm-2">
+                      <strong>Operator</strong>
+                    </div>
+                    
+                    <div class="col-sm-4">
+                      <strong>Value</strong>
+                    </div>
+                    
+                    <div class="col-sm-2">
+                      &nbsp;
+                    </div>
+                  </div>
+                  
+                  <form action="${request.route_url('triggers.user.gui_edit', trigger_script_id=the_trigger_script.id)}" method="post" class="form-horizontal" data-toggle="validator" tal:condition="len(condition_list) > 0">
+                    <input type="hidden" name="mode" value="edit_conditions" />
+                    
+                    <!--! Normal handlers  -->
+                    <div class="form-group" tal:repeat="(i, csource, coperator, cvalue) condition_list">
+                      <div class="col-sm-4">
+                        ${structure:condition_source_selector("source_{}".format(i), csource)}
+                      </div>
+                      
+                      <div class="col-sm-2">
+                        ${structure:operator_selector("operator_{}".format(i), coperator)}
+                      </div>
+                        
+                      <div class="col-sm-4">
+                        <input type="text" name="value_${i}" value="${cvalue}" class="form-control" required="required" />
+                      </div>
+                      
+                      <div class="col-sm-2">
+                        &nbsp;
+                      </div>
+                    </div>
+                    
+                    <input type="submit" value="Save conditions" name="form.submitted" class="btn btn-primary pull-right" />
+                    <br /><br />
+                  </form>
+                  <br />
+                  
+                  <form action="${request.route_url('triggers.user.gui_edit', trigger_script_id=the_trigger_script.id)}" data-toggle="validator" data-toggle="validator" method="post" class="form-horizontal" data-toggle="validator">
+                    <div class="form-group">
+                      <input type="hidden" name="mode" value="add_condition" />
+                      
+                      <div class="col-sm-4">
+                        ${structure:condition_source_selector("source", None)}
+                      </div>
+                      
+                      <div class="col-sm-2">
+                        ${structure:operator_selector("operator", None)}
+                      </div>
+                      
+                      <div class="col-sm-4">
+                        <input type="text" name="value" value="" class="form-control" required="required" />
+                      </div>
+                      
+                      <div class="col-sm-2">
+                        <input type="submit" value="Add condition" name="form.submitted" class="btn btn-primary btn-block" />
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              
+              <h3>Actions</h3>
+              <div class="row">
+                <div class="col-md-12">
+                  <table class="table table-striped table-hover table-condensed">
+                    <thead>
+                      <tr>
+                        <th>Action type</th>
+                        <th>Label</th>
+                        <th>Name</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <div tal:repeat="the_action action_list">
+                        <!--! Single line display of the action -->
+                        <tr>
+                          <td>${get_action(the_action.action).group}: ${get_action(the_action.action).label}</td>
+                          <td>${the_action.label}</td>
+                          <td>${the_action.name}</td>
+                          <td>
+                            <div tal:condition="'action.{}'.format(the_action.name) in highlights"
+                              class="btn btn-warning btn-block" onclick="$('#${the_action.name}').show(); $(this).hide(); $('#${the_action.name}_hide_button').show();" id="${the_action.name}_show_button">
+                              &nbsp;&nbsp;&nbsp;
+                              Edit
+                              &nbsp;
+                              <i class="fa fa-exclamation-triangle"></i>
+                            </div>
+                            
+                            <div tal:condition="'action.{}'.format(the_action.name) not in highlights"
+                              class="btn btn-default btn-block" onclick="$('#${the_action.name}').show(); $(this).hide(); $('#${the_action.name}_hide_button').show();" id="${the_action.name}_show_button">
+                              &nbsp;&nbsp;&nbsp;
+                              Edit
+                              &nbsp;&nbsp;&nbsp;
+                            </div>
+                            
+                            <div class="btn btn-default btn-block" onclick="$('#${the_action.name}').hide(); $(this).hide(); $('#${the_action.name}_show_button').show();" style="display:none;" id="${the_action.name}_hide_button">
+                              Hide
+                            </div>
+                          </td>
+                          <td style="width:60px;">
+                            <a href="${request.route_url('triggers.user.gui_edit', trigger_script_id=the_trigger_script.id)}?mode=cardinality_up&amp;action=${the_action.name}" class="btn btn-default btn-xs btn-block" tal:attributes="disabled (True if repeat.the_action.start == 1 else False)">
+                              &nbsp;<i class="fa fa-arrow-up fa-fw"></i>&nbsp;
+                            </a>
+                            <a href="${request.route_url('triggers.user.gui_edit', trigger_script_id=the_trigger_script.id)}?mode=cardinality_down&amp;action=${the_action.name}" class="btn btn-default btn-xs btn-block" tal:attributes="disabled (True if repeat.the_action.end == 1 else False)">
+                              &nbsp;<i class="fa fa-arrow-down fa-fw"></i>&nbsp;
+                            </a>
+                          </td>
+                        </tr>
+                        
+                        <!--! Form to handle the action -->
+                        <tr id="${the_action.name}" style="display:none;" tal:define="aid the_action.name; action_type get_action(the_action.action)">
+                          <td colspan="5">
+                            
+                            <div class="row"><div class="col-md-12">
+                              <form action="${request.route_url('triggers.user.gui_edit', trigger_script_id=the_trigger_script.id)}" method="post" class="form-horizontal" data-toggle="validator">
+                                <div class="form-group">
+                                  <label for="control_id" class="col-sm-2 control-label">New type:</label>
+                                  <div class="col-sm-8">
+                                    ${structure:action_selector(None, the_action.action)}
+                                  </div>
+                                  <div class="col-sm-2">
+                                    <input type="submit" value="Change action type" name="form.submitted" class="btn btn-primary btn-block" />
+                                  </div>
+                                </div>
+                                
+                                <input type="hidden" name="mode" value="action_type" />
+                                <input type="hidden" name="action_name" value="${the_action.name}" />
+                              </form>
+                            </div></div>
+                            
+                            <div class="row"><div class="col-md-12" style="padding-top:20px;border-top:1px solid #EEE;margin-top:10px;">
+                              <form action="${request.route_url('triggers.user.gui_edit', trigger_script_id=the_trigger_script.id)}" method="post" class="form-horizontal" data-toggle="validator">
+                                <div class="form-group">
+                                  <label for="${aid}_label" class="col-sm-2 control-label">Label:</label>
+                                  <div class="col-sm-10">
+                                    <input type="text" name="label" id="${aid}_label" value="${the_action.label}" class="form-control" />
+                                  </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                  <label class="col-sm-2 control-label">Action type:</label>
+                                  <div class="col-sm-10">
+                                    <input type="text" value="${get_action(the_action.action).group}: ${get_action(the_action.action).label}" disabled="disabled" class="form-control" />
+                                  </div>
+                                </div>
+                                
+                                <div class="form-group" style="padding-top:10px;">
+                                  <div class="col-sm-2"></div>
+                                  <div class="col-sm-4">Source</div>
+                                  <div class="col-sm-6">Raw data (only if hardcoded)</div>
+                                </div>
+                                
+                                <!--! Handles the args/kwargs part -->
+                                <?python
+                                  # Get a list of the inputs minus the kwargs (which we handle differently)
+                                  def filter_non_kwargs(x): return x[0] != 'kwargs'
+                                  non_kwargs_inputs = filter(filter_non_kwargs, action_type.inputs)
+                                  
+                                  kwargs_inputs = None                                  
+                                  
+                                  if 'kwargs' in (i[0] for i in action_type.inputs):
+                                    kwargs_inputs = the_action['input_map'].get('kwargs', {})
+                                    kwargs_inputs = tuple(((i,k,v) for (i, (k,v)) in enumerate(kwargs_inputs.items())))
+                                ?>
+                                
+                                <!--! Normal handlers  -->
+                                <div class="form-group" tal:repeat="(iname, itype, idesc) non_kwargs_inputs">
+                                  <label for="control_id" class="col-sm-2 control-label">
+                                    <div class="btn btn-warning btn-popover" style="margin-right:10px;" tal:condition="'source.{}.{}'.format(aid, iname) in highlights" data-container="body" data-toggle="popover" data-placement="right" data-content="${highlights['source.{}.{}'.format(aid, iname)]}">
+                                      <i class="fa fa-exclamation-triangle"></i>
+                                    </div>
+                                    ${iname}:
+                                  </label>
+                                  <div class="col-sm-4" tal:define="ival the_action.input_map.get(iname, ['hardcoded',''])">
+                                    ${structure:source_selector(iname, ival)}
+                                  </div>
+                                  
+                                  <div class="col-sm-6" tal:define="ival the_action.input_map.get(iname, ('hardcoded',''))">
+                                    <textarea name="${iname}_raw" id="${aid}_input_${iname}" rows="1" placeholder="${action_type.examples[0][0].get(iname, 'missing!')}" class="form-control" tal:condition="not isinstance(ival, list)">${ival[1:-1].replace('\\"', '"') if (ival[0] == '"' and ival[-1] == '"') else ''}</textarea>
+                                    
+                                    <textarea name="${iname}_raw" id="${aid}_input_${iname}" rows="1" placeholder="${action_type.examples[0][0].get(iname, 'missing!')}" class="form-control" tal:condition="isinstance(ival, list)">${",".join([s for s in ival])}</textarea>
+                                    
+                                  </div>
+                                </div>
+                                
+                                <!--! kwargs handlers  -->
+                                <div tal:condition="kwargs_inputs != None">
+                                  <div class="form-group" style="padding-top:10px;">
+                                    <div class="col-sm-6 col-sm-offset-3"><strong>Extra inputs - (Keyword arguments)</strong></div>
+                                  </div>
+                                  <div class="form-group">
+                                    <div class="col-sm-2">Key</div>
+                                    <div class="col-sm-4">Source</div>
+                                    <div class="col-sm-6">Raw data (only if hardcoded)</div>
+                                  </div>
+                                  
+                                  <div class="form-group" tal:repeat="(i, key, value) kwargs_inputs">
+                                    <div class="col-sm-2">
+                                      <input type="text" name="kwarg_${i}_key" id="kwarg_${i}_key" value="${key}" placeholder="" class="form-control" />
+                                    </div>
+                                    
+                                    <div class="col-sm-4">
+                                      ${structure:source_selector("kwarg_{}_value".format(i), value)}
+                                    </div>
+                                    
+                                    <div class="col-sm-6">
+                                      <textarea name="kwarg_${i}_raw" id="kwarg_${i}_raw" rows="1" class="form-control">${value[1:-1].replace('\\"', '"') if (value[0] == '"' and value[-1] == '"') else ''}</textarea>
+                                    </div>
+                                  </div>
+                                  
+                                  <div class="form-group" tal:define="i len(kwargs_inputs)">
+                                    <div class="col-sm-2">
+                                      <input type="text" name="kwarg_${i}_key" id="kwarg_${i}_key" value="" placeholder="" class="form-control" />
+                                    </div>
+                                    
+                                    <div class="col-sm-4">
+                                      ${structure:source_selector("kwarg_{}_value".format(i), None)}
+                                    </div>
+                                    
+                                    <div class="col-sm-6">
+                                      <textarea name="kwarg_${i}_raw" id="kwarg_${i}_raw" rows="1" class="form-control"></textarea>
+                                    </div>
+                                  </div>
+                                
+                                </div>
+                                
+                                
+                                
+                                <input type="hidden" name="mode" value="edit_action" />
+                                <input type="hidden" name="action_name" value="${the_action.name}" />
+                                
+                                &nbsp;&nbsp;&nbsp;
+                                <div class="btn btn-danger" onclick="$('#${the_action.name}_confirm_delete').show(); $(this).hide();">
+                                  <i class="fa fa-fw fa-trash-o"></i>
+                                  Delete action
+                                </div>
+                                
+                                <a class="btn btn-warning" href="${request.route_url('triggers.user.gui_edit', trigger_script_id=the_trigger_script.id)}?mode=delete_action&amp;action_name=${the_action.name}" id="${the_action.name}_confirm_delete" style="display:none;margin-left:200px;">
+                                  <i class="fa fa-fw fa-trash-o"></i>
+                                  Confirm deletion
+                                </a>
+                                
+                                <input type="submit" value="Save action" name="form.submitted" class="btn btn-primary pull-right" />
+                              </form>
+                            </div></div>
+                            
+                          </td>
+                        </tr>
+                      </div>
+                      <tr>
+                        <form action="${request.route_url('triggers.user.gui_edit', trigger_script_id=the_trigger_script.id)}" data-toggle="validator" data-toggle="validator" method="post" class="form-horizontal" data-toggle="validator">
+                          <input type="hidden" name="mode" value="add_action" />
+                          
+                          <td>
+                            ${structure:action_selector(None, None)}
+                          </td>
+                          
+                          <td>
+                            <input type="text" name="new_action_label" id="new_action_label" value="" class="form-control" required="required" />
+                          </td>
+                          
+                          <td>&nbsp;</td>
+                          
+                          <td colspan="2">
+                            <input type="submit" value="Add action" name="form.submitted" class="btn btn-primary btn-block" />
+                          </td>
+                        </form>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    
+    
+    
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    User administation
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('admin.home')}">Admin</a></li>
+    <li class="active">User administration documentation</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        $('#sidebar_admin').addClass('menu-active');
+        $('#sidebar_admin a').addClass('icon-active');
+      });
+    </script>
+    
+    <div class="row first-row">
+      
+    </div>
+  </div>
+</div>

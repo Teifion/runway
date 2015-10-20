@@ -1,0 +1,118 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    Triggers
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('dev.home')}">Developer</a></li>
+    <li><a href="${request.route_url('triggers.dev.home')}">Triggers</a></li>
+    <li><a href="${request.route_url('triggers.dev.triggers.view', trigger_name=the_trigger.name)}">View trigger</a></li>
+    <li class="active">Run trigger</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script src="${request.rel('static/validator.js')}"></script>
+    
+    <div class="row first-row">
+      <div class="col-md-12 col-lg-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <!-- <i class="fa fa-wrench fa-fw"></i> -->
+            Run Trigger: ${the_trigger.label} (${the_trigger.name})
+          </div>
+          
+          <div class="panel-body">
+            <a href="${request.route_url('triggers.dev.home')}" class="btn btn-default">
+              <i class="fa fa-level-up fa-fw"></i>
+              Back to Trigger Developer home
+            </a>
+            &nbsp;
+            <a href="${request.route_url('triggers.dev.triggers.view', trigger_name=the_trigger.name)}" class="btn btn-default">
+              <i class="fa fa-eye fa-fw"></i>
+              View trigger
+            </a>
+            
+            <div tal:condition="results != ''">
+              <br /><br />
+              <h3>Results</h3>
+              <pre>${results}</pre>
+            </div>
+            
+            <br /><br />
+            
+            <form action="${request.route_url('triggers.dev.triggers.run', trigger_name=the_trigger.name)}" method="post" class="form-horizontal" data-toggle="validator">
+              <label for="control_id" class="control-label">Data (JSON formatted):</label><br />
+              <textarea name="data" id="data" rows="8" class="form-control" style="font-family:monospace;" autofocus="autofocus">${request.params.get("data", default_data)}</textarea>
+              <br />
+              <input type="submit" value="Run trigger" name="form.submitted" class="btn btn-primary pull-right" />
+            </form>
+            
+          </div>
+        </div>
+        
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <!-- <i class="fa fa-wrench fa-fw"></i> -->
+            Subscribers
+          </div>
+          
+          <div class="panel-body">
+            <h3>Subscribers</h3>
+            
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>Label</th>
+                  <th>Owner</th>
+                  <th>&nbsp;</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr tal:repeat="(the_trigger_script, owner) subscribers">
+                  <td>${the_trigger_script.label}</td>
+                  <td>${owner.username}</td>
+                  <td>&nbsp;</td>
+                </tr>
+              </tbody>
+            </table>
+            
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-12 col-lg-6" tal:condition="len(the_trigger.examples) > 0">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <!-- <i class="fa fa-wrench fa-fw"></i> -->
+            Example outputs
+          </div>
+          
+          <div class="panel-body">
+            <h3>Example outputs</h3>
+            
+            <div tal:repeat="the_example the_trigger.examples">
+              <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th>Field</th>
+                    <th>Data</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr tal:repeat="(name, type, description) the_trigger.outputs">
+                    <td>${name}</td>
+                    <td>${the_example[name]}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    
+  </div>
+</div>

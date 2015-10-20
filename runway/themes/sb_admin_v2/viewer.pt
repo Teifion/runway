@@ -1,0 +1,101 @@
+<DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" xmlns:tal="http://xml.zope.org/namespaces/tal"
+  metal:define-macro="layout">
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <title>${title}</title>
+    
+    <div tal:condition="hasattr(request, 'rel')">
+      <link href="${request.rel('static/bootstrap.css')}" rel="stylesheet" />
+      <link href="${request.rel('static/bootstrap.docs.css')}" rel="stylesheet" />
+      <link href="${request.rel('static/font-awesome/css/font-awesome.min.css')}" rel="stylesheet" />
+      <link href="${request.rel('static/css/runway.css')}" rel="stylesheet" />
+      <link href="${request.rel('static/themes/sb_admin_v2/sb_admin2.css')}" rel="stylesheet" />
+      
+      <link tal:repeat="c request._css_libs" href="${request.rel('static/{}'.format(c))}" rel="stylesheet">
+      
+      <script src="${request.rel('static/jquery.js')}"></script>
+      <script src="${request.rel('static/bootstrap.js')}"></script>
+      <script src="${request.rel('static/themes/sb_admin_v2/sb_admin2.js')}"></script>
+      
+      <script src="${request.rel('static/js/runway.js')}"></script>
+      
+      <script tal:repeat="j request._js_libs" src="${request.rel('static/{}'.format(j))}"></script>
+    </div>
+    
+    <style type="text/css" media="screen" tal:condition="request.remote_addr == '127.0.0.1'">
+      .navbar, .breadcrumb {
+        background-color: #EFE;
+        border-color: #0A0;
+      }
+    </style>
+    
+    <style type="text/css" media="screen">
+      ${structure:"\n".join(request._css_raws)}
+    </style>
+    
+    <script type="text/javascript" charset="utf-8">
+      ${structure:"\n".join(request._js_raws)}
+    </script>
+  </head>
+  
+  <body>
+    ${structure:"\n".join(request._html_raws)}
+    
+    <div class="container-fluid" id="page-wrapper">
+      <div class="col-md-12">
+        <div class="row">
+          <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0; margin-right: 0;" tal:condition="True">
+            
+            <div class="navbar-header">
+              <ol class="breadcrumb" metal:define-slot="breadcrumbs">
+                
+              </ol>
+            </div>
+            
+            <ul class="navbar-buttons" metal:define-slot="navbar_button">
+              
+            </ul>
+            
+            <ul class="nav navbar-top-links navbar-right hidden-sm hidden-xs" metal:define-slot="top_links">
+              
+            </ul>
+          </nav>
+          
+          <div class="col-sm-12 hidden-md hidden-lg" class="top-nav-wrapper">
+            <div metal:define-slot="side_links_sm">
+              
+            </div>
+          </div>
+          
+          <div class="hidden-xs hidden-sm col-md-2 left-navigation no-padding-right" id="left-nav-wrapper">
+            <nav class="navbar-default navbar-static-side" role="navigation" id="nav_sidebar">
+              <div class="sidebar-collapse">
+                <ul class="nav" id="side-menu" metal:define-slot="side_links">
+                    
+                </ul>
+                  <!-- /#side-menu -->
+              </div>
+                <!-- /.sidebar-collapse -->
+            </nav>
+          </div>
+          
+          <!-- Main content cols -->
+          <div class="col-sm-12 col-md-10" id="content-wrapper">
+            <div metal:define-slot="content" id="content">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="right-content">
+                    Content
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="push"></div>
+      </div>
+    </div>
+    
+  </body>
+</html>

@@ -1,0 +1,62 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    Developer
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('dev.home')}">Developer</a></li>
+    <li class="active">Documentation</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        $('#sidebar_developer').addClass('menu-active');
+        $('#sidebar_developer a').addClass('icon-active');
+      });
+    </script>
+    
+    <div class="row first-row">
+      <div class="col-md-12">
+        <h4>Related documents</h4>
+        <a href="${request.route_url(doc_lookup(w).route)}" tal:repeat="w documents_by_tag.get('dev')" class="btn btn-xs btn-info">${doc_lookup(w).title}</a>
+      </div>
+      
+      <div class="col-md-12">
+        <h3>Demo mode</h3>
+        <p>Demo mode creates dummy/sample data for your module. The idea is running it will set you up with a basic setup for demonstrating to a user what the module looks like with data in it.</p>
+        
+        <p>Example demo mode usage for the "blogging" module:<pre>runway demo blogging</pre></p>
+        
+        <p>The entry point for the demo is located in your <code>/cli.py</code> file as the <code>demo</code> function. It takes one argument, the name of the module it should create data for.</p>
+        
+        <h3>Adding demo mode to your module</h3>
+        <p>In your modules <code>__init__.py</code> file add a callable named <code>demo</code>. This will be called (with no arguments) by the entry point.
+        
+        <h3>Suggested content and methodology for demo mode</h3>
+        <h4>1) Drop tables</h4>
+        <p>You don't know which tables will already exist and what content they will have on them. It's highly advisable to drop the tables so you can be certain you know what state your tables will be in when you come to add data.</p>
+        
+        <p>Example code
+          <pre>def drop_tables():
+    with transaction.manager:
+        DBSession.execute("DROP TABLE IF EXISTS blogging_comments CASCADE;")
+        DBSession.execute("DROP TABLE IF EXISTS blogging_categories CASCADE;")
+        DBSession.execute("DROP TABLE IF EXISTS blogging_posts CASCADE;")
+        
+        DBSession.execute("COMMIT")</pre>
+        </p>
+        
+        <h4>2) Create tables</h4>
+        To recreate the tables you can use the install_f library.
+        <pre>from ....core.system.lib import install_f
+install_f.create_tables()</pre>
+        
+        <h4>3) Add data</h4>
+        Create data either using models and DBSession to add them or insert using raw SQL as you prefer.
+        
+      </div>
+    </div>
+  </div>
+</div>

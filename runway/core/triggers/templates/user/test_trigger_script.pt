@@ -1,0 +1,77 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    Triggers
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('user.control_panel')}">User control panel</a></li>
+    <li><a href="${request.route_url('triggers.user.control_panel')}">Triggers</a></li>
+    <li><a href="${request.route_url('triggers.user.edit', trigger_script_id=trigger_script_id)}">Edit Trigger Script</a></li>
+    <li class="active">Test</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script src="${request.rel('static/validator.js')}"></script>
+    <script src="${request.rel('static/js/ace/ace.js')}"></script>
+    
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        var editor = ace.edit("trigger_code");
+        
+        editor.setTheme("ace/theme/xcode");
+        editor.getSession().setMode("ace/mode/javascript");
+        
+        editor.getSession().setUseWrapMode(true);
+        editor.setShowPrintMargin(false);
+        //editor.renderer.setShowGutter(false);
+      });
+    </script>
+    
+    <style type="text/css" media="screen">
+      #trigger_code { 
+        position: relative;
+        min-height: 800px;
+      }
+    </style>
+    
+    <div class="row first-row" tal:condition="message != None">
+      <div class="col-md-12">
+        <div class="alert alert-${message[0]} alert-dismissable">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          ${structure:message[1]}
+        </div>
+      </div>
+    </div>
+    
+    <div class="row first-row">
+      <div class="col-md-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <i class="fa fa-check fa-fw"></i>
+            Test run
+          </div>
+          
+          <div class="panel-body">
+            <a href="${request.route_url('triggers.user.control_panel')}" class="btn btn-default">
+              <i class="fa fa-level-up fa-fw"></i>
+              Back to Trigger Control Panel
+            </a>
+            <a href="${request.route_url('triggers.user.edit', trigger_script_id=trigger_script_id)}" class="btn btn-default">
+              Edit Trigger
+            </a>
+            <a href="${request.route_url('triggers.user.gui_edit', trigger_script_id=trigger_script_id)}" class="btn btn-default">
+              Edit Actions
+            </a>
+            <br /><br />
+            
+            <div id="trigger_code">${results}</div>
+            
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    
+  </div>
+</div>

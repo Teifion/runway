@@ -1,0 +1,150 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    Developer
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li class="active">Developer</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${instance_uuid}</li>
+    <li>${instance_startup.strftime("%Y-%m-%d %H:%M:%S")}</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        $('#sidebar_developer').addClass('menu-active');
+        $('#sidebar_developer a').addClass('icon-active');
+      });
+    </script>
+    
+    <div class="row first-row">
+      <div class="col-md-12 col-lg-6" tal:condition="False">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <i class="fa fa-search fa-fw"></i>
+            Searches
+          </div>
+          
+          <div class="panel-body">
+            <form action="${request.route_url('dev.user.search_username')}" method="post" class="form-horizontal">
+              <div class="form-group">
+                <label for="username_search" class="col-sm-2 control-label" style="text-align:right;">Username:</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="username_search" name="username" placeholder="${request.user.username}" autofocus="autofocus" tabindex="1">
+                </div>
+                <div class="col-sm-2">
+                  <input type="submit" value="Search" name="form.submitted" class="btn btn-primary" />
+                </div>
+              </div>
+            </form>
+            
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-6" tal:condition="False">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+              <i class="fa fa-search fa-fw"></i>
+              Plugins
+          </div>
+          
+          <div class="panel-body">
+            <a href="${request.route_url('plugins.home')}" class="btn btn-block btn-default">Plugins</a>
+          </div>
+        </div>
+      </div>
+        
+      <div class="col-lg-3 col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <i class="fa fa-search fa-fw"></i>
+            Exceptions
+          </div>
+          
+          <script tal:condition="error_count.get(request.user.id, 0) > 0">
+            $(function() {
+              $('#assigned_button').addClass('btn-danger');
+              $('#assigned_button').removeClass('btn-default');
+            });
+          </script>
+          
+          <script tal:condition="error_count.get(None, 0) > 0">
+            $(function() {
+              $('#unassigned_button').addClass('btn-warning');
+              $('#unassigned_button').removeClass('btn-default');
+            });
+          </script>
+          
+          <div class="panel-body">
+            <a href="${request.route_url('dev.exception.list')}?assigned=${request.user.id}" id="assigned_button" class="btn btn-block btn-default">Your errors (${error_count.get(request.user.id, 0)})</a>
+            
+            <a href="${request.route_url('dev.exception.list')}" id="unassigned_button" class="btn btn-block btn-default">Unassigned errors (${error_count.get(None, 0)})</a>
+            
+            <br /><br />
+            
+            <a href="${request.route_url('dev.generate_exception')}?type=general&amp;dev_log_anyway=True" class="btn btn-block btn-default">General Exception</a>
+            <a href="${request.route_url('dev.generate_exception')}?type=graceful&amp;dev_log_anyway=True" class="btn btn-block btn-default">Graceful Exception</a>
+            <a href="404/404?dev_log_anyway=True" class="btn btn-block btn-default">404 Not Found</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-3 col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <i class="fa fa-bars fa-fw"></i>
+            Tools
+          </div>
+          
+          <div class="panel-body">
+            <a href="${request.route_url('dev.debugging.slow_pages')}" class="btn btn-block btn-default">Slow pages</a>
+            <br /><br />
+            
+            <a href="${request.route_url('testing.preview_frame')}" class="btn btn-block btn-default">Preview frame</a>
+            <a href="${request.route_url('api.admin.home')}" class="btn btn-block btn-default">APIs</a>
+            <a href="${request.route_url('widgets.dev.list_rwidgets')}" class="btn btn-block btn-default">RWidgets</a>
+            <a href="${request.route_url('documentation.doc_list')}" class="btn btn-block btn-default">Documentation list</a>
+            
+            <br /><br />
+            <a href="${request.route_url('dev.restart')}" class="btn btn-block btn-default">Restart</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-3 col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <i class="fa fa-gears fa-fw"></i>
+            Settings
+          </div>
+          
+          <div class="panel-body">
+            <a href="${request.route_url('dev.settings.list')}" class="btn btn-block btn-default">List settings</a>
+            <a href="${request.route_url('dev.settings.module_scan')}" class="btn btn-block btn-default">Module scan</a>
+            
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-3 col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <!-- <i class="fa fa-gears fa-fw"></i> -->
+            Reference
+          </div>
+          
+          <div class="panel-body">
+            <a href="${request.route_url('dev.schemas')}" class="btn btn-block btn-default">Schemas</a>
+            <a href="${request.route_url('commands.dev.list_commands')}" class="btn btn-block btn-default">Commands</a>
+            <a href="${request.route_url('hooks.dev.list_hooks')}" class="btn btn-block btn-default">Hooks</a>
+            <a href="${request.route_url('triggers.dev.home')}" class="btn btn-block btn-default">Triggers</a>
+            
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>

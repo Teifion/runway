@@ -1,0 +1,61 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    Developer
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('dev.home')}">Developer</a></li>
+    <li><a href="${request.route_url('dev.settings.list')}">Settings</a></li>
+    <li class="active">Edit setting</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        $('#sidebar_developer').addClass('menu-active');
+        $('#sidebar_developer a').addClass('icon-active');
+      });
+    </script>
+    
+    <div class="row first-row" tal:condition="message != None">
+      <div class="col-md-12">
+        <div class="alert alert-${message[0]}">
+          ${structure:message[1]}
+        </div>
+      </div>
+    </div>
+    
+    <div class="row first-row">
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+              <i class="fa fa-search fa-fw"></i>
+              Edit Setting ${setting_name}
+          </div>
+          
+          <div class="panel-body">
+            <a href="${request.route_url('dev.settings.list')}" class="btn btn-default">
+              <i class="fa fa-fw fa-level-up"></i>
+              Back to settings
+            </a>
+            <br /><br />
+            
+            <form action="${request.route_url('dev.settings.edit', setting_name=setting_name)}" method="post" class="form-horizontal" data-toggle="validator">
+              <div class="form-group">
+                <label for="control_id" class="col-sm-2 control-label">Value:</label>
+                <div class="col-sm-10">
+                  <input type="text" name="value" id="value" value="${setting_value}" class="form-control" />
+                </div>
+              </div>
+              
+              <input type="submit" value="Submit" name="form.submitted" class="btn btn-primary pull-right" />
+            </form>
+            
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>

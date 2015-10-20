@@ -1,0 +1,47 @@
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>User</th>
+      <th>Section</th>
+      <th>Path</th>
+      <th>Timestamp</th>
+      <th>Load time</th>
+      <th>IP</th>
+                  
+      <th colspan="3">Neighbours</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr tal:repeat="l logs" tal:attributes="class 'info' if l.id == log_id else ''">
+      <td>${l.id}</td>
+      <td>${l.user}</td>
+      <td>${l.section}</td>
+      <td>${l.path}</td>
+      <td>${l.timestamp.strftime("%Y-%m-%d %H:%M:%S")}</td>
+      <td>${round(l.load_time,3)}</td>
+      <td>${l.ip}</td>
+      
+      <td>
+        <div onclick="load_neighbour_log(${l.id})" class="btn btn-default">
+          Log id
+        </div>
+      </td>
+      <td>
+        <div onclick="load_neighbour_user(${l.id}, ${l.user})" class="btn btn-default">
+          User
+        </div>
+      </td>
+      <td>
+        <div onclick="load_neighbour_path(${l.id}, '${l.path}')" class="btn btn-default">
+          Path
+        </div>
+      </td>
+      <td>
+        <div onclick="load_neighbour_both(${l.id}, ${l.user}, '${l.path}')" class="btn btn-default">
+          User + Path
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>

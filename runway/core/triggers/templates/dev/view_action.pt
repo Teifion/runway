@@ -1,0 +1,146 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    Triggers
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('dev.home')}">Developer</a></li>
+    <li><a href="${request.route_url('triggers.dev.home')}">Triggers</a></li>
+    <li class="active">View action</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script src="${request.rel('static/validator.js')}"></script>
+    
+    <div class="row first-row">
+      <div class="col-md-12 col-lg-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <!-- <i class="fa fa-wrench fa-fw"></i> -->
+            Action: ${the_action.label} (${the_action.name})
+          </div>
+          
+          <div class="panel-body">
+            <a href="${request.route_url('triggers.dev.home')}" class="btn btn-default">
+              <i class="fa fa-level-up fa-fw"></i>
+              Back to Trigger Developer home
+            </a>
+            <a href="${request.route_url('triggers.dev.actions.run', action_name=the_action.name)}" class="btn btn-default">
+              <i class="fa fa-play fa-fw"></i>
+              Run
+            </a>
+            <br /><br />
+            
+            <h3>Action information</h3>
+            <table class="table">
+              <tbody>
+                <tr>
+                  <td><strong>Name:</strong></td>
+                  <td>${the_action.name}</td>
+                </tr>
+                <tr>
+                  <td><strong>Label:</strong></td>
+                  <td>${the_action.label}</td>
+                </tr>
+                <tr>
+                  <td colspan="2"><strong>Description:</strong><br />
+                  ${the_action.description}</td>
+                </tr>
+                <tr>
+                  <td colspan="2"><strong>Documentation:</strong><br />
+                  ${structure:the_action.documentation}</td>
+                </tr>
+                <tr>
+                  <td><strong>Permissions:</strong></td>
+                  <td>${", ".join(the_action.permissions)}</td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <h3>Inputs</h3>
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>Field</th>
+                  <th>Format</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr tal:repeat="(name, type, description) the_action.inputs">
+                  <td>${name}</td>
+                  <td>${type.__name__}</td>
+                  <td>${description}</td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <h3>Outputs</h3>
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>Field</th>
+                  <th>Format</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr tal:repeat="(name, type, description) the_action.outputs">
+                  <td>${name}</td>
+                  <td>${type.__name__}</td>
+                  <td>${description}</td>
+                </tr>
+              </tbody>
+            </table>
+            
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-12 col-lg-6" tal:condition="len(the_action.examples) > 0">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <!-- <i class="fa fa-wrench fa-fw"></i> -->
+            Example data
+          </div>
+          
+          <div class="panel-body">
+            <h3>Example data</h3>
+            
+            <div tal:repeat="(inputs, outputs) the_action.examples">
+              <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th>Field</th>
+                    <th>Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="2"><strong>Inputs</strong></td>
+                  </tr>
+                  <tr tal:repeat="(name, type, description) the_action.inputs">
+                    <td>&nbsp;&nbsp;&nbsp;${name}</td>
+                    <td>${inputs[name]}</td>
+                  </tr>
+                  
+                  <tr>
+                    <td colspan="2"><strong>Outputs</strong></td>
+                  </tr>
+                  <tr tal:repeat="(name, type, description) the_action.outputs">
+                    <td>&nbsp;&nbsp;&nbsp;${name}</td>
+                    <td>${outputs[name]}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    
+  </div>
+</div>

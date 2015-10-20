@@ -1,0 +1,72 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    Developer
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('dev.home')}">Developer</a></li>
+    <li class="active">Slow pages</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        $('#sidebar_developer').addClass('menu-active');
+        $('#sidebar_developer a').addClass('icon-active');
+      });
+    </script>
+    
+    <div class="row first-row">
+      <div class="col-md-12 col-lg-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <i class="fa fa-search fa-fw"></i>
+            Slow pages
+          </div>
+          
+          <div class="panel-body">
+            <a href="${request.route_url('dev.home')}" class="btn btn-default">
+              <i class="fa fa-fw fa-level-up"></i>
+              Back to dev home
+            </a>
+            <br /><br />
+            
+            
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>Path</th>
+                  <th>Count</th>
+                  <th>Avgerage time</th>
+                  <th>Std Dev</th>
+                  <th>Min/Max</th>
+                  
+                  <th>&nbsp;</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr tal:repeat="d data">
+                  <td>${d.path}</td>
+                  <td>${d.count}</td>
+                  <td>${round(d.average,3)}</td>
+                  <td>${round(d.stddev,3)}</td>
+                  <td>${round(d.minimum,3)}/${round(d.maximum,3)}</td>
+                  
+                  <td>
+                    <a href="${request.route_url('dev.debugging.slow_drilldown')}?path=${d.path}" class="btn btn-default">
+                      Drilldown
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>

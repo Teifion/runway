@@ -1,0 +1,67 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    Groups
+  </div>
+    
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('user.control_panel')}">User Control Panel</a></li>
+    <li class="active">Groups</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        //$('#sidebar_admin').addClass('menu-active');
+        //$('#sidebar_admin a').addClass('icon-active');
+      });
+    </script>
+    
+    <div class="row first-row">
+      
+      <div class="col-md-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <i class="fa fa-list fa-fw"></i>
+            Group list
+          </div>
+          
+          <div class="panel-body">
+            <a href="${request.route_url('user.groups.create')}" class="btn btn-default">New group</a>
+            <br /><br />
+            
+            <table class="table table-striped table-hover table-condensed">
+              <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Display name</th>
+                <th>Owner</th>
+                <th>Join date</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+              </tr>
+              <tr tal:repeat="(group, owner, member) results">
+                <td>${group.id}</td>
+                <td>${group.username}</td>
+                <td>${group.display_name}</td>
+                <td>${owner.username}</td>
+                <td>${group.join_date.strftime("%Y/%m/%d")}</td>
+                <td tal:attributes="class ('alert-warning' if member is None else '')">
+                  ${'You are not a member, only the owner' if member is None else ''}
+                </td>
+                <td>
+                  <a href="${request.route_url('user.groups.edit', group_id=group.id)}" class="btn btn-default" tal:condition="group.group_edit <= 1 or group.group_owner == request.user.id">
+                    <i class="fa fa-cog"></i>
+                    Edit
+                  </a>
+                </td>
+              </tr>
+            </table>
+            
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>

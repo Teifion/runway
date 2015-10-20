@@ -1,0 +1,86 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    <img src="${'%s/static/images/sidebar.png' % request.application_url}">
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('dev.home')}">Developer</a></li>
+    <li><a href="${request.route_url('dev.exception.list')}">Exceptions</a></li>
+    <li class="active">Edit exception</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        $('#sidebar_developer').addClass('menu-active');
+        $('#sidebar_developer a').addClass('icon-active');
+      });
+    </script>
+    
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="page-header">Exception list</h1>
+      </div>
+      <!-- /.col-lg-12 -->
+    </div>
+    
+    <div class="row">
+      
+      <div class="col-md-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <i class="fa fa-search fa-fw"></i>
+            Exceptions
+          </div>
+          
+          <div class="panel-body">
+            <a href="${request.route_url('dev.exception.hide', exception_id=the_exception.id)}" type="button" class="pull-right btn btn-default">
+              Fixed
+            </a>
+            
+            <div class="row">
+              <div class="col-md-6">
+                <table class="table">
+                  <tr>
+                    <td><strong>Timestamp</strong></td>
+                    <td>${the_exception.timestamp.strftime('%Y/%m/%d %H:%M')}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Path</strong></td>
+                    <td><a href="../${the_exception.path}">${the_exception.path}</a></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Description</strong></td>
+                    <td>${structure:the_exception.description}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>User</strong></td>
+                    <td><a href="${request.route_url('admin.user.edit', user_id=the_exception.user)}">${the_user.username}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Data</strong></td>
+                    <td>
+                      <div tal:repeat="k exception_data">
+                        <strong>${k}:</strong> ${exception_data[k]}
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-md-12">
+                ${structure:the_exception.traceback}
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+        
+        
+    </div>
+  </div>
+</div>

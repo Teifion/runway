@@ -1,0 +1,55 @@
+<DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" xmlns:tal="http://xml.zope.org/namespaces/tal"
+  metal:define-macro="layout">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>${title}</title>
+    
+    <div tal:condition="hasattr(request, 'rel')">
+      <link href="${request.rel('static/bootstrap.css')}" rel="stylesheet">
+      <link href="${request.rel('static/bootstrap.docs.css')}" rel="stylesheet">
+      <link href="${request.rel('static/font-awesome/css/font-awesome.min.css')}" rel="stylesheet">
+      <link href="${request.rel('static/themes/sb_admin_v2/sb_admin2.css')}" rel="stylesheet">
+      
+      <link tal:repeat="c request._css_libs" href="${request.rel('static/{}'.format(c))}" rel="stylesheet">
+      
+      <script src="${request.rel('static/jquery.js')}"></script>
+      <script src="${request.rel('static/bootstrap.js')}"></script>
+      <script src="${request.rel('static/themes/sb_admin_v2/sb_admin2.js')}"></script>
+      
+      <script tal:repeat="j request._js_libs" src="${request.rel('static/{}'.format(j))}"></script>
+    </div>
+    
+    <style type="text/css" media="screen" tal:condition="request.remote_addr == '127.0.0.1'">
+      .navbar, .breadcrumb {
+        background-color: #EFE;
+        border-color: #0A0;
+      }
+    </style>
+    
+    <style type="text/css" media="screen">
+      ${structure:"\n".join(request._css_raws)}
+    </style>
+    
+    <script type="text/javascript" charset="utf-8">
+      ${structure:"\n".join(request._js_raws)}
+    </script>
+    
+  </head>
+  <body>
+    ${structure:"\n".join(request._html_raws)}
+    
+    <div class="container-fluid" id="page-wrapper">
+      <div class="col-md-12">
+        <div class="row">
+          <div metal:define-slot="content">
+            &nbsp;
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </body>
+</html>

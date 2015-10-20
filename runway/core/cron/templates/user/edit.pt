@@ -1,0 +1,158 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    Cron jobs
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('user.control_panel')}">User control panel</a></li>
+    <li><a href="${request.route_url('cron.user.control_panel')}">Cron jobs</a></li>
+    <li class="active">Edit job</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script src="${request.rel('static/validator.js')}"></script>
+    
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        $('#sidebar_admin').addClass('menu-active');
+        $('#sidebar_admin a').addClass('icon-active');
+      });
+      
+      function test_string () {
+        var the_string = $('#schedule').val();
+        $('#human_time_result').load(
+          "${request.route_url('cron.human_time_test')}",
+          {"text":the_string, "limit":3}
+        );
+      }
+    </script>
+    
+    <div class="row first-row" tal:condition="message != None">
+      <div class="col-md-12">
+        <div class="alert alert-${message[0]} alert-dismissable">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          ${structure:message[1]}
+        </div>
+      </div>
+    </div>
+    
+    <div class="row first-row">
+      <div class="col-md-6 col-sm-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <!-- <i class="fa fa-wrench fa-fw"></i> -->
+            Cron job
+          </div>
+          
+          <div class="panel-body">
+            <a href="${request.route_url('cron.user.control_panel')}" class="btn btn-default">
+              <i class="fa fa-level-up fa-fw"></i>
+              Back to Cron job Control Panel
+            </a>
+            <a tal:condition="'cron.admin' in request.user.permissions()" href="${request.route_url('cron.admin.home')}" class="btn btn-default">
+              <i class="fa fa-clock-o fa-fw"></i>
+              Cron Admin
+            </a>
+            
+            <a href="${request.route_url('cron.user.delete', job_id=the_job.id)}" class="btn btn-danger pull-right">
+                Remove
+              </a>
+            <br /><br />
+            
+            <form action="${request.route_url('cron.user.edit', job_id=the_job.id)}" method="post" class="form-horizontal" data-toggle="validator">
+              
+              <div class="form-group">
+                <label for="job_label" class="col-sm-2 control-label">Label:</label>
+                <div class="col-sm-10">
+                  <input type="text" name="job_label" id="job_label" value="${the_job.label}" placeholder="" class="form-control" autofocus="autofocus"/>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="job_type" class="col-sm-2 control-label">Job type:</label>
+                <div class="col-sm-10">
+                  ${structure:job_type_select}
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="schedule" class="col-sm-2 control-label">Schedule:</label>
+                <div class="col-sm-7">
+                  <input type="text" name="schedule" id="schedule" value="${the_job.schedule}" class="form-control"/>
+                </div>
+                <div class="col-sm-3">
+                  <div class="btn btn-default" onclick="test_string();">Test</div>
+                  <a href="${request.route_url('cron.human_time')}" class="btn btn-default pull-right">More info</a>
+                </div>
+                <div class="col-sm-10 col-sm-offset-1" style="padding-top:5px;" id="human_time_result">
+                  
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="next_run" class="col-sm-2 control-label">Next run:</label>
+                <div class="col-sm-10" tal:condition="the_job.next_run != None">
+                  <input type="text" name="next_run" id="next_run" value="${the_job.next_run.strftime('%d/%m/%Y %H:%M')}" class="form-control" disabled="disabled"/>
+                </div>
+                <div class="col-sm-10" tal:condition="the_job.next_run is None">
+                  <input type="text" name="next_run" id="next_run" value="" class="form-control" disabled="disabled"/>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="last_run" class="col-sm-2 control-label">Last run:</label>
+                <div class="col-sm-10" tal:condition="the_job.last_run != None">
+                  <input type="text" name="last_run" id="last_run" value="${the_job.last_run.strftime('%d/%m/%Y %H:%M')}" class="form-control" disabled="disabled"/>
+                </div>
+                <div class="col-sm-10" tal:condition="the_job.last_run is None">
+                  <input type="text" name="last_run" id="last_run" value="" class="form-control" disabled="disabled"/>
+                </div>
+              </div>
+              
+              <div class="form-group" tal:condition="the_job.locked != None">
+                <label for="locked" class="col-sm-2 control-label">Locked:</label>
+                <div class="col-sm-9">
+                  <input type="text" name="locked" id="locked" value="${the_job.locked.strftime('%d/%m/%Y %H:%M')}" class="form-control" disabled="disabled"/>
+                </div>
+                <div class="col-sm-1">
+                  <a href="${request.route_url('cron.user.unlock', job_id=the_job.id)}" class="btn btn-default pull-right">
+                    &nbsp;<i class="fa fa-unlock"></i>&nbsp;
+                  </a>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="comments" class="col-sm-2 control-label">Comments:</label><br />
+                <div class="col-sm-12" style="padding-top:5px;">
+                  <textarea name="comments" id="comments" rows="8" class="form-control">${the_job.comments}</textarea>
+                </div>
+              </div>
+              
+              <hr />
+              
+              ${structure:form_render}
+              
+              <input type="submit" value="Submit" id="submit_button" name="form.submitted" class="btn btn-primary pull-right" />
+            </form>
+            
+            <div class="col-sm-12">
+              <br /><br />
+              <div class="row">
+                <div class="col-sm-8">
+                  <a href="${request.route_url('cron.user.run', job_id=the_job.id)}" class="btn btn-default btn-block">Run now</a>
+                </div>
+                <div class="col-sm-4">
+                  <a href="${request.route_url('cron.user.run_now', job_id=the_job.id)}" class="btn btn-warning btn-block">Run immediately!</a>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    
+  </div>
+</div>

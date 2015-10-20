@@ -1,0 +1,85 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    Documentation
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('documentation.home')}">Documentation</a></li>
+    <li class="active">Keyword listing</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        $('#sidebar_documentation').addClass('menu-active');
+        $('#sidebar_documentation a').addClass('icon-active');
+      });
+    </script>
+    
+    <script src="${request.rel('static/validator.js')}"></script>
+    
+    <div class="row first-row">
+      <div class="col-md-12 col-lg-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <!-- <i class="fa fa-level-up fa-fw"></i> -->
+            Keyword listing
+          </div>
+          
+          <div class="panel-body">
+            <a href="${request.route_url('documentation.home')}" class="btn btn-default">
+              Back to Documentation index
+              <i class="fa fa-level-up fa-fw"></i>
+            </a>
+            
+            <div tal:repeat="(section, section_docs) sections.items()">
+              <div class="bs-callout bs-callout-info" style="max-width:400px; margin-bottom: 3px;">
+                <h4>${section}</h4>
+              </div>
+              
+              <div class="row">
+                <div tal:repeat="dname section_docs" class="col-sm-6 col-md-4 col-lg-3">
+                  
+                  <h4>
+                    <a href="${request.route_url(docs[dname].route)}">${docs[dname].title}</a>
+                  </h4>
+                  <div class="pull-right" style="margin-left:8px;">
+                    <a href="${request.route_url(docs[dname].route)}" tal:repeat="i docs[dname].icons">
+                      <i class="fa fa-2x fa-${i} fa-fw text-${docs[dname].icon_colour}"></i>
+                    </a>
+                  </div>
+                  ${docs[dname].brief}
+                  <br /><br />
+                  
+                  <a href="${request.route_url('documentation.keyword', keyword=k)}" class="btn btn-xs btn-info" tal:repeat="k docs[dname].keywords" style="margin-right:3px;">${k}</a>
+                  
+                  
+                </div>
+              </div>
+              
+              <br />
+            </div>
+            
+            <!--!
+            <div tal:repeat="(doc_name, the_doc) sections.items()" class="col-md-6 col-lg-4">
+              <h3>${the_doc.title}</h3>
+              ${the_doc.route}<br />
+              ${}<br />
+              ${the_doc.brief}<br />
+              ${the_doc.keywords}<br />
+              ${the_doc.icons}<br />
+              ${the_doc.icon_colour}<br />
+              
+            </div>
+            -->
+            
+          </div>
+        </div>
+        
+      </div>
+      
+    </div>
+    
+  </div>
+</div>

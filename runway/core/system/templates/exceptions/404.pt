@@ -1,0 +1,43 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    Page not found!
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+      <li class="active">404: Page not found</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <div class="row first-row">
+      <div class="col-md-12">
+        <div class="panel panel-warning">
+          <div class="panel-heading">
+            <i class="fa fa-question fa-fw"></i>
+            I can't find it!
+          </div>
+          
+          <div class="panel-body" style="font-size: 1.2em;">
+            It looks like I made a mistake somewhere! Sadly I'm not able to automatically track these errors yet (I'm working on it though).
+            <br /><br />
+            
+            You were trying to access: <input type="text" value="${request.path}" class="form-control" style="display:inline-block; width:300px;"/> and came from <input type="text" value="${request.referrer}" class="form-control" style="display:inline-block; width:300px;"/>
+            <br /><br />
+            
+            Any information you've submitted to this page will appear below:
+            <br /><br />
+            
+            <table class="table table-striped">
+              <tr tal:repeat="k request.params.keys()" class="rrow0">
+                <td style="width:300px;">${k}</td>
+                <td><textarea class="form-control" rows="${min(8,len(request.params[k].split('\n')))}">${request.params[k]}</textarea></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- testing flag:404.pt -->
+  </div>
+</div>

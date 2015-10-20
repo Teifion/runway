@@ -1,0 +1,115 @@
+<div metal:use-macro="layout">
+  <div metal:fill-slot="content">
+    
+    <script src="${request.rel('static/js/parsley.js')}"></script>
+    
+    <div class="row">
+      <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+        
+        <div class="panel panel-success" style="margin-top:40px;" tal:condition="success">
+          <div class="panel-heading">
+            <h3 class="panel-title">Success!</h3>
+          </div>
+          <div class="panel-body">
+            
+            Your user has been created and you can now login. Your username is ${new_username}
+            
+            <form role="form" action="${request.route_url('core.login')}" method="post">
+              <input type="hidden" name="username" value="${new_username}" />
+            
+              <fieldset>
+                <div class="form-group">
+                  <input class="form-control" disabled="disabled" type="text" value="${new_username}"  />
+                </div>
+                <div class="form-group">
+                  <input class="form-control" placeholder="Password" name="password" type="password" value="" autofocus="autofocus"/>
+                </div>
+                
+                <input type="submit" value="Sign in" name="form.submitted" class="btn btn-primary btn-block" />
+                
+              </fieldset>
+            </form>
+            
+          </div>
+        </div>
+        
+        
+        <div class="panel panel-info" style="margin-top:40px;" tal:condition="not success">
+          <div class="panel-heading">
+            <h3 class="panel-title">New user registration</h3>
+          </div>
+          <div class="panel-body">
+            <a href="${request.route_url('core.login')}" class="btn btn-default">Already a member? Login here.</a>
+            <br /><br />
+            
+            
+            <form action="${request.route_url('register')}" method="post" class="form-horizontal" id="registration_form">
+              <div class="form-group">
+                <label for="display_name" class="col-sm-2 control-label">Name:</label>
+                <div class="col-sm-10">
+                  <input type="text" name="display_name" id="display_name" value="" placeholder="" class="form-control" required="required" autofocus="autofocus" />
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="password1" class="col-sm-2 control-label">Password:</label>
+                <div class="col-sm-10">
+                  <input type="password" name="password1" id="password1" value="" placeholder="" class="form-control"
+                    required="required"
+                    data-parsley-minlength="8" data-parsley-minlength-message="This value is too short. It should have 8 characters or more." />
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="password2" class="col-sm-2 control-label">Confirm password:</label>
+                <div class="col-sm-10">
+                  <input type="password" name="password2" id="password2" value="" placeholder="" class="form-control"
+                    required="required"
+                    data-parsley-equalto="#password1" data-parsley-equalto-message="The passwords need to match." />
+                </div>
+              </div>
+              
+              
+              <div class="form-group">
+                <label for="email" class="col-sm-2 control-label">Email (optional):</label>
+                <div class="col-sm-10">
+                  <input type="email" name="email" id="email" class="form-control" data-parsley-error-message="This should be a valid email or left blank"/>
+                </div>
+              </div>
+              
+              <input type="submit" value="Submit" name="form.submitted" class="btn btn-primary pull-right" style="min-width:300px;" />
+            </form>
+            
+          </div>
+        </div>
+    
+      </div>
+    </div>
+    
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('#registration_form').parsley();
+        
+        $.listen('parsley:field:validate', function () {
+          validateFront();
+        });
+
+        $('#registration_form .btn').on('click', function () {
+          $('#registration_form').parsley().validate();
+          validateFront();
+        });
+
+        var validateFront = function () {
+          if (true === $('#registration_form').parsley().isValid()) {
+            $('.bs-callout-info').removeClass('hidden');
+            $('.bs-callout-warning').addClass('hidden');
+          } else {
+            $('.bs-callout-info').addClass('hidden');
+            $('.bs-callout-warning').removeClass('hidden');
+          }
+        };
+      });
+    </script>
+    
+  </div>
+</div>

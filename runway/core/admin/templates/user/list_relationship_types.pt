@@ -1,0 +1,88 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    Admin
+  </div>
+    
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('admin.home')}">Admin</a></li>
+    <li class="active">User search (by username)</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        $('#sidebar_admin').addClass('menu-active');
+        $('#sidebar_admin a').addClass('icon-active');
+      });
+    </script>
+    
+    <div class="row first-row">
+        
+      <div class="col-md-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <i class="fa fa-list fa-fw"></i>
+            Relationships
+            
+            <div class="pull-right">
+              <a href="${request.route_url('admin.home')}">
+                <i class="fa fa-angle-left"></i>
+                <i class="fa fa-angle-left"></i>
+                Back to admin home
+              </a>
+            </div>
+          </div>
+          
+          <div class="panel-body">
+            
+            <table class="table table-striped table-hover table-condensed">
+              <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Primary label</th>
+                <th>Secondary label</th>
+                <th colspan="2">&nbsp;</th>
+              </tr>
+              <tr tal:repeat="r relationship_types">
+                <td>${r.id}</td>
+                <td>${r.name}</td>
+                <td>${r.primary_label}</td>
+                <td>${r.secondary_label}</td>
+                <td>
+                  <a href="${request.route_url('admin.user.edit_relationship_type', type_id=r.id)}" class="btn btn-default ">
+                    <i class="fa fa-cog"></i>
+                    Edit
+                  </a>
+                </td>
+                <td>
+                  <a href="${request.route_url('admin.user.remove_relationship_type', type_id=r.id)}" class="btn btn-danger ">
+                    <i class="fa fa-trash"></i>
+                    Delete
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <form action="${request.route_url('admin.user.add_relationship_type')}" method="post" class="form-horizontal">
+                  <td>&nbsp;</td>
+                  
+                  <td><input type="text" name="name" id="name" placeholder="name" class="form-control" autofocus="autofocus"/></td>
+                  <td><input type="text" name="primary_label" id="primary_label" placeholder="Primary label" class="form-control" /></td>
+                  <td><input type="text" name="secondary_label" id="secondary_label" placeholder="Secondary label" class="form-control" /></td>
+                  
+                  <td colspan="2">
+                    <input type="submit" value="Submit" name="form.submitted" class="btn btn-primary btn-block" />
+                  </td>
+                  
+                </form>
+                
+              </tr>
+            </table>
+            
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>

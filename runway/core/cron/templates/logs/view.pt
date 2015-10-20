@@ -1,0 +1,77 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    cron
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('user.control_panel')}">User control panel</a></li>
+    <li><a href="${request.route_url('cron.user.control_panel')}">Cron jobs</a></li>
+    <li class="active">View log</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script src="${request.rel('static/validator.js')}"></script>
+    
+    <div class="row first-row" style="margin-top:70px;">
+      <div class="col-md-12 col-lg-8 col-lg-offset-2">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <!-- <i class="fa fa-file-text fa-fw"></i> -->
+            View log
+          </div>
+          
+          <div class="panel-body">
+            <a href="${request.route_url('cron.user.control_panel')}" class="btn btn-default">Back to Cron Jobs</a>
+            <a tal:condition="'cron.admin' in request.user.permissions()" href="${request.route_url('cron.admin.home')}" class="btn btn-default">Cron Admin</a>
+            <br /><br />
+            
+            <table class="table" style="width:auto;">
+              <tbody>
+                <tr>
+                  <td><strong>Job:</strong></td>
+                  <td>${the_job.label}</td>
+                </tr>
+                <tr>
+                  <td><strong>Runner:</strong></td>
+                  <td>${the_user.username}</td>
+                </tr>
+                <tr>
+                  <td><strong>Started:</strong></td>
+                  <td>${the_log.start_time.strftime("%d/%m/%Y %H:%M:%S")}</td>
+                </tr>
+                <tr>
+                  <td><strong>Completed:</strong></td>
+                  <td>${the_log.end_time.strftime("%d/%m/%Y %H:%M:%S")}</td>
+                </tr>
+                <tr>
+                  <td><strong>Time taken:</strong></td>
+                  <td>${(the_log.end_time - the_log.start_time).seconds}s</td>
+                </tr>
+                
+                <tr>
+                  <td><strong>Status:</strong></td>
+                  <td>${the_log.status}</td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <h4>Report</h4>
+            <div tal:condition="the_log.status == 'Exception' and 'developer' not in request.user.permissions()">
+              I'm sorry.
+              <br /><br />
+              
+              Something went wrong with the running of this job and no output was produced. An error log has automatically been created for the developer to examine.
+            </div>
+            <div tal:condition="not (the_log.status == 'Exception' and 'developer' not in request.user.permissions())">
+              ${structure:the_log.report}
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    
+  </div>
+</div>

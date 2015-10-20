@@ -1,0 +1,112 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    Triggers
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('dev.home')}">Developer</a></li>
+    <li class="active">Triggers</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script src="${request.rel('static/validator.js')}"></script>
+    
+    <div class="row first-row" tal:condition="message != None">
+      <div class="col-md-12">
+        <div class="alert alert-${message[0]} alert-dismissable">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          ${structure:message[1]}
+        </div>
+      </div>
+    </div>
+    
+    <div class="row first-row">
+      <div class="col-md-6 col-sm-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <!-- <i class="fa fa-wrench fa-fw"></i> -->
+            Triggers
+          </div>
+          
+          <div class="panel-body">
+            <a href="${request.route_url('dev.home')}" class="btn btn-default">
+              <i class="fa fa-level-up fa-fw"></i>
+              Back to Developer home
+            </a>
+            <br /><br />
+            
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th colspan="2">Trigger</th>
+                  <th>&nbsp;</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr tal:repeat="t triggers">
+                  <td>${t.name}</td>
+                  <td>${t.label}</td>
+                  <td>
+                    <a href="${request.route_url('triggers.dev.triggers.view', trigger_name=t.name)}" class="btn btn-default">
+                      <i class="fa fa-eye fa-fw"></i>
+                      View
+                    </a>
+                  </td>
+                  <td>
+                    <a href="${request.route_url('triggers.dev.triggers.run', trigger_name=t.name)}" class="btn btn-default">
+                      <i class="fa fa-play fa-fw"></i>
+                      Run
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-6 col-sm-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <!-- <i class="fa fa-wrench fa-fw"></i> -->
+            Actions
+          </div>
+          
+          <div class="panel-body">
+            
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th colspan="2">Action</th>
+                  <th>&nbsp;</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr tal:repeat="a actions">
+                  <td>${a.name}</td>
+                  <td>${a.label}</td>
+                  <td>
+                    <a href="${request.route_url('triggers.dev.actions.view', action_name=a.name)}" class="btn btn-default">
+                      <i class="fa fa-eye fa-fw"></i>
+                      View
+                    </a>
+                  </td>
+                  <td>
+                    <a href="${request.route_url('triggers.dev.actions.run', action_name=a.name)}" class="btn btn-default">
+                      <i class="fa fa-play fa-fw"></i>
+                      Run
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>

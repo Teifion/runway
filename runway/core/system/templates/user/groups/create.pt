@@ -1,0 +1,56 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    Groups
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('user.control_panel')}">User Control Panel</a></li>
+    <li class="active">Create group</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        $('#sidebar_admin').addClass('menu-active');
+        $('#sidebar_admin a').addClass('icon-active');
+      });
+    </script>
+      
+    <div class="first-row row" tal:condition="message != None">
+      <div class="col-md-12">
+        <div class="alert alert-${message[0]}">
+          ${structure:message[1]}
+        </div>
+      </div>
+    </div>
+    
+    <div class="row first-row">
+      <div class="col-md-12">
+          
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <i class="fa fa-plus fa-fw"></i>
+            Add group
+          </div>
+            
+          <div class="panel-body">
+            <form action="${request.route_url('user.groups.create')}" method="post" accept-charset="utf-8" class="form-horizontal">
+              <div class="form-group">
+                <label for="quick_username" class="col-sm-2 control-label">Group name: </label>
+                <div class="col-sm-8">
+                  <input type="text" name="groupname" value="${request.params.get('groupname', '')}" class="form-control" placeholder="New groupname" autofocus="autofocus"/>
+                </div>
+                <div class="col-sm-2">
+                  <input type="submit" value="Add" name="form.submitted" class="btn btn-primary" />
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+          
+      </div>
+      
+    </div>
+  </div>
+</div>

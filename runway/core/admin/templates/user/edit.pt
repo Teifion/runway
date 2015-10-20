@@ -1,0 +1,306 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    Admin
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('admin.home')}">Admin</a></li>
+    <li class="active">Edit user</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script src="${request.rel('static/validator.js')}"></script>
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        $('#sidebar_admin').addClass('menu-active');
+        $('#sidebar_admin a').addClass('icon-active');
+      });
+    </script>
+    
+    <div class="row first-row" tal:condition="message != None">
+      <div class="col-md-12">
+        <div class="alert alert-${message[0]}">
+          ${structure:message[1]}
+        </div>
+      </div>
+    </div>
+    
+    <div class="row first-row">
+      
+      <div class="col-md-8">
+        <div class="panel panel-${'default' if the_user.active else 'warning'}">
+          <div class="panel-heading">
+            <i class="fa fa-wrench fa-fw"></i>
+            Edit user <span tal:condition="not the_user.active"> &nbsp; (Deactivated)</span>
+          </div>
+              
+          <div class="panel-body">
+            <form action="${request.route_url('admin.user.edit', user_id=the_user.id)}" method="post" class="form-horizontal" data-toggle="validator">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="username" class="col-sm-4 control-label" style="text-align:right;">Username:</label>
+                    <div class="col-sm-8">
+                      <input type="text" class="form-control" id="username" name="username" value="${the_user.username}" autofocus="autofocus">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="display_name" class="col-sm-4 control-label" style="text-align:right;">Display name:</label>
+                    <div class="col-sm-8">
+                      <input type="text" class="form-control" id="display_name" name="display_name" value="${the_user.display_name}">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="initials" class="col-sm-4 control-label" style="text-align:right;">Initials:</label>
+                    <div class="col-sm-8">
+                      <input type="text" class="form-control" id="initials" name="initials" value="${the_user.initials}" style="width:100px; display:inline-block;">
+                    </div>
+                  </div>
+                  
+                </div>
+                
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="join_date" class="col-sm-4 control-label" style="text-align:right;">Join date:</label>
+                    <div class="col-sm-8">
+                      <input type="date" class="form-control" id="join_date" name="join_date" value="${the_user.join_date.strftime('%Y-%m-%d') if the_user.join_date != None else ''}">
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="date_of_birth" class="col-sm-4 control-label" style="text-align:right;">Date of birth:</label>
+                    <div class="col-sm-8">
+                      <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" value="${the_user.date_of_birth.strftime('%Y-%m-%d') if the_user.date_of_birth != None else ''}">
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="email" class="col-sm-4 control-label" style="text-align:right;">Email:</label>
+                    <div class="col-sm-8">
+                      <input type="email" class="form-control" id="email" name="email" value="${the_user.email}">
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="password1" class="col-sm-4 control-label" style="text-align:right;">Password:</label>
+                    <div class="col-sm-8">
+                      <input type="password" class="form-control" id="password1" name="password1" value="" data-toggle="validator">
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="password2" class="col-sm-4 control-label" style="text-align:right;">Confirm password:</label>
+                    <div class="col-sm-8">
+                      <input type="password" class="form-control" id="password2" name="password2" value="" data-match="#password1" data-match-error="These don't match">
+                      <div class="help-block with-errors"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="row">
+                &nbsp;
+              </div>
+              
+              <input type="submit" value="Save changes" name="form.submitted" class="btn btn-primary pull-right" />
+              
+              <div class="pull-left" style="margin-right:20px;">
+                <a href="${request.route_url('admin.user.activate', user_id=the_user.id)}" class="btn btn-default" tal:condition="not the_user.active">
+                  <i class="fa fa-check fa-fw text-success fa-lg"></i>
+                  Activate user
+                </a>
+                <a href="${request.route_url('admin.user.deactivate', user_id=the_user.id)}" class="btn btn-default" tal:condition="the_user.active">
+                  <i class="fa fa-ban fa-fw text-danger fa-lg"></i>
+                  Deactivate user
+                </a>
+              </div>
+              
+            </form>
+          </div>
+        </div>
+          
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <i class="fa fa-bars fa-fw"></i>
+            Relationships
+          </div>
+          
+          <div class="panel-body">
+            <table class="table table-striped table-hover">
+              <tr>
+                <th>Relationship type</th>
+                <th>Description</th>
+                <th>&nbsp;</th>
+              </tr>
+              <tr tal:repeat="(the_relationship, user1, user2) user_relationships">
+                <td>${the_relationship.name}</td>
+                <td tal:condition="user1.id == the_user.id">
+                  ${user1.username} ${the_relationship.primary_label} ${user2.username}
+                </td>
+                <td tal:condition="user2.id == the_user.id">
+                  ${user2.username} ${the_relationship.secondary_label} ${user1.username}
+                </td>
+                <td>
+                  <form action="${request.route_url('admin.user.remove_relationship')}" method="post" accept-charset="utf-8" style="margin:0;padding:0;">
+                    <input type="hidden" name="user1" value="${user1.id}" />
+                    <input type="hidden" name="user2" value="${user2.id}" />
+                    <input type="hidden" name="edit_user" value="${the_user.id}" />
+                    <input type="hidden" name="relationship" value="${the_relationship.id}" />
+                    <input type="submit" value="Remove" name="form.submitted" class="btn btn-danger bbtn-sm btn-block" />
+                  </form>
+                </td>
+              </tr>
+              <tr>
+                <form action="${request.route_url('admin.user.add_relationship')}" method="post" accept-charset="utf-8">
+                  <td>
+                    <input type="hidden" name="user1" value="${the_user.id}" />
+                    ${structure:common.select_box("relationship", relationship_options, custom_id=None)}
+                  </td>
+                  <td>
+                    <input type="text" name="target" value="" placeholder="username" class="form-control" />
+                  </td>
+                  <td>
+                    <input type="submit" value="Add relationship" name="form.submitted" class="btn btn-primary bbtn-xs btn-block" />
+                  </td>
+                </form>
+              </tr>
+            </table>
+            
+          </div>
+        </div>
+        
+      </div>
+      
+      <div class="col-md-4">
+        <div class="row">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <i class="fa fa-check fa-fw"></i>
+              Permissions
+            </div>
+            
+            <div class="panel-body">
+              <table class="table table-striped table-hover">
+                <tr>
+                  <th>Group</th>
+                  <th>&nbsp;</th>
+                </tr>
+                <tr tal:repeat="g permission_groups">
+                  <td tal:condition="g in ag_lookup">${ag_lookup[g].label}</td>
+                  <td tal:condition="g not in ag_lookup">Missing group -&gt; Delete</td>
+                  <td>
+                    <form action="${request.route_url('admin.user.remove_permission_group_membership')}" method="post" accept-charset="utf-8" style="margin:0;padding:0;">
+                      <input type="hidden" name="user_id" value="${the_user.id}" />
+                      <input type="hidden" name="group" value="${g}" />
+                      <input type="submit" value="Remove" name="form.submitted" class="btn btn-danger bbtn-sm btn-block" />
+                    </form>
+                  </td>
+                </tr>
+                <tr>
+                  <form action="${request.route_url('admin.user.add_permission_group_membership')}" method="post" accept-charset="utf-8">
+                    <td>
+                      <input type="hidden" name="user_id" value="${the_user.id}" />
+                      ${structure:common.select_box("group", addable_user_groups, custom_id=None)}
+                    </td>
+                    <td>
+                      <input type="submit" value="Add membeship" name="form.submitted" class="btn btn-primary bbtn-xs btn-block" />
+                    </td>
+                  </form>
+                </tr>
+              </table>
+              
+              <div tal:condition="False">
+                ${"\n".join(the_user.permissions().permissions)}
+              </div>
+              
+            </div>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <i class="fa fa-users fa-fw"></i>
+              Groups
+            </div>
+            
+            <div class="panel-body">
+              <table class="table table-striped table-hover">
+                <tr>
+                  <th>Group</th>
+                  <th>Role</th>
+                  <th>&nbsp;</th>
+                </tr>
+                <tr tal:repeat="(the_group, the_owner) user_groups">
+                  <td>${the_group.display_name}</td>
+                  <td>${"Owner" if the_owner.id == the_user.id else "Member"}</td>
+                  <td>
+                    <a tal:condition="'admin.su' in request.user.permissions()" href="${request.route_url('admin.groups.edit', group_id=the_group.id)}" class="btn btn-default btn-sm">
+                      Edit group
+                    </a>
+                    <a tal:condition="'admin.su' not in request.user.permissions() and 'admin.user.edit' in request.user.permissions()" href="${request.route_url('admin.groups.view', group_id=the_group.id)}" class="btn btn-default btn-sm">
+                      View group
+                    </a>
+                  </td>
+                </tr>
+              </table>
+              
+            </div>
+          </div>
+        </div>
+        
+        
+        <div class="row">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <i class="fa fa-lock fa-fw"></i>
+              Security
+            </div>
+            
+            <div class="panel-body">
+              <table class="table table-striped table-hover">
+                <tr>
+                  <th>Check type</th>
+                  <th>&nbsp;</th>
+                  <th>&nbsp;</th>
+                </tr>
+                <tr tal:repeat="sc user_security_checks">
+                  <td>${security_check_names[sc.check]}</td>
+                  <td>${sc.data}</td>
+                  <td>
+                    <form action="${request.route_url('admin.user.remove_security_check')}" method="post" accept-charset="utf-8" style="margin:0;padding:0;">
+                      <input type="hidden" name="check_id" value="${sc.id}" />
+                      <input type="hidden" name="user_id" value="${the_user.id}" />
+                      <input type="submit" value="Remove" name="form.submitted" class="btn btn-danger bbtn-sm btn-block" />
+                    </form>
+                  </td>
+                </tr>
+                <tr>
+                  <form action="${request.route_url('admin.user.add_security_check')}" method="post" accept-charset="utf-8">
+                    <td>
+                      <input type="hidden" name="user_id" value="${the_user.id}" />
+                      ${structure:common.select_box("check", security_check_names, custom_id=None)}
+                    </td>
+                    <td>
+                      <input type="text" name="data" value="" placeholder="data" class="form-control" />
+                    </td>
+                    <td>
+                      <input type="submit" value="Add security check" name="form.submitted" class="btn btn-primary bbtn-xs btn-block" />
+                    </td>
+                  </form>
+                </tr>
+              </table>
+              
+            </div>
+          </div>
+        </div>
+        
+        
+      </div>
+      
+    </div>
+  </div>
+</div>

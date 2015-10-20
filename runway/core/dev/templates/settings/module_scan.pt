@@ -1,0 +1,63 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    Developer
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('dev.home')}">Developer</a></li>
+    <li><a href="${request.route_url('dev.settings.list')}">Settings</a></li>
+    <li class="active">Module scan</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        $('#sidebar_developer').addClass('menu-active');
+        $('#sidebar_developer a').addClass('icon-active');
+      });
+    </script>
+    
+    <div class="row first-row">
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+              <i class="fa fa-search fa-fw"></i>
+              Plugins
+          </div>
+          
+          <div class="panel-body">
+            <div class="alert alert-warning" tal:condition="reboot_needed">
+              Any changes will take effect on a web-server <a href="${request.route_url('dev.restart')}" class="alert-link">restart</a>
+            </div>
+            
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>Module</th>
+                  <th>Status</th>
+                  <th>&nbsp;</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr tal:repeat="(name, enabled) settings.items()">
+                  <td>${name.replace("runway.modules.", "")}</td>
+                  <td>
+                    <div tal:condition="enabled == 'True'" class="btn btn-success btn-sm">Enable</div>
+                    <div tal:condition="enabled != 'True'" class="btn btn-danger btn-sm">Disabled</div>
+                  </td>
+                  
+                  <td>
+                    <a href="${request.route_url('dev.settings.disable_module', module_name=name)}" tal:condition="enabled == 'True'" class="btn btn-default">Disable</a>
+                    <a href="${request.route_url('dev.settings.enable_module', module_name=name)}" tal:condition="enabled != 'True'" class="btn btn-default">Enable</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>

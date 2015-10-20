@@ -1,0 +1,93 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    Developer
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('dev.home')}">Developer</a></li>
+    <li class="active">Restart</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        $('#sidebar_developer').addClass('menu-active');
+        $('#sidebar_developer a').addClass('icon-active');
+      });
+    </script>
+    
+    <script type="text/javascript" charset="utf-8" tal:condition="message != None">
+      $(function() {
+        setTimeout(function () {$('#server_is_up').load("${request.route_url('up')}", function () {
+          $('#server_restarting_message').hide();
+          $('#server_restart_success').show();
+        });}, 3000);
+      });
+    </script>
+    
+    <div class="row first-row">
+      
+      <div class="col-md-6 col-md-offset-3" tal:condition="message is None">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <i class="fa fa-refresh fa-fw"></i>
+            Restart Venustate
+          </div>
+          
+          <div class="panel-body">
+            
+            <form action="${request.route_url('dev.restart')}" method="post" accept-charset="utf-8">
+              Ini file: ${ini_file}
+              <br /><br />
+              
+              <a href="${request.route_url('dev.home')}" class="btn btn-default">
+                <i class="fa fa-fw fa-level-up"></i>
+                Back to dev home
+              </a>
+              
+              <input type="hidden" name="confirm" id="confirm" value="confirm" class="form-control" />
+              <input type="submit" value="Confirm restart" name="form.submitted" class="btn btn-danger pull-right" />
+            </form>
+            
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-12" tal:condition="message != None">
+        <div class="alert alert-${message[0]}" id="server_restarting_message">
+          <i class="fa fa-refresh fa-fw fa-spin"></i>
+          ${structure:message[1]}
+        </div>
+        
+        <div id="server_restart_success" style="display:none;">
+          <div class="alert alert-success">
+            Server restarted successfully
+          </div>
+      
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <i class="fa fa-refresh fa-fw"></i>
+              Restart venustate
+            </div>
+            
+            <span id="server_is_up" style="display:none;"></span>
+            <div class="panel-body">
+              <a href="${request.route_url('/')}" class="btn btn-default">
+                <i class="fa fa-fw fa-home"></i>
+                Venustate home
+              </a>
+              
+              <a href="${request.route_url('dev.home')}" class="btn btn-default">
+                <i class="fa fa-fw fa-power-off"></i>
+                Developer home
+              </a>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>

@@ -1,0 +1,148 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    Control Panel
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li class="active">User control panel</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        $('#sidebar_home').addClass('menu-active');
+        $('#sidebar_home a').addClass('icon-active');
+        
+        $('#the_tabs a:first').tab('show');
+      });
+    </script>
+    
+    <div class="row first-row">
+      <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <a href="${request.route_url('user.account')}" class="btn btn-default pull-right">
+              <i class="fa fa-key fa-fw"></i>
+              Change password
+            </a>
+            
+            <a href="${request.route_url('/')}" class="btn btn-default">
+              <i class="fa fa-level-up fa-fw"></i>
+              Back to ${request.runway_settings.system['name']} home
+            </a>
+            &nbsp;&nbsp;&nbsp;
+            
+            <a href="${request.route_url('user.account')}" class="btn btn-default">
+              <i class="fa fa-user fa-fw"></i>
+              Account settings
+            </a>
+            
+            <a href="${request.route_url('cron.user.control_panel')}" class="btn btn-default" tal:condition="request.runway_settings.users['allow_cron'] == 'True' or 'cron' in request.user.permissions()">
+              <i class="fa fa-clock-o fa-fw"></i>
+              Cron jobs
+            </a>
+            <a href="${request.route_url('widgets.user.control_panel')}" class="btn btn-default" tal:condition="request.runway_settings.users['allow_widgets'] == 'True' or 'widgets' in request.user.permissions()">
+              <i class="fa fa-tachometer fa-fw"></i>
+              Widgets
+            </a>
+            <a href="${request.route_url('triggers.user.control_panel')}" class="btn btn-default" tal:condition="request.runway_settings.users['allow_triggers'] == 'True' or 'triggers' in request.user.permissions()">
+              <i class="fa fa-link fa-fw"></i>
+              Triggers
+            </a>
+            <a href="${request.route_url('user.groups.list')}" class="btn btn-default">
+              <i class="fa fa-group fa-fw"></i>
+              User groups
+            </a>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    <div class="row first-row" tal:condition="message != None">
+      <div class="col-md-12">
+        <div class="alert alert-${message[0]}">
+          ${structure:message[1]}
+        </div>
+      </div>
+    </div>
+    
+    <div class="row first-row">
+      <div class="col-md-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <!-- <i class="fa fa-search fa-fw"></i> -->
+            Site settings and configuration
+          </div>
+          
+          <div class="panel-body">
+            <form action="${request.route_url('user.control_panel')}" method="post" class="form-horizontal">
+              <input type="hidden" name="change" id="change" value="true" />
+              
+              <!-- Nav tabs -->
+              <ul class="nav nav-tabs" role="tablist" id="the_tabs">
+                <li tal:repeat="(group_name, group_contents) setting_groups">
+                  <a href="#${group_name.replace(' ', '_')}_tab" role="tab" data-toggle="tab">${group_name}</a>
+                </li>
+              </ul>
+              
+              <!-- Tab panes -->
+              <div class="tab-content">
+                <div class="tab-pane" id="${group_name.replace(' ', '_')}_tab" tal:repeat="(group_name, group_contents) setting_groups" style="padding:5px;">
+                  
+                  <table class="table table-striped">
+                    <tbody>
+                      <div tal:repeat="(name, visible, label, input_type, default, description) group_contents">
+                        <tr tal:condition="visible == True">
+                          <td>
+                            <label for="${name}_ctrl" class="control-label">${label}</label>
+                          </td>
+                          
+                          <td style="min-width:50px;" tal:condition="input_type == 'boolean'">
+                            <input type="checkbox" name="${name}" id="${name}_ctrl" value="True" class="form-control" tal:attributes="checked ('checked' if settings_dict.get(name) == 'True' else None)" />
+                          </td>
+                          
+                          <td tal:condition="input_type == 'str'">
+                            <input type="text" name="${name}" id="${name}_ctrl" value="${settings_dict.get(name, '')}" class="form-control" />
+                          </td>
+                          
+                          <td tal:condition="input_type == 'colour'">
+                            <input type="color" name="${name}" id="${name}_ctrl" value="${settings_dict.get(name, '')}" class="form-control" />
+                          </td>
+                          
+                          <td tal:condition="input_type[:4] == 'list'">
+                            <select class="form-control" name="${name}" id="${name}_ctrl" tal:define="values input_type[5:].split(',')">
+                              <option tal:repeat="v values" tal:attributes="selected v == settings_dict.get(name)">${v}</option>
+                            </select>
+                          </td>
+                          
+                          <td>
+                            ${structure:description}
+                          </td>
+                        </tr>
+                      </div>
+                    </tbody>
+                  </table>
+                  
+                </div>
+              </div>
+              
+              <br /><br />
+              
+              <a href="${request.route_url('/')}" class="btn btn-default">
+                <!-- <i class="fa fa-level-up fa-fw"></i> -->
+                Discard changes
+              </a>
+              &nbsp;
+              <input type="submit" value="Save changes" name="form.submitted" class="btn btn-primary" />
+            </form>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

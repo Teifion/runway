@@ -1,0 +1,93 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    empty_module
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('admin.home')}">Admin</a></li>
+    <li class="active">Themes</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script src="${request.rel('static/validator.js')}"></script>
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        $('#sidebar_admin').addClass('menu-active');
+        $('#sidebar_admin a').addClass('icon-active');
+        
+        $('#theme_panel_${site_theme}').removeClass('panel-default');
+        $('#theme_panel_${site_theme}').addClass('panel-success');
+      });
+    </script>
+    
+    <div class="row first-row">
+      <div class="col-md-12 col-lg-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <!-- <i class="fa fa-file-text fa-fw"></i> -->
+            Themes
+          </div>
+          
+          <div class="panel-body">
+            <a href="${request.route_url('admin.home')}" class="btn btn-default">
+              <i class="fa fa-level-up fa-fw"></i>
+              Back to Admin
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+      
+    <div class="row">
+      <div class="col-md-4 col-lg-3" tal:repeat="t themes">
+        <div class="panel panel-default" id="theme_panel_${t.name}">
+          <div class="panel-heading">
+            <strong>${t.label}</strong>
+          </div>
+          
+          <div class="panel-body">
+            <table class="table table-condensed">
+              <tbody>
+                <tr>
+                  <td><strong>Machine name</strong></td>
+                  <td>${t.name}</td>
+                </tr>
+                <tr>
+                  <td><strong>Version</strong></td>
+                  <td>${t.version}</td>
+                </tr>
+                <tr>
+                  <td><strong>Created by</strong></td>
+                  <td>${t.creator}</td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <div class="row">
+              <div class="col-md-12" tal:condition="t.name == site_theme">
+                <div class="btn btn-block btn-success">Selected</div>
+              </div>
+              
+              <div tal:condition="t.name != site_theme">
+                <div class="col-md-8">
+                  <a class="btn btn-block btn-default" href="${request.route_url('themes.admin.select_theme', theme_name=t.name)}">Select as theme</a>
+                </div>
+                <div class="col-md-4">
+                  <a class="btn btn-block btn-default" href="${request.route_url('themes.admin.view_theme', theme_name=t.name)}">
+                    <i class="fa fa-eye fa-fw"></i>
+                    Preview
+                  </a>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        
+      </div>
+      
+    </div>
+    
+  </div>
+</div>

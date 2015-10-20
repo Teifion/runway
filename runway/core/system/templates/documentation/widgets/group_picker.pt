@@ -1,0 +1,68 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    Developer
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('dev.home')}">Developer</a></li>
+    <li><a href="${request.route_url('dev.documentation.home')}">Documentation</a></li>
+    <li class="active">User Picker Widget</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        $('#sidebar_developer').addClass('menu-active');
+        $('#sidebar_developer a').addClass('icon-active');
+      });
+    </script>
+    
+    <div class="row first-row">
+      <div class="col-md-12">
+        <h4>Related documents</h4>
+        <a href="${request.route_url(doc_lookup(w).route)}" tal:repeat="w documents_by_tag.get('widgets')" class="btn btn-xs btn-info">${doc_lookup(w).title}</a>
+      </div>
+      
+      <div class="col-md-12">
+        <h3>GroupPicker widget</h3>
+        It takes a standard input textfield and adds a modal window to it. The modal window allows you to search for groups by username or actual name.
+        
+        <h3>Options</h3>
+        The call can be made to either <code>group_picker</code> or <code>group_multi_picker</code> depending on if you want to allow multiple groups to be selected.
+        
+        <h3>Code</h3>
+        <h4>View code</h4>
+        <pre>from ....core.system.js_widgets import GroupPicker
+
+def view_function(request):
+    GroupPicker(request)</pre>
+    
+        <h4>HTML code</h4>
+        It varies from widget to widget, here is the user picker
+        <pre><strong style="font-size:1.1em;">Single picker</strong>
+&lt;div class="input-group"&gt;
+  &lt;span class="input-group-addon btn-info btn" onclick="group_picker('#group_search');"&gt;
+    &lt;i class="fa fa-users fa-fw"&gt;&lt;/i&gt;
+  &lt;/span&gt;
+  &lt;input type="text" class="form-control" id="group_search" name="group_name" placeholder="" /&gt;
+&lt;/div&gt;
+
+<strong style="font-size:1.1em;">Multi picker</strong>
+&lt;div class="input-group"&gt;
+  &lt;span class="input-group-addon btn-info btn" onclick="group_multi_picker('#group_search');"&gt;
+    &lt;i class="fa fa-users fa-fw"&gt;&lt;/i&gt;
+  &lt;/span&gt;
+  &lt;input type="text" class="form-control" id="group_search" name="group_name" placeholder="" /&gt;
+&lt;/div&gt;</pre>
+
+
+      <h4>Form processing code</h4>
+      user_f.find_groups
+      user_f.search_multiuser_string
+
+
+      </div>
+    </div>
+  </div>
+</div>

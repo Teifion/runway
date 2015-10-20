@@ -1,0 +1,149 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    Admin
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('admin.home')}">Admin</a></li>
+    <li class="active">Edit group</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script src="${request.rel('static/validator.js')}"></script>
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        $('#sidebar_admin').addClass('menu-active');
+        $('#sidebar_admin a').addClass('icon-active');
+      });
+    </script>
+    
+    <div class="row first-row" tal:condition="message != None">
+      <div class="col-md-12">
+        <div class="alert alert-${message[0]}">
+          ${structure:message[1]}
+        </div>
+      </div>
+    </div>
+    
+    <div class="row first-row">
+      
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-12">
+        
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <i class="fa fa-wrench fa-fw"></i>
+                Edit group
+              </div>
+              
+              <div class="panel-body">
+                <form action="${request.route_url('admin.groups.edit', group_id=the_group.id)}" method="post" class="form-horizontal" data-toggle="validator">
+                  
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="group_name" class="col-sm-4 control-label" style="text-align:right;">Group name:</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="group_name" name="group_name" value="${the_group.display_name}" autofocus="autofocus">
+                        </div>
+                      </div>
+                      
+                      <div class="form-group">
+                        <label for="owner" class="col-sm-4 control-label" style="text-align:right;">Owner:</label>
+                        <div class="col-sm-8">
+                          <div class="input-group">
+                            <span class="input-group-addon btn-info btn" onclick="user_picker('#owner');">
+                              <i class="fa fa-user fa-fw"></i>
+                            </span>
+                            <input type="text" class="form-control" id="owner" name="owner" value="${the_owner.username}" />
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                    
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="group_view" class="col-sm-4 control-label" style="text-align:right;">View permissions:</label>
+                        <div class="col-sm-8">
+                          ${structure:common.select_box("group_view", group_types, the_group.group_view)}
+                        </div>
+                      </div>
+                      
+                      <div class="form-group">
+                        <label for="group_edit" class="col-sm-4 control-label" style="text-align:right;">Edit permissions:</label>
+                        <div class="col-sm-8">
+                          ${structure:common.select_box("group_edit", group_types, the_group.group_edit)}
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+                  
+                  <input type="submit" value="Save changes" name="form.submitted" class="btn btn-primary pull-right" />
+                </form>
+              </div>
+          
+            </div>
+          </div>
+          
+          <div class="col-md-12 col-lg-6">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <i class="fa fa-users fa-fw"></i>
+                Members
+              </div>
+                  
+              <div class="panel-body">
+                
+                <table class="table">
+                  <tbody>
+                    <tr tal:repeat="m members">
+                      <td>
+                        ${m.username}
+                        &nbsp;
+                        <a href="${request.route_url('admin.user.edit', user_id=m.id)}">
+                          <i class="fa fa-dot-circle-o"></i>
+                        </a>
+                      </td>
+                      <td>
+                        <a href="${request.route_url('admin.groups.remove_member', group_id=the_group.id)}?userids=${m.id}" class="btn btn-default">Remove</a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <i class="fa fa-users fa-fw"></i>
+            Add members
+          </div>
+          
+          <div class="panel-body">
+            
+            <form action="${request.route_url('admin.groups.add_member', group_id=the_group.id)}" method="post" class="form-horizontal" data-toggle="validator">
+              <label for="new_usernames" class="control-label">Usernames</label>
+              
+              <textarea name="usernames" id="new_usernames" rows="8" class="form-control"></textarea>
+              <br />
+              
+              <input type="submit" value="Add members" name="form.submitted" class="btn btn-primary pull-right" />
+            </form>
+            
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>

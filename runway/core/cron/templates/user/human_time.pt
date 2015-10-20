@@ -1,0 +1,113 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    Cron jobs
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('user.control_panel')}">User control panel</a></li>
+    <li><a href="${request.route_url('cron.user.control_panel')}">Cron jobs</a></li>
+    <li class="active">Human time</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script src="${request.rel('static/validator.js')}"></script>
+    
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        $('#sidebar_admin').addClass('menu-active');
+        $('#sidebar_admin a').addClass('icon-active');
+      });
+      
+      function update_box(elem) {
+        var the_string = $(elem).html();
+        $('#human_time_test').val(the_string);
+        test_string();
+      }
+      
+      function test_string () {
+        var the_string = $('#human_time_test').val();
+        $('#human_time_result').load(
+          "${request.route_url('cron.human_time_test')}",
+          {"text":the_string, "limit":5}
+        );
+      }
+      
+      function test_key_down (e) {
+        if (e.keyCode == 13) {
+          test_string();
+          return false;
+        }
+      }
+    </script>
+    
+    <div class="row first-row">
+      <div class="col-md-6 col-md-offset-3 col-sm-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <!-- <i class="fa fa-wrench fa-fw"></i> -->
+            Human time
+          </div>
+          
+          <div class="panel-body">
+            <a href="${request.route_url('cron.user.control_panel')}" class="btn btn-default">
+              <i class="fa fa-level-up fa-fw"></i>
+              Back to Cron job Control Panel
+            </a>
+            <br /><br />
+            
+            Human time is Venustate's solution to picking irregular series of timestamps.
+            <br /><br />
+            
+            Defining a repeating series of timestamps is very easy, as long as they are regular. For example "3rd of each month" is easy, pick the slot in a calendar and you're sorted. This approach fails as soon as they are irregular, for example "the first Monday of every month".
+            <br /><br />
+            
+            Human time converts English into a computer generated sequence of timestamps. You can test them out in the box below:
+            
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <div class="col-sm-9">
+                  <input type="text" name="human_time_test" id="human_time_test" value="" placeholder="Every tuesday at 8pm" class="form-control" autofocus="autofocus" onkeypress="return test_key_down(event)"/>
+                </div>
+                <div class="col-sm-3">
+                  <div class="btn btn-default btn-block">Test</div>
+                </div>
+                
+                <div class="col-sm-12" id="human_time_result" style="padding-top:10px;min-height: 40px;">
+                  &nbsp;<br />
+                  &nbsp;<br />
+                  &nbsp;<br />
+                  &nbsp;<br />
+                  &nbsp;
+                </div>
+              </div>
+            </div>
+            
+            Here are some exmaples to get you going (click them to have them automatically inserted):
+            <ul style="cursor:pointer;">
+              <li onclick="update_box(this);">Every monday at 9pm</li>
+              <li onclick="update_box(this);">Every other tuesday at 1400</li>
+              <li onclick="update_box(this);">Second wednesday of every month at 1330</li>
+              <li onclick="update_box(this);">Every weekday at 8am</li>
+              <li onclick="update_box(this);">Every weekend at 1200</li>
+              <li onclick="update_box(this);">Every other weekday at 3am</li>
+              <li onclick="update_box(this);" style="background-color:#FEE;">Every Monday at 2am and every other tuesday at 7pm</li>
+            </ul>
+            <br /><br />
+            
+            As demonstrated with the last item you can combine two or more commands by use of the word "and".
+            <br /><br />
+            
+            <div class="alert alert-warning">
+              <strong>Warning:</strong> Currently use of "and" to join commands together won't work correctly as the scheduler runs the command from scratch. I am working on this but for now please don't use this option.
+            </div>
+            
+            Human time is spelling sensetive, mispelling a word will cause it to not work correctly.
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>

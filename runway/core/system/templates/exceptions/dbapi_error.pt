@@ -1,0 +1,64 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    Exception
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li class="active">Database error</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    
+    <div class="row first-row" tal:condition="hasattr(request, 'user') and 'errors' in request.user.permissions()">
+      <div class="col-md-12">
+        ${structure:html_traceback}
+      </div>
+    </div>
+    
+    <div class="row first-row">
+      <div class="col-md-12">
+        <div class="panel panel-danger">
+          <div class="panel-heading">
+            <i class="fa fa-exclamation-triangle fa-fw"></i>
+            Something went wrong and we're really sorry
+          </div>
+          
+          <div class="panel-body" style="font-size: 1.2em;">
+            ${structure:message}
+            <br /><br />
+            
+            <div tal:condition="exc._runway_log_flag">
+              The error has been automatically logged but the admin(s) may not be made aware of it yet. <div tal:condition="dev_email != ''">If it is urgent you can consider emailing the developer: <a href="mailto:${dev_email}">${dev_email}</a></div>
+              <br /><br />
+              
+              However, we do know it's a database error and we've been getting a hard-to-reproduce one recently. Have a go at reloading the page (if it asks you if you want to re-submit form information then say yes).
+              <br />
+            </div>
+            
+            Below is a copy of all information you submitted:
+            <br /><br />
+            
+            <table class="table table-striped">
+              <tr tal:repeat="k request.params.keys()" class="rrow0">
+                <td style="width:200px;">${k}</td>
+                <td><textarea class="form-control" rows="${min(8,len(request.params[k].split('\n')))}">${request.params[k]}</textarea></td>
+              </tr>
+            </table>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div tal:condition="'errors' in request.user.permissions()">
+<!-- start of traceback -->${traceback}<!-- end of traceback -->
+<!--
+  The above is a description of an error in a Python program, formatted
+  for a Web browser because the 'cgitb' module was enabled.  In case you
+  are not reading this in a Web browser, here is the original traceback:
+-->
+    </div>
+
+  </div>
+</div>

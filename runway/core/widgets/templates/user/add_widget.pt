@@ -1,0 +1,64 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    Widgets
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('user.control_panel')}">User control panel</a></li>
+    <li><a href="${request.route_url('widgets.user.control_panel')}">Widgets</a></li>
+    <li class="active">Add widget</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script src="${request.rel('static/validator.js')}"></script>
+    
+    <div class="row first-row" tal:condition="message != None">
+      <div class="col-md-12">
+        <div class="alert alert-${message[0]} alert-dismissable">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          ${structure:message[1]}
+        </div>
+      </div>
+    </div>
+    
+    <div class="row first-row">
+      <div class="col-md-6 col-sm-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <!-- <i class="fa fa-wrench fa-fw"></i> -->
+            Widgets
+          </div>
+          
+          <div class="panel-body">
+            <a href="${request.route_url('widgets.user.control_panel')}" class="btn btn-default">
+              <!-- <i class="fa fa-wrench fa-fw"></i> -->
+              Back to Widget Control Panel
+            </a>
+            <br /><br />
+            
+            <form action="${request.route_url('widgets.user.add_widget')}" method="post" class="form-horizontal" data-toggle="validator">
+              <div class="form-group">
+                <label for="widget_label" class="col-sm-2 control-label">Label:</label>
+                <div class="col-sm-10">
+                  <input type="text" name="widget_label" id="widget_label" value="" placeholder="" class="form-control"  autofocus="autofocus"/>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="widget_type" class="col-sm-2 control-label">Widget type:</label>
+                <div class="col-sm-10">
+                  ${structure:widget_type_select}
+                </div>
+              </div>
+              
+              <input type="submit" value="Submit" name="form.submitted" class="btn btn-primary pull-right" />
+            </form>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>

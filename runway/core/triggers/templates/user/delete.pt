@@ -1,0 +1,52 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    Triggers
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('user.control_panel')}">User control panel</a></li>
+    <li><a href="${request.route_url('triggers.user.control_panel')}">Triggers</a></li>
+    <li class="active">Delete trigger</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script src="${request.rel('static/validator.js')}"></script>
+    
+    <div class="row first-row" tal:condition="message != None">
+      <div class="col-md-12">
+        <div class="alert alert-${message[0]} alert-dismissable">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          ${structure:message[1]}
+        </div>
+      </div>
+    </div>
+    
+    <div class="row first-row" style="margin-top:70px;">
+      <div class="col-md-12 col-lg-8 col-lg-offset-2">
+        <div class="panel panel-danger">
+          <div class="panel-heading">
+            <i class="fa fa-file-text fa-fw"></i>
+            Delete trigger
+          </div>
+          
+          <div class="panel-body">
+            Are you sure you want to delete the trigger?
+            <br /><br />
+            
+            <form action="${request.route_url('triggers.user.delete', trigger_script_id=trigger_script_id)}" method="post" accept-charset="utf-8" style="text-align:center;">
+              <input type="hidden" name="confirm" id="confirm" value="${trigger_script_id}" class="form-control" />
+              
+              <a href="${request.route_url('triggers.user.edit', trigger_script_id=trigger_script_id)}" class="btn btn-default">Keep the trigger</a>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <input type="submit" value="Delete the trigger" name="form.submitted" class="btn btn-danger" />
+            </form>
+            
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    
+  </div>
+</div>
