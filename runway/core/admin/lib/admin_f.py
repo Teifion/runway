@@ -258,3 +258,6 @@ def blank_group():
     the_group.group_owner = 2
     
     return the_group
+
+def get_sections():
+    pass

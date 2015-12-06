@@ -1,5 +1,6 @@
 from ..models import Documentation
 from collections import OrderedDict, defaultdict
+from functools import lru_cache
 
 _docs = {}
 _keywords = defaultdict(list)
@@ -39,10 +40,17 @@ def collect_instances():
     for k in _keywords.keys():
         _keywords[k] = sort_docs(_keywords[k])
 
-def documents_by_tag(the_documentation, skip=[]):
-    result = defaultdict(list)
-    for k in the_documentation.keywords:
-        result[k] = tuple(filter(lambda d: d not in skip, _keywords[k]))
+@lru_cache(maxsize=64)
+def documents_by_tag(tag, *skip):
+    # result = defaultdict(list)
+    # for k in the_documentation.keywords:
+    #     result[k] = tuple(filter(lambda d: d not in skip, _keywords[k]))
+    
+    result = []
+    for dname, the_doc in _docs.items():
+        if tag in the_doc.keywords and the_doc.name not in skip:
+            result.append(the_doc)
+    
     return result
 
 def get_structured_docs(keyword=None):

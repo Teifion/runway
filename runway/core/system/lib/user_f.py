@@ -487,6 +487,30 @@ def remove_relationship(relationship, user1, user2):
         UserRelationship.relationship == relationship,
     ).delete()
 
+# def require_secure_password(request, action="error"):
+#     if request.user.secure_password:
+#         return True
+    
+#     if action == "error":
+#         raise errors_f.GracefulException("Insecure password", """You cannot access this section with an insecure password. Please change your password in the User control panel to proceed.
+#             <br /><br />.
+#             <a href="{}" class="btn btn-default">Dashboard home</a>
+#             <a href="{}" class="btn btn-default">User control panel</a>
+#             """.format(
+#                 request.route_url('/'),
+#                 request.route_url('user_cp'),
+#         ), category="Password")
+    
+#     if action[0:8] == "forward:":
+#         try:
+#             location = request.route_url(action.replace('forward:', ''))
+#         except Exception:
+#             location = request.route_url('/')
+        
+#         raise HTTPFound(location = location)
+    
+#     raise Exception("Insecure password")
+
 signthrough_form_html = """
 <form action="?" method="post">
   <input type="password" name="agent_password" id="agent_password" value="" placeholder="Enter agent ({agent_name}) pasword to confirm feedback was given" class="form-control" autofocus="autofocus"/>

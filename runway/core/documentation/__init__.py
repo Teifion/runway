@@ -18,7 +18,10 @@ def basic_view(the_documentation):
             pre_content      = pre_content,
             
             doc_lookup       = docs_f._docs.get,
-            documents_by_tag = docs_f.documents_by_tag(the_documentation, skip=[the_documentation.name]),
+            
+            the_documentation = the_documentation,
+            documents_by_tag = docs_f.documents_by_tag,
+            # old_documents_by_tag = docs_f.documents_by_tag(the_documentation, skip=[the_documentation.name]),
         )
     return f
 
@@ -37,12 +40,20 @@ def documentation_views(config):
     from . import documentation
     
     config.add_route('documentation.help', 'documentation/help')
+    config.add_route('documentation.add', 'documentation/add')
     
     config.add_view(
         basic_view(documentation.DocumentationHelp),
         route_name='documentation.help',
         renderer="templates/general/help.pt",
         permission="loggedin"
+    )
+    
+    config.add_view(
+        basic_view(documentation.DocumentationQuickAdd),
+        route_name='documentation.add',
+        renderer="templates/general/add.pt",
+        permission="developer"
     )
 
 def includeme(config):
@@ -54,8 +65,8 @@ def includeme(config):
     
     append_to_hook("startup", docs_f.collect_instances)
     
-    from .widgets import (
-        new_user_widget,
-    )
+    # from .widgets import (
+    #     new_user_widget,
+    # )
 
 from .documentation import *

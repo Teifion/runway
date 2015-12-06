@@ -148,6 +148,10 @@
           </div>
           
           <div class="panel-body">
+            <div tal:repeat="s sections">
+              ${s}
+            </div>
+            
             <a href="${request.route_url('admin.settings')}" class="btn btn-default btn-block" style="text-align:left;padding-left:10px;" tal:condition="'su' in request.user.permissions()">
               <i class="fa fa-gears fa-fw"></i>
               Settings

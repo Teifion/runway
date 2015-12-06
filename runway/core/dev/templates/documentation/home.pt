@@ -17,12 +17,25 @@
       });
     </script>
     
-    <div class="row first-row">
+    <div class="row first-row"
+        tal:define="docs_by_tag documents_by_tag('dev')"
+        tal:condition="len(docs_by_tag) > 0">
       <div class="col-md-12">
         <h4>Related documents</h4>
-        <a href="${request.route_url(doc_lookup(w).route)}" tal:repeat="w documents_by_tag.get('dev')" class="btn btn-xs btn-info">${doc_lookup(w).title}</a>
+        <a href="${request.route_url(w.route)}" tal:repeat="w docs_by_tag" class="btn btn-sm btn-info">${w.title}</a>
       </div>
-      
+    </div>
+    
+    <div class="row"
+        tal:define="docs_by_tag documents_by_tag('quick-guide')"
+        tal:condition="len(docs_by_tag) > 0">
+      <div class="col-md-12">
+        <h4>Quick guides</h4>
+        <a href="${request.route_url(w.route)}" tal:repeat="w docs_by_tag" class="btn btn-sm btn-info">${w.title}</a>
+      </div>
+    </div>
+    
+    <div class="row">
       <div class="col-md-12">
         <h3>Documentation on runway</h3>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod

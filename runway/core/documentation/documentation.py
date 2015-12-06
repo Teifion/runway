@@ -11,3 +11,13 @@ class DocumentationHelp(Documentation):
     icons = ("question",)
     icon_colour = "info"
 
+class DocumentationQuickAdd(Documentation):
+    name = "documentation.add"
+    route = "documentation.add"
+    
+    title = "Adding documentation"
+    brief = "A quick step-by-step on how to add new documentation."
+    keywords = ("documentation", "quick-guide")
+    
+    icons = ("power-off", "plus",)
+    icon_colour = "info"

@@ -1,0 +1,77 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    Documentation
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('documentation.home')}">Documentation</a></li>
+    <li class="active">Quickly add new documentation</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        $('#sidebar_documentation').addClass('menu-active');
+        $('#sidebar_documentation a').addClass('icon-active');
+      });
+    </script>
+    
+    <div class="row first-row"
+        tal:define="docs_by_tag documents_by_tag('quick-guide', the_documentation.name)"
+        tal:condition="len(docs_by_tag) > 0">
+      <div class="col-md-12">
+        <h4>Related documents</h4>
+        <a href="${request.route_url(w.route)}" tal:repeat="w docs_by_tag" class="btn btn-xs btn-info">${w.title}</a>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-12">
+        <h1>/__init__.py</h1>
+        <pre>
+    def documentation_views(config):
+        from . import documentation
+        
+        config.add_route('empty_module.documentation.page_name', 'documentation/page_name')
+        
+        config.add_view(
+            basic_view(documentation.PageClassName),
+            route_name='empty_module.documentation.page_name',
+            renderer="templates/documentation/page_name.pt",
+            permission="loggedin"
+        )
+
+    def includeme(config):
+        documentation_views(config)
+
+    from .documentation import *
+        </pre>
+          
+        <h1>/documentation.py</h1>
+        <pre>
+    from ...core.documentation.models import Documentation
+
+    class PageClassName(Documentation):
+        name = "empty_module.page_name"
+        route = "empty_module.documentation.page_name"
+        
+        title = "Page title"
+        brief = "Page brief."
+        keywords = ()
+        
+        related_documents = (
+            "empty_module.page1",
+            "empty_module.page2",
+        )
+        
+        icons = ("icon1",)
+        icon_colour = "success"
+        
+        ordering = 10
+        </pre>
+      </div>
+    </div>
+    
+  </div>
+</div>

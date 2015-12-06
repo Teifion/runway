@@ -5,7 +5,7 @@ from ....core.system.js_widgets import UserPicker
 from ...cron.models import CronJob
 from ...cron.lib import cron_f
 from ...system.lib import site_settings_f
-from ..lib import stats_f
+from ..lib import stats_f, admin_f
 from datetime import datetime
 
 def home(request):
@@ -16,6 +16,8 @@ def home(request):
     
     request.add_documentation("admin.user")
     request.add_documentation("admin.settings")
+    
+    sections = admin_f.get_sections()
     
     return dict(
         title       = "Admin: Home",
