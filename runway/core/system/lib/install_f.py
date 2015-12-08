@@ -118,7 +118,7 @@ def get_module_settings(the_module):
     results = {}
     
     if hasattr(the_module, 'site_settings'):
-        for _, setting_list in the_module.settings:
+        for _, setting_list in the_module.site_settings:
             for name, _, _, _, default, _ in setting_list:
                 results[name] = default
     
