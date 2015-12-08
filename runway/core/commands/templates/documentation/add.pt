@@ -1,0 +1,59 @@
+<div metal:use-macro="pre_content">
+  <div metal:fill-slot="sidebar_logo">
+    Commands
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('documentation.home')}">Documentation</a></li>
+    <li class="active">Quickly add new commands</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        $('#sidebar_documentation').addClass('menu-active');
+        $('#sidebar_documentation a').addClass('icon-active');
+      });
+    </script>
+    
+    <div class="row first-row"
+        tal:define="docs_by_tag documents_by_tag('quick-guide', the_documentation.name)"
+        tal:condition="len(docs_by_tag) > 0">
+      <div class="col-md-12">
+        <h4>Related documents</h4>
+        <a href="${request.route_url(w.route)}" tal:repeat="w docs_by_tag" class="btn btn-xs btn-info">${w.title}</a>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-12">
+          
+        <h1>/commands/file_name.py</h1>
+        <pre>
+import transaction
+from ....core.commands.lib import funcs
+from ....core.base import DBSession
+from ....core.system.models.user import (
+    User,
+)
+
+def command_func(arg1, arg2):
+    """
+    String -> String -> IO String
+    Descripton about the command
+    """
+    
+    return "String output"</pre>
+        <h1>/__init__.py</h1>
+        <pre>
+def includeme(config):
+    from ...core.commands import register_commands
+    from .commands import file_name
+    
+    register_commands(file_name)</pre>
+      </div>
+    </div>
+    
+  </div>
+</div>
