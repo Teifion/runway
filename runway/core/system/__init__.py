@@ -203,6 +203,12 @@ def includeme(config):
     append_to_hook("startup", site_settings_f.process_settings)
     append_to_hook("startup", user_settings_f.process_settings)
     append_to_hook("startup", render_f.order_menus)
+    
+    # Commands
+    from ...core.commands import register_commands
+    from .commands import settings
+    
+    register_commands(settings)
 
 def install():
     from .lib import install_f
