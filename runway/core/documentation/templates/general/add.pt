@@ -28,48 +28,51 @@
     
     <div class="row">
       <div class="col-md-12">
-        <h1>/__init__.py</h1>
-        <pre>
-    def documentation_views(config):
-        from . import documentation
-        
-        config.add_route('empty_module.documentation.page_name', 'documentation/page_name')
-        
-        config.add_view(
-            basic_view(documentation.PageClassName),
-            route_name='empty_module.documentation.page_name',
-            renderer="templates/documentation/page_name.pt",
-            permission="loggedin"
-        )
-
-    def includeme(config):
-        documentation_views(config)
-
-    from .documentation import *
-        </pre>
-          
         <h1>/documentation.py</h1>
         <pre>
-    from ...core.documentation.models import Documentation
+from ...core.documentation.models import Documentation
 
-    class PageClassName(Documentation):
-        name = "empty_module.page_name"
-        route = "empty_module.documentation.page_name"
-        
-        title = "Page title"
-        brief = "Page brief."
-        keywords = ()
-        
-        related_documents = (
-            "empty_module.page1",
-            "empty_module.page2",
-        )
-        
-        icons = ("icon1",)
-        icon_colour = "success"
-        
-        ordering = 10
+class PageClassName(Documentation):
+    name = "empty_module.page_name"
+    route = "empty_module.documentation.page_name"
+    
+    title = "Page title"
+    brief = "Page brief."
+    keywords = ()
+    
+    related_documents = (
+        "empty_module.page1",
+        "empty_module.page2",
+    )
+    
+    icons = ("icon1",)
+    icon_colour = "success"
+    
+    ordering = 10
         </pre>
+        
+        <h1>/__init__.py</h1>
+        <pre>
+def documentation_views(config):
+    from . import documentation
+    from ...core.documentation import basic_view
+    
+    config.add_route('empty_module.documentation.page_name', 'documentation/page_name')
+    
+    config.add_view(
+        basic_view(documentation.PageClassName),
+        route_name='empty_module.documentation.page_name',
+        renderer="templates/documentation/page_name.pt",
+        permission="loggedin"
+    )
+
+def includeme(config):
+    documentation_views(config)
+
+from .documentation import *
+        </pre>
+          
+        
       </div>
     </div>
     
