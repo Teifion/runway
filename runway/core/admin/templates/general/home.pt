@@ -148,7 +148,7 @@
           </div>
           
           <div class="panel-body">
-            <div tal:repeat="s sections">
+            <div tal:repeat="s sections" tal:condition="False">
               ${s}
             </div>
             
