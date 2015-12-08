@@ -30,14 +30,14 @@
       <div class="col-md-12">
         <h1>/__init__.py &gt; Adding a hook</h1>
         <pre>
-    from ...core.hooks import register_hook
-    register_hook("hook_name", "Hook description")
+from ...core.hooks import register_hook
+register_hook("hook_name", "Hook description")
         </pre>
           
         <h1>/__init__.py &gt; Using an existing hook</h1>
         <pre>
-    from ...core.hooks import append_to_hook
-    append_to_hook("hook_name", lib_function)
+from ...core.hooks import append_to_hook
+append_to_hook("hook_name", lib_function)
         </pre>
       </div>
     </div>
