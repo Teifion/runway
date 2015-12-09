@@ -57,7 +57,7 @@ def root(request):
     # ]
     
     return dict(
-        title       = "Venustate home",
+        title       = "Home",
         layout      = layout,
         pre_content = pre_content,
         
@@ -67,37 +67,6 @@ def root(request):
         js_libs     = js_libs,
         css_libs    = css_libs,
     )
-
-# def install(request):
-#     layout      = common.render("viewer")
-#     pre_content = common.render("general_menu")
-#     message = None
-    
-#     try:
-#         DBSession.query(User.id).first()
-#     except Exception:
-#         pass
-#     else:
-#         # raise HTTPFound(location=request.route_url('/'))
-#         message = "danger", "Installation already performed."
-    
-#     if "perform" in request.params:
-#         message = "success", "Installation performed. This page will no longer be accessible."
-        
-#         with open('venustate/core/models/tables.sql') as f:
-#             the_query = f.read()
-        
-#         with transaction.manager:
-#             for q in the_query.split(";"):
-#                 DBSession.execute("%s;" % q)
-#             DBSession.execute("COMMIT")
-    
-#     return dict(
-#         title       = "Venustate installation",
-#         layout      = layout,
-#         pre_content = pre_content,
-#         message     = message,
-#     )
 
 def register(request):
     if site_settings_f.get_setting("runway.users.allow_registration", False) != "True":

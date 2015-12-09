@@ -12,6 +12,7 @@ from . import site_settings_f
 from ...documentation.lib import docs_f
 from ...lib import common
 from ..views.exceptions import get_user_object
+from collections import defaultdict
 
 ignored_filetypes = re.compile(r"(css|js|html|png|jpg|jpeg|ico|gif|woff)$")
 no_section_grep = re.compile(r"^/([a-zA-Z0-9_]+)/[a-zA-Z0-9_]+$")
@@ -183,14 +184,15 @@ def menu_tween_factory(handler, registry):
                 top_menu.append(tm)
         
         request._documentation = []
-        request.render = {
-            "side_menu": side_menu,
-            "top_menu": top_menu,
-        }
+        request.render = defaultdict(dict)
+        request.render["side_menu"] = side_menu
+        request.render["top_menu"] = top_menu
+        request.render["documentation"] = []
         
         
-        request.add_documentation = _adder(request, "_documentation")
-        request.get_docs = lambda: (docs_f._docs[d] for d in request._documentation)
+        # request.add_documentation = _adder(request, "_documentation")
+        request.add_documentation = request.render["documentation"].append
+        request.get_docs = lambda: (docs_f._docs[d] for d in request.render["documentation"])
         request.is_documentation = False
         
         return handler(request)

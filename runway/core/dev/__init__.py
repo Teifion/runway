@@ -4,10 +4,12 @@ def debugging_views(config):
     config.add_route('dev.debugging.slow_pages', 'debugging/slow_pages')
     config.add_route('dev.debugging.slow_drilldown', 'debugging/slow_drilldown')
     config.add_route('dev.debugging.neighbouring_logs', 'debugging/neighbouring_logs')
+    config.add_route('dev.debugging.test_page', 'debugging/test_page')
     
     config.add_view(debugging.slow_pages, route_name='dev.debugging.slow_pages', renderer='templates/debugging/slow_pages.pt', permission='developer')
     config.add_view(debugging.slow_drilldown, route_name='dev.debugging.slow_drilldown', renderer='templates/debugging/slow_drilldown.pt', permission='developer')
     config.add_view(debugging.neighbouring_logs, route_name='dev.debugging.neighbouring_logs', renderer='templates/debugging/neighbouring_logs.pt', permission='developer')
+    config.add_view(debugging.test_page, route_name='dev.debugging.test_page', renderer='templates/debugging/test_page.pt', permission='developer')
 
 def exception_views(config):
     from .views import exceptions
