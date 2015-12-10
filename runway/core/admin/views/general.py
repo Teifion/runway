@@ -57,7 +57,6 @@ def settings(request):
     return dict(
         title          = "Admin: Settings",
         layout         = layout,
-        pre_content    = pre_content,
         settings_dict  = settings_dict,
         setting_groups = site_settings_f._settings_structure,
         message        = message,

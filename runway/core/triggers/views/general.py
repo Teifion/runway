@@ -14,7 +14,6 @@ def control_panel(request):
     return dict(
         title                = "User control panel",
         layout               = layout,
-        pre_content          = pre_content,
         message              = message,
         
         user_trigger_scripts = user_trigger_scripts,
@@ -117,7 +116,6 @@ def edit(request):
     return dict(
         title                 = "Edit trigger",
         layout                = layout,
-        pre_content           = pre_content,
         message               = message,
         
         json_value_tree       = json_value_tree,
@@ -471,7 +469,6 @@ def gui_edit(request):
     return dict(
         title              = "Edit trigger actions",
         layout             = layout,
-        pre_content        = pre_content,
         message            = message,
         
         the_trigger_script = the_trigger_script,
@@ -511,7 +508,6 @@ def delete(request):
     return dict(
         title             = "Remove trigger",
         layout            = layout,
-        pre_content       = pre_content,
         message           = message,
         
         trigger_script_id = trigger_script_id,
@@ -529,7 +525,6 @@ def test_trigger_script(request):
     return dict(
         title             = "Test Trigger Script",
         layout            = layout,
-        pre_content       = pre_content,
         message           = message,
         
         results           = json.dumps(results, sort_keys=True, indent=4, separators=(',', ': '), default=common.json_default),

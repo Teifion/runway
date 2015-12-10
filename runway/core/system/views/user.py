@@ -28,7 +28,6 @@ def control_panel(request):
     return dict(
         title          = "User control panel",
         layout         = layout,
-        pre_content    = pre_content,
         message        = message,
         
         settings_dict  = settings_dict,
@@ -70,7 +69,6 @@ def account(request):
     return dict(
         title                = "Account settings",
         layout               = layout,
-        pre_content          = pre_content,
         message              = message,
     )
 

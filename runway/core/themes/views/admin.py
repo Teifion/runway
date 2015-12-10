@@ -42,7 +42,6 @@ def view_theme(request):
     theme_name = request.matchdict['theme_name']
     
     layout = get_renderer('../../../themes/{}/viewer.pt'.format(theme_name)).implementation()
-    pre_content = get_renderer('../../../themes/{}/general_menu.pt'.format(theme_name)).implementation()
     
     return dict(
         title       = "View theme",

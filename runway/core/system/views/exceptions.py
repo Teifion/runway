@@ -87,7 +87,6 @@ def general_exception(exc, request):
     return dict(
         title          = exc.title,
         layout         = layout,
-        pre_content    = pre_content,
         message        = exc.message,
         html_traceback = html_traceback,
         traceback      = traceback_str,
@@ -106,7 +105,6 @@ def not_found_exception(exc, request):
         title    = 'Page not found',
         message  = "404",
         layout   = layout,
-        pre_content = pre_content,
     )
 
 def display_graceful_exception(exc, request):
@@ -126,7 +124,6 @@ def display_graceful_exception(exc, request):
     return dict(
         title      = exc.title,
         layout     = layout,
-        pre_content = pre_content,
         exc        = exc,
         fail_image = fail_image,
     )
@@ -186,7 +183,6 @@ def dbapi_error(exc, request):
     return dict(
         title          = exc.title,
         layout         = layout,
-        pre_content    = pre_content,
         message        = exc.message,
         html_traceback = html_traceback,
         traceback      = traceback_str,

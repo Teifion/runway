@@ -171,7 +171,6 @@ def edit(request):
     return dict(
         title                = "Admin: Edit user",
         layout               = layout,
-        pre_content          = pre_content,
         the_user             = the_user,
         message              = message,
         common               = common,
@@ -207,7 +206,6 @@ def view(request):
     return dict(
         title            = "Admin: View user",
         layout           = layout,
-        pre_content      = pre_content,
         the_user         = the_user,
         user_groups      = user_groups,
         message          = message,
@@ -387,7 +385,6 @@ def list_relationship_types(request):
     return dict(
         title              = "Admin: Relationship types",
         layout             = layout,
-        pre_content        = pre_content,
         
         relationship_types = relationship_types,
     )

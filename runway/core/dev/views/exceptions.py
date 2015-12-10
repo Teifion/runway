@@ -19,7 +19,6 @@ def list_exceptions(request):
     return dict(
         title          = 'Exception list',
         layout         = layout,
-        pre_content    = pre_content,
         exception_list = exception_list,
     )
 
@@ -38,7 +37,6 @@ def edit(request):
     return dict(
         title          = 'Edit exception: %d' % the_exception.id,
         layout         = layout,
-        pre_content    = pre_content,
         the_exception  = the_exception,
         the_user       = the_user,
         common         = common,

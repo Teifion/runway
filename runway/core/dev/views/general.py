@@ -15,7 +15,6 @@ def home(request):
     return dict(
         title         = "Developer: Home",
         layout        = layout,
-        pre_content   = pre_content,
         error_count   = exceptions_f.exception_count(request.user.id),
         
         instance_uuid = errors_f._instance_uuid,

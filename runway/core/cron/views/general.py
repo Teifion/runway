@@ -98,7 +98,6 @@ def edit(request):
     return dict(
         title               = "Edit job",
         layout              = layout,
-        pre_content         = pre_content,
         message             = message,
         
         the_job             = the_job,

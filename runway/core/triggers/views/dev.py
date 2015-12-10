@@ -138,7 +138,6 @@ def run_action(request):
     return dict(
         title        = "Developer: actions",
         layout       = layout,
-        pre_content  = pre_content,
         the_action   = the_action,
         
         results      = results,

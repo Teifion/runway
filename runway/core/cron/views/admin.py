@@ -17,7 +17,6 @@ def home(request):
     return dict(
         title          = "Cron admin panel",
         layout         = layout,
-        pre_content    = pre_content,
         
         recent_logs    = recent_logs,
         orphaned_logs = orphaned_logs,

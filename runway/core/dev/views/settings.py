@@ -37,7 +37,6 @@ def module_scan(request):
     return dict(
         title         = "Developer: Settings",
         layout        = layout,
-        pre_content   = pre_content,
         settings      = settings,
         reboot_needed = site_settings_f.reboot_needed(),
     )

@@ -15,7 +15,6 @@ def basic_view(the_documentation):
         return dict(
             title            = the_documentation.title,
             layout           = layout,
-            pre_content      = pre_content,
             
             doc_lookup       = docs_f._docs.get,
             
