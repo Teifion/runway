@@ -13,25 +13,21 @@ from ...system.models.user import group_types
 
 def list_groups(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     results = user_f.get_groups()
     
     return dict(
         title       = "Admin: Groups",
         layout      = layout,
-        pre_content = pre_content,
         results     = results,
     )
 
 def create(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     response = dict(
         title       = "Admin: Quick add group",
         layout      = layout,
-        pre_content = pre_content,
     )
     
     if "groupname" in request.params:
@@ -62,7 +58,6 @@ def create(request):
 
 def view(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     page = int(request.params.get('page', 1))
     
@@ -76,14 +71,12 @@ def view(request):
     return dict(
         title       = "Admin: View group",
         layout      = layout,
-        pre_content = pre_content,
         results     = results,
         page        = page,
     )
 
 def edit(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     group_id = int(request.matchdict['group_id'])
     the_group, the_owner = user_f.get_group_and_owner(group_id)
@@ -128,7 +121,6 @@ def edit(request):
     return dict(
         title       = "Admin: Edit group",
         layout      = layout,
-        pre_content = pre_content,
         the_group   = the_group,
         the_owner   = the_owner,
         message     = message,
@@ -171,7 +163,6 @@ def remove_member(request):
 
 def search(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     results = []
     if "group_name" in request.params:
@@ -189,6 +180,5 @@ def search(request):
     return dict(
         title       = "Admin: Search groups",
         layout      = layout,
-        pre_content = pre_content,
         results     = results,
     )

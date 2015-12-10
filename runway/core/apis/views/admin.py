@@ -6,7 +6,6 @@ from ...lib import common
 
 def home(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     keys = list(api_f.get_key_list())
     user_key = None
@@ -22,7 +21,6 @@ def home(request):
     return dict(
         title       = "APIs: Home",
         layout      = layout,
-        pre_content = pre_content,
         keys        = keys,
         handlers    = api_f.handlers,
         user_key    = user_key,

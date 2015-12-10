@@ -10,7 +10,6 @@ from datetime import datetime
 
 def home(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     UserPicker(request)
     
@@ -22,12 +21,10 @@ def home(request):
     return dict(
         title       = "Admin: Home",
         layout      = layout,
-        pre_content = pre_content,
     )
 
 def settings(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     message = None
     
     settings_dict = site_settings_f.get_all_settings()
@@ -68,7 +65,6 @@ def settings(request):
 
 def site_stats(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     stats = {
         "core": stats_f.get_stats()
@@ -77,14 +73,12 @@ def site_stats(request):
     return dict(
         title       = "Admin: Site stats",
         layout      = layout,
-        pre_content = pre_content,
         
         stats       = stats,
     )
     
 def schedule_restart(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     if "date" in request.params:
         the_date = request.params['date']
@@ -109,7 +103,6 @@ def schedule_restart(request):
     return dict(
         title       = "Admin: Schedule restart",
         layout      = layout,
-        pre_content = pre_content,
         
         now         = datetime.now(),
     )

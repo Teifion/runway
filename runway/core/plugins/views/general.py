@@ -4,7 +4,6 @@ from ..lib import find
 
 def home(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     # Make sure we're looking at an accurate list of
     # possible plugins
@@ -15,6 +14,5 @@ def home(request):
     return dict(
         title       = "Plugins: Home",
         layout      = layout,
-        pre_content = pre_content,
         plugins     = plugins,
     )

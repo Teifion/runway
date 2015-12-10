@@ -7,7 +7,6 @@ from ..models import UserWidget
 
 def list_rwidgets(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     message = None
     
     widget_names = list(widgets_f._widgets.keys())
@@ -17,7 +16,6 @@ def list_rwidgets(request):
     return dict(
         title       = "Developer: Widgets",
         layout      = layout,
-        pre_content = pre_content,
         message     = message,
         
         widgets     = map(widgets_f.get_rwidget_type, widget_names),

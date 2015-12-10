@@ -15,7 +15,6 @@ def list_exceptions(request):
     exception_list = exceptions_f.exception_list(user_id=assigned, show_all=show_all)
     
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     return dict(
         title          = 'Exception list',
@@ -35,7 +34,6 @@ def edit(request):
         the_user = user_f.get_user(2)
     
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     return dict(
         title          = 'Edit exception: %d' % the_exception.id,

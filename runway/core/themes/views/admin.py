@@ -7,7 +7,6 @@ from ..lib import themes_f
 
 def home(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     site_theme = site_settings_f.get_setting("runway.themes.site_theme")
     themes = themes_f.get_themes()
@@ -15,7 +14,6 @@ def home(request):
     return dict(
         title       = "Themes admin",
         layout      = layout,
-        pre_content = pre_content,
         
         site_theme  = site_theme,
         themes      = themes,
@@ -33,12 +31,10 @@ def select_theme(request):
         raise KeyError("Theme of '{}' does not exist".format(theme_name))
     
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     return dict(
         title       = "Switch theme",
         layout      = layout,
-        pre_content = pre_content,
         theme_name  = theme_name,
     )
 
@@ -51,5 +47,4 @@ def view_theme(request):
     return dict(
         title       = "View theme",
         layout      = layout,
-        pre_content = pre_content,
     )

@@ -4,6 +4,7 @@ import sys
 import re
 from sqlalchemy import func
 from pyramid.view import view_config
+from time import sleep
 
 from pyramid.security import unauthenticated_userid
 
@@ -33,7 +34,12 @@ _graceful_errors = (
 def get_user_object(request, user_id=2):
     userid = unauthenticated_userid(request)
     if userid is not None:
-        the_user = DBSession.query(User).filter(User.id == userid).first()
+        try:
+            the_user = DBSession.query(User).filter(User.id == userid).first()
+        except Exception:
+            sleep(0.1)
+            the_user = DBSession.query(User).filter(User.id == userid).first()
+        
         request.user = the_user
     else:
         # Set ID to that of guest
@@ -44,7 +50,7 @@ def general_exception(exc, request):
     get_user_object(request)
     
     layout = common.render("viewer")
-    pre_content = common.render("general_menu")
+
     
     exc._runway_log_flag = True
     
@@ -91,7 +97,7 @@ def general_exception(exc, request):
 
 def not_found_exception(exc, request):
     layout = common.render("viewer")
-    pre_content = common.render("general_menu")
+
     
     request.do_not_log = True
     get_user_object(request)
@@ -110,7 +116,7 @@ def display_graceful_exception(exc, request):
         errors_f.log_error(sys.exc_info(), request)
     
     layout = common.render("viewer")
-    pre_content = common.render("general_menu")
+
     
     if exc.category not in errors_f.graceful_images:
         fail_image = errors_f.graceful_images['default']
@@ -135,7 +141,7 @@ def dbapi_error(exc, request):
     get_user_object(request)
     
     layout = common.render("viewer")
-    pre_content = common.render("general_menu")
+
     
     # Extra info for debugging
     try:

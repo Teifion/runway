@@ -9,7 +9,6 @@ from datetime import datetime
 
 def home(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     recent_logs = cron_f.get_logs()
     orphaned_logs = cron_f.get_orphaned_logs()
@@ -29,7 +28,6 @@ def home(request):
 
 def job_types(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     def _test_permissions(job_type):
         for p in job_type.permissions:
@@ -42,6 +40,5 @@ def job_types(request):
     return dict(
         title       = "Cron job types",
         layout      = layout,
-        pre_content = pre_content,
         job_types   = job_types,
     )

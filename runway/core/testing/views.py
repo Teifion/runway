@@ -6,9 +6,7 @@ def preview_frame(request):
     return dict()
     
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     return dict(
         layout      = layout,
-        pre_content = pre_content,
     )

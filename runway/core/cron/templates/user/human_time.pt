@@ -1,4 +1,4 @@
-<div metal:use-macro="pre_content">
+<div metal:use-macro="layout">
   <div metal:fill-slot="sidebar_logo">
     Cron jobs
   </div>
@@ -14,10 +14,7 @@
     <script src="${request.rel('static/validator.js')}"></script>
     
     <script type="text/javascript" charset="utf-8">
-      $(function() {
-        $('#sidebar_admin').addClass('menu-active');
-        $('#sidebar_admin a').addClass('icon-active');
-      });
+sidebar_active('admin');
       
       function update_box(elem) {
         var the_string = $(elem).html();

@@ -6,7 +6,6 @@ from ...lib import common
 
 def list_settings(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     search_text = request.params.get('search_text', '').strip()
     
@@ -18,7 +17,6 @@ def list_settings(request):
     return dict(
         title       = "Developer: Settings",
         layout      = layout,
-        pre_content = pre_content,
         settings    = settings,
     )
 
@@ -35,7 +33,6 @@ def module_scan(request):
             settings["runway.modules.{}".format(plugin_name)] = "False"
     
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     return dict(
         title         = "Developer: Settings",
@@ -61,7 +58,6 @@ def disable_module(request):
 
 def edit(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     message = None
     
@@ -75,7 +71,6 @@ def edit(request):
     return dict(
         title       = "Developer: Settings",
         layout      = layout,
-        pre_content = pre_content,
         message     = message,
         
         setting_name  = setting_name,

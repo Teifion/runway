@@ -9,7 +9,6 @@ import os
 
 def home(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     request.add_documentation("dev.home")
     
@@ -25,7 +24,6 @@ def home(request):
 
 def restart(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     request.add_documentation("dev.home")
     
@@ -38,7 +36,6 @@ def restart(request):
     return dict(
         title       = "Developer: Restart",
         layout      = layout,
-        pre_content = pre_content,
         message     = message,
         
         ini_file    = site_settings_f._server_ini,
@@ -57,7 +54,6 @@ def generate_exception(request):
 
 def installer(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     request.add_documentation("dev.home")
     
@@ -71,20 +67,17 @@ def installer(request):
     return dict(
         title       = "Developer: Installer",
         layout      = layout,
-        pre_content = pre_content,
         message     = message,
     )
 
 def schemas(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     request.add_documentation("dev.home")
     
     return dict(
         title       = "Developer: Schemas",
         layout      = layout,
-        pre_content = pre_content,
         schemas     = schema_f.get_versions(),
     )
 

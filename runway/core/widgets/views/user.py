@@ -7,7 +7,6 @@ from ..models import UserWidget
 
 def control_panel(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     message = None
     
     user_widgets = widgets_f.get_uwidgets(request.user.id)
@@ -15,7 +14,6 @@ def control_panel(request):
     return dict(
         title       = "User control panel",
         layout      = layout,
-        pre_content = pre_content,
         message     = message,
         
         user_widgets = user_widgets,
@@ -24,7 +22,6 @@ def control_panel(request):
 
 def add_widget(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     message = None
     
     if "widget_label" in request.params:
@@ -50,7 +47,6 @@ def add_widget(request):
     return dict(
         title       = "Add widget",
         layout      = layout,
-        pre_content = pre_content,
         message     = message,
         
         widget_type_select = common.select_box("widget_type", widget_types),
@@ -58,7 +54,6 @@ def add_widget(request):
 
 def edit_widget(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     message = None
     
     the_uwidget = widgets_f.get_uwidget(int(request.matchdict['widget_id']))
@@ -74,7 +69,6 @@ def edit_widget(request):
     return dict(
         title       = "Edit widget",
         layout      = layout,
-        pre_content = pre_content,
         message     = message,
         
         the_uwidget = the_uwidget,
@@ -89,7 +83,6 @@ def edit_widget(request):
 
 def remove_widget(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     message = None
     
     widget_id = int(request.matchdict['widget_id'])
@@ -101,7 +94,6 @@ def remove_widget(request):
     return dict(
         title       = "Remove widget",
         layout      = layout,
-        pre_content = pre_content,
         message     = message,
         
         widget_id = widget_id,
@@ -109,12 +101,10 @@ def remove_widget(request):
 
 def view_widget(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     message = None
     
     return dict(
         title       = "View widget",
         layout      = layout,
-        pre_content = pre_content,
         message     = message,
     )

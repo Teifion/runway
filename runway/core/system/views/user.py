@@ -7,7 +7,6 @@ from ....core.system.js_widgets import UserPicker
 
 def control_panel(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     message = None
     
     settings_dict = user_settings_f.get_all_settings(request.user.id)
@@ -38,7 +37,6 @@ def control_panel(request):
 
 def account(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     message = None
     
     the_user = user_f.get_user(request.user.id)
@@ -78,26 +76,22 @@ def account(request):
 
 def list_groups(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     results = user_f.get_groups(request.user.id)
     
     return dict(
         title       = "User: Groups",
         layout      = layout,
-        pre_content = pre_content,
         results     = results,
     )
     
 
 def create_group(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     response = dict(
         title       = "Add group",
         layout      = layout,
-        pre_content = pre_content,
         message     = None
     )
     
@@ -129,7 +123,6 @@ def create_group(request):
 
 def edit_group(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     group_id = int(request.matchdict['group_id'])
     the_group, the_owner = user_f.get_group_and_owner(group_id)
@@ -189,7 +182,6 @@ def edit_group(request):
     return dict(
         title       = "User: Edit group",
         layout      = layout,
-        pre_content = pre_content,
         the_group   = the_group,
         the_owner   = the_owner,
         message     = message,
@@ -201,7 +193,6 @@ def edit_group(request):
 
 def view_group(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     group_id = int(request.matchdict['group_id'])
     the_group, the_owner = user_f.get_group_and_owner(group_id)
@@ -217,7 +208,6 @@ def view_group(request):
     return dict(
         title       = "User: Edit group",
         layout      = layout,
-        pre_content = pre_content,
         the_group   = the_group,
         the_owner   = the_owner,
         message     = message,

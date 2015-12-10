@@ -9,7 +9,6 @@ from datetime import datetime
 
 def view(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     log_id = int(request.matchdict['log_id'])
     the_log, the_job, the_user = cron_f.get_log(log_id)
@@ -17,7 +16,6 @@ def view(request):
     return dict(
         title       = "View log",
         layout      = layout,
-        pre_content = pre_content,
         
         the_log  = the_log,
         the_job  = the_job,

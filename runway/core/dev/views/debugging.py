@@ -13,12 +13,10 @@ def slow_pages(request):
     data = debugging.get_slow_pages()
     
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     return dict(
         title       = 'Slow pages',
         layout      = layout,
-        pre_content = pre_content,
         data        = data,
     )
 
@@ -30,12 +28,10 @@ def slow_drilldown(request):
     logs = debugging.get_logs(path)
     
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     return dict(
         title       = 'Slow pages drilldown',
         layout      = layout,
-        pre_content = pre_content,
         overview    = overview,
         logs        = logs,
     )
@@ -83,10 +79,8 @@ def test_page(request):
     ]
     
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     return dict(
         title       = 'Test page',
         layout      = layout,
-        pre_content = pre_content,
     )

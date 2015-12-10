@@ -7,7 +7,6 @@ import json
 
 def control_panel(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     message = None
     
     user_trigger_scripts = triggers_f.get_trigger_scripts(request.user.id)
@@ -25,7 +24,6 @@ def control_panel(request):
 
 def create(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     message = None
     
     if "trigger_label" in request.params and "trigger_type" in request.params:
@@ -52,7 +50,6 @@ def create(request):
     return dict(
         title       = "Create new trigger",
         layout      = layout,
-        pre_content = pre_content,
         message     = message,
         
         trigger_type_select = common.select_box("trigger_type", trigger_types),
@@ -60,7 +57,6 @@ def create(request):
 
 def edit(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     message = None
     validity = None
     
@@ -138,7 +134,6 @@ def edit(request):
 
 def gui_edit(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     message = None
     validity = None
     
@@ -501,7 +496,6 @@ def gui_edit(request):
 
 def delete(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     message = None
     
     trigger_script_id = int(request.matchdict['trigger_script_id'])
@@ -525,7 +519,6 @@ def delete(request):
 
 def test_trigger_script(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     message = None
     
     trigger_script_id = int(request.matchdict['trigger_script_id'])

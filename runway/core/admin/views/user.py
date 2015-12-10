@@ -16,7 +16,6 @@ from datetime import date
 
 def search_username(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     page = int(request.params.get('page', 1))
     
@@ -30,14 +29,12 @@ def search_username(request):
     return dict(
         title       = "Admin: Search by username",
         layout      = layout,
-        pre_content = pre_content,
         results     = results,
         page        = page,
     )
 
 def search_display_name(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     page = int(request.params.get('page', 1))
     
@@ -51,14 +48,12 @@ def search_display_name(request):
     return dict(
         title       = "Admin: Search by display name",
         layout      = layout,
-        pre_content = pre_content,
         results     = results,
         page        = page,
     )
 
 def search_group(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     page = int(request.params.get('page', 1))
     
@@ -72,14 +67,12 @@ def search_group(request):
     return dict(
         title       = "Admin: Search by group",
         layout      = layout,
-        pre_content = pre_content,
         results     = results,
         page        = page,
     )
 
 def search_permission(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     page = int(request.params.get('page', 1))
     
@@ -93,14 +86,12 @@ def search_permission(request):
     return dict(
         title       = "Admin: Search by permission",
         layout      = layout,
-        pre_content = pre_content,
         results     = results,
         page        = page,
     )
 
 def list_users(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     mode = request.params.get("mode", "latest")
     
@@ -116,14 +107,12 @@ def list_users(request):
     return dict(
         title       = "Admin: Search by permission",
         layout      = layout,
-        pre_content = pre_content,
         results     = results,
         mode        = mode,
     )
 
 def edit(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     user_id = int(request.matchdict['user_id'])
     the_user, permission_groups = user_f.get_user_and_groups(user_id)
@@ -204,7 +193,6 @@ def edit(request):
 
 def view(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     user_id = int(request.matchdict['user_id'])
     the_user, user_groups = user_f.get_user_and_groups(user_id)
@@ -231,7 +219,6 @@ def view(request):
 
 def mass_add(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     message = None
     new_users = []
@@ -263,7 +250,6 @@ def mass_add(request):
     return dict(
         title       = "Admin: Add users",
         layout      = layout,
-        pre_content = pre_content,
         
         new_users   = new_users,
         message     = message,
@@ -273,12 +259,10 @@ def mass_add(request):
 
 def quick_add(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     response = dict(
         title       = "Admin: Quick add user",
         layout      = layout,
-        pre_content = pre_content,
     )
     
     if "username" in request.params:
@@ -397,7 +381,6 @@ def remove_relationship(request):
 
 def list_relationship_types(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     relationship_types = user_f.get_relationship_types()
     
@@ -421,12 +404,10 @@ def add_relationship_type(request):
 
 def edit_relationship_type(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     return dict(
         title       = "Admin: Search by username",
         layout      = layout,
-        pre_content = pre_content,
     )
 
 def remove_relationship_type(request):

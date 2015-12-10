@@ -9,7 +9,6 @@ from datetime import datetime
 
 def control_panel(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     message = None
     
     user_jobs = cron_f.get_jobs(request.user.id)
@@ -18,7 +17,6 @@ def control_panel(request):
     return dict(
         title       = "User control panel",
         layout      = layout,
-        pre_content = pre_content,
         message     = message,
         
         user_jobs   = user_jobs,
@@ -29,7 +27,6 @@ def control_panel(request):
 
 def create(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     message = None
     
     if "job_label" in request.params and "job_type" in request.params:
@@ -58,7 +55,6 @@ def create(request):
     return dict(
         title       = "Create new job",
         layout      = layout,
-        pre_content = pre_content,
         message     = message,
         
         job_type_select = common.select_box("job_type", job_types),
@@ -66,7 +62,6 @@ def create(request):
 
 def edit(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     message = None
     
     the_job = cron_f.get_job(int(request.matchdict['job_id']))
@@ -115,7 +110,6 @@ def edit(request):
 
 def delete(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     message = None
     
     job_id = int(request.matchdict['job_id'])
@@ -131,7 +125,6 @@ def delete(request):
     return dict(
         title       = "Remove job",
         layout      = layout,
-        pre_content = pre_content,
         message     = message,
         
         job_id = job_id,
@@ -139,7 +132,6 @@ def delete(request):
 
 def run(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     job_id = int(request.matchdict['job_id'])
     the_job = cron_f.get_job(int(request.matchdict['job_id']))
@@ -155,14 +147,12 @@ def run(request):
     return dict(
         title       = "Run job",
         layout      = layout,
-        pre_content = pre_content,
         
         job_id = job_id,
     )
 
 def run_now(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     job_id = int(request.matchdict['job_id'])
     the_job = cron_f.get_job(int(request.matchdict['job_id']))
@@ -177,7 +167,6 @@ def run_now(request):
     return dict(
         title       = "Run job",
         layout      = layout,
-        pre_content = pre_content,
         
         job_id = job_id,
     )
@@ -217,12 +206,10 @@ def unlock(request):
 
 def human_time_view(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     return dict(
         title       = "Human time",
         layout      = layout,
-        pre_content = pre_content,
     )
 
 def human_time_test(request):

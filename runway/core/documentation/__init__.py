@@ -4,7 +4,7 @@ from .lib import docs_f
 def basic_view(the_documentation):
     def f(request):
         layout      = common.render("viewer")
-        pre_content = common.render("general_menu")
+    
         
         for d in the_documentation.related_documents:
             request.add_documentation(d)

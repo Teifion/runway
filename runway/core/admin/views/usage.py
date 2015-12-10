@@ -9,17 +9,14 @@ from datetime import date, timedelta
 
 def home(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     return dict(
         title       = "Admin: Home",
         layout      = layout,
-        pre_content = pre_content,
     )
 
 def user_search(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     page = int(request.params.get('page', 1))
     
@@ -33,14 +30,12 @@ def user_search(request):
     return dict(
         title       = "Usage: User search",
         layout      = layout,
-        pre_content = pre_content,
         results     = results,
         page        = page,
     )
 
 def user_history(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     start_date, end_date = date_f.get_start_and_end_dates(request.params, period=timedelta(days=15))
     
@@ -59,7 +54,6 @@ def user_history(request):
     return dict(
         title       = "Usage: User overview",
         layout      = layout,
-        pre_content = pre_content,
         user_logs   = user_logs,
         message     = message,
         the_user    = the_user,
@@ -68,7 +62,6 @@ def user_history(request):
 
 def user_overview(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     start_date, end_date = date_f.get_start_and_end_dates(request.params, period=timedelta(days=15))
     
@@ -86,7 +79,6 @@ def user_overview(request):
     return dict(
         title       = "Usage: User overview",
         layout      = layout,
-        pre_content = pre_content,
         sections    = sections,
         message     = message,
         the_user    = the_user,
@@ -96,7 +88,6 @@ def user_overview(request):
 
 def group_search(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     results = []
     if "group" in request.params:
@@ -115,13 +106,11 @@ def group_search(request):
     return dict(
         title       = "Usage: Group search",
         layout      = layout,
-        pre_content = pre_content,
         results     = results,
     )
 
 def group_history(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     start_date, end_date = date_f.get_start_and_end_dates(request.params, period=timedelta(days=15))
     
@@ -140,7 +129,6 @@ def group_history(request):
     return dict(
         title       = "Usage: Group overview",
         layout      = layout,
-        pre_content = pre_content,
         user_logs   = user_logs,
         message     = message,
         the_group   = the_group,
@@ -150,7 +138,6 @@ def group_history(request):
 
 def group_overview(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     start_date, end_date = date_f.get_start_and_end_dates(request.params, period=timedelta(days=15))
     
@@ -168,7 +155,6 @@ def group_overview(request):
     return dict(
         title       = "Usage: Group overview",
         layout      = layout,
-        pre_content = pre_content,
         sections    = sections,
         message     = message,
         the_group   = the_group,
@@ -178,7 +164,6 @@ def group_overview(request):
 
 def latest(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     mode = request.params.get("mode", "loggedin")
     
@@ -187,14 +172,12 @@ def latest(request):
     return dict(
         title       = "Usage: Latest logs",
         layout      = layout,
-        pre_content = pre_content,
         user_logs   = user_logs,
         mode        = mode,
     )
 
 def aggregate(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     start_date, end_date = date_f.get_start_and_end_dates({}, period="last 100 days")
     
@@ -203,7 +186,6 @@ def aggregate(request):
     return dict(
         title       = "Usage: Latest logs",
         layout      = layout,
-        pre_content = pre_content,
         
         total_views = charts['total_views']('total_views'),
         unique_views = charts['unique_views']('unique_views'),

@@ -10,7 +10,6 @@ from ...widgets.lib import widgets_f
 
 def root(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     uwidgets = tuple(widgets_f.get_uwidgets(request.user.id))
     rwidgets = tuple(map(widgets_f.get_rwidget, uwidgets))
@@ -59,7 +58,6 @@ def root(request):
     return dict(
         title       = "Home",
         layout      = layout,
-        pre_content = pre_content,
         
         messages    = messages,
         renders     = renders,

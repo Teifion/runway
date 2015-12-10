@@ -1,4 +1,4 @@
-<div metal:use-macro="pre_content">
+<div metal:use-macro="layout">
   <div metal:fill-slot="sidebar_logo">
     empty_module
   </div>

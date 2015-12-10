@@ -9,7 +9,6 @@ log = logging.getLogger(__name__)
 
 def home(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     message = None
     
     trigger_names = list(triggers_f._triggers.keys())
@@ -21,7 +20,6 @@ def home(request):
     return dict(
         title       = "Developer: Triggers",
         layout      = layout,
-        pre_content = pre_content,
         message     = message,
         
         triggers     = map(triggers_f.get_trigger, trigger_names),
@@ -30,7 +28,6 @@ def home(request):
 
 def view_trigger(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     trigger_name = request.matchdict['trigger_name']
     the_trigger = triggers_f.get_trigger(trigger_name)
@@ -39,14 +36,12 @@ def view_trigger(request):
     return dict(
         title       = "Developer: Triggers",
         layout      = layout,
-        pre_content = pre_content,
         the_trigger = the_trigger,
         subscribers = subscribers,
     )
 
 def run_trigger(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     message = None
     results = ""
     
@@ -83,7 +78,6 @@ def run_trigger(request):
     return dict(
         title       = "Developer: Triggers",
         layout      = layout,
-        pre_content = pre_content,
         the_trigger = the_trigger,
         
         subscribers = subscribers,
@@ -95,7 +89,6 @@ def run_trigger(request):
 
 def view_action(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     action_name = request.matchdict['action_name']
     the_action = actions_f.get_action(action_name)
@@ -103,13 +96,11 @@ def view_action(request):
     return dict(
         title       = "Developer: Trigger actions",
         layout      = layout,
-        pre_content = pre_content,
         the_action  = the_action,
     )
 
 def run_action(request):
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     message = None
     results = ""
     
