@@ -1,0 +1,61 @@
+<div metal:use-macro="layout">
+  <div metal:fill-slot="sidebar_logo">
+    Documentation
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('documentation.home')}">Documentation</a></li>
+    <li class="active">Quickly add new documentation</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        $('#sidebar_documentation').addClass('menu-active');
+        $('#sidebar_documentation a').addClass('icon-active');
+      });
+    </script>
+    
+    <div class="row first-row"
+        tal:define="docs_by_tag documents_by_tag('quick-guide', the_documentation.name)"
+        tal:condition="len(docs_by_tag) > 0">
+      <div class="col-md-12">
+        <h4>Related documents</h4>
+        <a href="${request.route_url(w.route)}" tal:repeat="w docs_by_tag" class="btn btn-xs btn-info">${w.title}</a>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-12">
+        <h1>/js_widgets/dummy_job.py</h1>
+        <pre>from ....core.widgets.models import JSWidget
+
+class DummyWidget(JSWidget):
+    js_libs  = ()
+    css_libs = ()
+    
+    raw_js = ("""
+    $(function() {
+      alert("You are using the Dummy JS Widget");
+    });
+    """)
+    raw_css = ()</pre>
+        
+        <h1>/views/view_file.py</h1>
+        <pre>from ..js_widgets/dummy_widget import DummyWidget
+
+def my_view(request):
+    layout = common.render("viewer")
+    
+    DummyWidget(request)
+    
+    return dict(
+        layout = layout,
+        title = "Title",
+    )</pre>
+      </div>
+    </div>
+    
+  </div>
+</div>
