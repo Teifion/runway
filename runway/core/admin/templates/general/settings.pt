@@ -11,10 +11,9 @@
   
   <div metal:fill-slot="content">
     <script type="text/javascript" charset="utf-8">
+      sidebar_active('admin');
+      
       $(function() {
-        $('#sidebar_admin').addClass('menu-active');
-        $('#sidebar_admin a').addClass('icon-active');
-        
         $('#the_tabs a:first').tab('show');
       });
     </script>

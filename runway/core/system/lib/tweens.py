@@ -170,7 +170,6 @@ def menu_tween_factory(handler, registry):
             permissions = []
         else:
             permissions = request.user.permissions()
-        # permissions = None
         
         site_menu = []
         for sm in site_settings_f._hidden_settings['site_menu'].values():

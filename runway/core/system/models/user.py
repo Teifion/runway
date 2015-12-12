@@ -102,6 +102,8 @@ class User(Base):
             # self._permissions.extend(auth.group_lookup[g])
             self._permissions.append(g)
         
+        self._permissions.extend(["view", "loggedin"])
+        
         # self._permissions = set(self._permissions)
         self._permissions = auth.PermissionSet(self._permissions)
         return self._permissions
