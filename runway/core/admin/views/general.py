@@ -5,8 +5,10 @@ from ....core.system.js_widgets import UserPicker
 from ...cron.models import CronJob
 from ...cron.lib import cron_f
 from ...system.lib import site_settings_f
+from ....core.hooks.lib.funcs import call_hook
 from ..lib import stats_f, admin_f
 from datetime import datetime
+from collections import OrderedDict
 
 def home(request):
     layout      = common.render("viewer")
@@ -16,11 +18,16 @@ def home(request):
     request.add_documentation("admin.user")
     request.add_documentation("admin.settings")
     
-    sections = admin_f.get_sections()
+    section_dict = {v[2]:v for v in call_hook("admin.sections")}
+    section_keys = list(section_dict.keys())
+    section_keys.sort()
+    
+    sections = [section_dict[k] for k in section_keys]
     
     return dict(
-        title       = "Admin: Home",
-        layout      = layout,
+        title    = "Admin: Home",
+        layout   = layout,
+        sections = sections,
     )
 
 def settings(request):

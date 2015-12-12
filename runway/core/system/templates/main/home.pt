@@ -9,10 +9,7 @@
   
   <div metal:fill-slot="content">
     <script type="text/javascript" charset="utf-8">
-      $(function() {
-        $('#sidebar_home').addClass('menu-active');
-        $('#sidebar_home a').addClass('icon-active');
-      });
+      sidebar_active('home');
     </script>
     
     <link href="${request.rel(c)}" rel="stylesheet" tal:repeat="c css_libs" />

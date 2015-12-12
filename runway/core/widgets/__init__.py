@@ -41,7 +41,10 @@ def includeme(config):
     auth.add("widgets", 'User', set())
     auth.add("widgets", 'Admin', {'admin'})
     auth.add("widgets", 'Super User', {'admin', 'su'}, rank=4)
-       
+    
     from .widgets import (
         example_widget,
     )
+    
+    # from ...core.hooks import append_to_hook
+    # append_to_hook("admin.sections", lambda: ("widgets.admin.home", "fa-tachometer", "Widgets", "widgets.admin"))

@@ -12,7 +12,7 @@
   
   <div metal:fill-slot="content">
     <script type="text/javascript" charset="utf-8">
-sidebar_active('admin');
+      sidebar_active('admin');
     </script>
     
     <div class="row first-row">

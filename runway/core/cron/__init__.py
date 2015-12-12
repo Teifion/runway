@@ -79,11 +79,16 @@ def includeme(config):
     )
     
     from .lib import cron_f
-    from ..hooks import append_to_hook
+    from ...core.hooks import append_to_hook
     
     append_to_hook("startup", cron_f.collect_instances)
+    append_to_hook("admin.sections", lambda: ("cron.admin.home", "fa-clock-o", "Cron jobs", "cron.admin"))
     
     from ...core.commands import register_commands
     from .commands import cron
     
     register_commands(cron)
+    
+    
+    
+

@@ -180,6 +180,7 @@ def includeme(config):
     init_auth()
     
     from ...core.commands import register_commands
+    from ...core.hooks import register_hook, append_to_hook
     from .commands import user
     
     register_commands(user)
@@ -187,5 +188,16 @@ def includeme(config):
     from .jobs import (
         restart,
     )
+    
+    register_hook("admin.sections", "Each function call should return a (url, icon, label, permissions) tuple which will be used to populate lists within the admin section.")
+    
+    _admin_sections = [
+        ("admin.settings", "fa-gears", "Settings", "su"),
+        ("themes.admin.home", "fa-paste", "Themes", "su"),
+        ("admin.usage.home", "fa-line-chart", "Usage reports", "admin.usage"),
+        ("admin.groups.list", "fa-group", "User groups", ""),
+    ]
+    
+    append_to_hook("admin.sections", lambda: _admin_sections)
 
 from .documentation import *

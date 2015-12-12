@@ -145,46 +145,12 @@
           </div>
           
           <div class="panel-body">
-            <div tal:repeat="s sections" tal:condition="False">
-              ${s}
+            <div tal:repeat="(url, icon, label, permissions) sections">
+              <a href="${request.route_url(url)}" class="btn btn-default btn-block" style="text-align:left;padding-left:10px; margin-bottom:5px;" tal:condition="permissions == '' or permissions in request.user.permissions()">
+                <i class="fa ${icon} fa-fw"></i>
+                ${label}
+              </a>
             </div>
-            
-            <a href="${request.route_url('admin.settings')}" class="btn btn-default btn-block" style="text-align:left;padding-left:10px;" tal:condition="'su' in request.user.permissions()">
-              <i class="fa fa-gears fa-fw"></i>
-              Settings
-            </a>
-            <a href="${request.route_url('themes.admin.home')}" style="text-align:left;padding-left:10px;" class="btn btn-default btn-block" tal:condition="'su' in request.user.permissions()">
-              <i class="fa fa-paste fa-fw"></i>
-              Themes
-            </a>
-            <a href="${request.route_url('admin.usage.home')}" style="text-align:left;padding-left:10px;" class="btn btn-default btn-block" tal:condition="'admin.usage' in request.user.permissions()">
-              <i class="fa fa-line-chart fa-fw"></i>
-              Usage reports
-            </a>
-            
-            <a href="${request.route_url('admin.user.list_relationship_types')}" class="btn btn-default btn-block" style="text-align:left;padding-left:10px;" tal:condition="'admin.super' in request.user.permissions()">
-              <i class="fa fa-bars fa-fw"></i>
-              Relationships
-            </a>
-            
-            <a href="${request.route_url('cron.admin.home')}" class="btn btn-default btn-block" style="text-align:left;padding-left:10px;" tal:condition="request.runway_settings.users['allow_cron'] == 'True' or 'cron.admin' in request.user.permissions()">
-                <i class="fa fa-clock-o fa-fw"></i> Cron jobs
-            </a>
-            <a href="${request.route_url('triggers.admin.home')}" class="btn btn-default btn-block" style="text-align:left;padding-left:10px;" tal:condition="request.runway_settings.users['allow_triggers'] == 'True' or 'triggers.admin' in request.user.permissions()">
-                <i class="fa fa-link fa-fw"></i>
-                Triggers
-            </a>
-            <a href="${request.route_url('widgets.admin.home')}" class="btn btn-default btn-block" style="text-align:left;padding-left:10px;" tal:condition="request.runway_settings.users['allow_widgets'] == 'True' or 'widgets.admin' in request.user.permissions()">
-                <i class="fa fa-tachometer fa-fw"></i>
-                Widgets
-            </a>
-            <a href="${request.route_url('taxonomies.home')}" class="btn btn-default btn-block" style="text-align:left;padding-left:10px;" tal:condition="False">
-                <i class="fa fa-bars fa-fw"></i> Taxonomies
-            </a>
-            
-            <a href="${request.route_url('admin.groups.list')}" class="btn btn-default btn-block" style="text-align:left;padding-left:10px;">
-                <i class="fa fa-group fa-fw"></i> User groups
-            </a>
             
           </div>
         </div>

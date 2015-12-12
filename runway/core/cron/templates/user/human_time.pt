@@ -14,7 +14,7 @@
     <script src="${request.rel('static/validator.js')}"></script>
     
     <script type="text/javascript" charset="utf-8">
-sidebar_active('admin');
+      sidebar_active('admin');
       
       function update_box(elem) {
         var the_string = $(elem).html();
