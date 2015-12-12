@@ -1,101 +1,308 @@
 <DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" xmlns:tal="http://xml.zope.org/namespaces/tal"
   metal:define-macro="layout">
-  <head>
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-    <title>${title}</title>
-    
-    <div tal:condition="hasattr(request, 'rel')">
-      <link href="${request.rel('static/bootstrap.css')}" rel="stylesheet" />
-      <link href="${request.rel('static/bootstrap.docs.css')}" rel="stylesheet" />
-      <link href="${request.rel('static/font-awesome/css/font-awesome.min.css')}" rel="stylesheet" />
-      <link href="${request.rel('static/css/runway.css')}" rel="stylesheet" />
-      <link href="${request.rel('static/themes/sb_admin_v2/sb_admin2.css')}" rel="stylesheet" />
-      
-      <link tal:repeat="c request._css_libs" href="${request.rel('static/{}'.format(c))}" rel="stylesheet">
-      
-      <script src="${request.rel('static/jquery.js')}"></script>
-      <script src="${request.rel('static/bootstrap.js')}"></script>
-      <script src="${request.rel('static/themes/sb_admin_v2/sb_admin2.js')}"></script>
-      
-      <script src="${request.rel('static/js/runway.js')}"></script>
-      
-      <script tal:repeat="j request._js_libs" src="${request.rel('static/{}'.format(j))}"></script>
-    </div>
-    
-    <style type="text/css" media="screen" tal:condition="request.remote_addr == '127.0.0.1'">
-      .navbar, .breadcrumb {
-        background-color: #EFE;
-        border-color: #0A0;
-      }
-    </style>
-    
-    <style type="text/css" media="screen">
-      ${structure:"\n".join(request._css_raws)}
-    </style>
-    
-    <script type="text/javascript" charset="utf-8">
-      ${structure:"\n".join(request._js_raws)}
-    </script>
-  </head>
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+  <title>${title}</title>
   
-  <body>
-    ${structure:"\n".join(request._html_raws)}
+  <div tal:condition="hasattr(request, 'rel')">
+    <link href="${request.rel('static/bootstrap.css')}" rel="stylesheet" />
+    <link href="${request.rel('static/bootstrap.docs.css')}" rel="stylesheet" />
+    <link href="${request.rel('static/font-awesome/css/font-awesome.min.css')}" rel="stylesheet" />
+    <link href="${request.rel('static/css/runway.css')}" rel="stylesheet" />
+    <link href="${request.rel('static/themes/sb_admin_v2/sb_admin2.css')}" rel="stylesheet" />
     
-    <div class="container-fluid" id="page-wrapper">
-      <div class="col-md-12">
-        <div class="row">
-          <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0; margin-right: 0;" tal:condition="True">
+    <link tal:repeat="c request._css_libs" href="${request.rel('static/{}'.format(c))}" rel="stylesheet">
+    
+    <script src="${request.rel('static/jquery.js')}"></script>
+    <script src="${request.rel('static/bootstrap.js')}"></script>
+    <script src="${request.rel('static/js/runway.js')}"></script>
+    <!-- <script src="${request.rel('static/themes/sb_admin_v2/sb_admin2.js')}"></script> -->
+    
+    <script tal:repeat="j request._js_libs" src="${request.rel('static/{}'.format(j))}"></script>
+  </div>
+  
+  <style type="text/css" media="screen" tal:condition="request.remote_addr == '127.0.0.1'">
+    .navbar, .breadcrumb {
+      background-color: #EFE;
+      border-color: #0A0;
+    }
+  </style>  <script type="text/javascript" charset="utf-8">
+    function sidebar_active (name) {
+      $(function() {
+        $('#sidebar_' + name).addClass('menu-active');
+        $('#sidebar_' + name + ' a').addClass('active');
+      });
+    }
+  </script>
+  
+  <style type="text/css" media="screen">
+    ${structure:"\n".join(request._css_raws)}
+  </style>
+  
+  <script type="text/javascript" charset="utf-8">
+    ${structure:"\n".join(request._js_raws)}
+  </script>
+</head>
+  
+<body>
+  ${structure:"\n".join(request._html_raws)}
+  
+  <div class="container-fluid" id="page-wrapper">
+    <div class="col-md-12">
+      <div class="row">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0; margin-right: 0;">
+          
+          <div class="navbar-header">
+            <ol class="breadcrumb" metal:define-slot="breadcrumbs">
+              
+            </ol>
+          </div>
+          
+          <!-- TOP LEFT -->
+          <ul class="nav navbar-top-links navbar-right hidden-sm hidden-xs">
             
-            <div class="navbar-header">
-              <ol class="breadcrumb" metal:define-slot="breadcrumbs">
+            <li class="dropdown"
+                tal:repeat="the_dropdown request.render['dropdowns']">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="fa ${the_dropdown.icon} fa-fw"></i>
+                ${the_dropdown.label}&nbsp;
                 
-              </ol>
-            </div>
+                <span class="label label-${the_dropdown.badge_colour} label-as-badge" tal:condition="the_dropdown.badge_body != ''">
+                  ${the_dropdown.badge_body}</span>
+              </a>
+              <ul class="dropdown-menu" tal:condition="the_dropdown.style == 'block'">
+                <li tal:repeat="menu_item the_dropdown.contents">
+                  <a href="${menu_item.url}">
+                    <div>
+                      <strong>${menu_item.title}</strong>
+                      <span class="pull-right text-muted">
+                        <em>${menu_item.muted_text}</em>
+                      </span>
+                    </div>
+                    <div>${menu_item.body}</div>
+                  </a>
+                </li>
+              </ul>
+              
+              <ul class="dropdown-menu" tal:condition="the_dropdown.style == 'inline'">
+                <li tal:repeat="menu_item the_dropdown.contents">
+                  <a href="${menu_item.url}">
+                    <div>
+                      <i class="fa ${menu_item.icon} fa-fw"></i> ${menu_item.title}
+                      <span class="pull-right text-muted small">${menu_item.muted_text}</span>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+              
+              <ul class="dropdown-menu" tal:condition="the_dropdown.style == 'bars'">
+                <li tal:repeat="menu_item the_dropdown.contents" class="pad">
+                  <a href="${menu_item.url}">
+                    <p>
+                      <strong>${menu_item.title}</strong>
+                      <span class="pull-right text-muted">${menu_item.muted_text}</span>
+                    </p>
+                    <div class="progress progress-striped active">
+                      <div class="progress-bar progress-bar-${menu_item.icon}" role="progressbar" aria-valuenow="${menu_item.body}" aria-valuemin="0" aria-valuemax="100" style="width: ${menu_item.body}%">
+                        <span class="sr-only">${menu_item.body}% Complete</span>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </li>
             
-            <ul class="navbar-buttons" metal:define-slot="navbar_button">
-              
-            </ul>
             
-            <ul class="nav navbar-top-links navbar-right hidden-sm hidden-xs" metal:define-slot="top_links">
-              
-            </ul>
-          </nav>
-          
-          <div class="col-sm-12 hidden-md hidden-lg" class="top-nav-wrapper">
-            <div metal:define-slot="side_links_sm">
-              
-            </div>
-          </div>
-          
-          <div class="hidden-xs hidden-sm col-md-2 left-navigation no-padding-right" id="left-nav-wrapper">
-            <nav class="navbar-default navbar-static-side" role="navigation" id="nav_sidebar">
-              <div class="sidebar-collapse">
-                <ul class="nav" id="side-menu" metal:define-slot="side_links">
-                    
-                </ul>
-                  <!-- /#side-menu -->
-              </div>
-                <!-- /.sidebar-collapse -->
-            </nav>
-          </div>
-          
-          <!-- Main content cols -->
-          <div class="col-sm-12 col-md-10" id="content-wrapper">
-            <div metal:define-slot="content" id="content">
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="right-content">
-                    Content
+            <!-- DOCUMENTATION -->
+            <li class="dropdown" tal:condition="request.render['documentation'] != [] or request.is_documentation">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                  <i class="fa fa-book fa-fw fa-lg"></i>  <i class="fa fa-caret-down"></i>
+              </a>
+              <ul class="dropdown-menu dropdown-tasks">
+                <li class="pad" tal:condition="False">
+                  <div>
+                    <p style="text-align: center; font-size: 1.1em;">
+                      Documentation related to this page
+                    </p>
                   </div>
+                </li>
+                <li tal:repeat="d request.get_docs()" class="pad">
+                  <a href="${request.route_url(d.route)}">
+                    <div>
+                      <p>
+                        <div style="float: right;">
+                          <i tal:repeat="i d.icons" class="fa fa-2x fa-${i} fa-fw text-${d.icon_colour}"></i>
+                        </div>
+                        
+                        <strong>${d.title}</strong>
+                      </p>
+                      <p>
+                        ${d.brief}
+                      </p>
+                    </div>
+                  </a>
+                </li>
+                
+                <li class="pad">&nbsp;</li>
+                <li class="pad">
+                  <a href="${request.route_url('documentation.home')}">
+                    <div>
+                      <p>
+                        <div style="float: right;">
+                          <i class="fa fa-2x fa-book fa-fw text-default"></i>
+                        </div>
+                        
+                        <strong>Documentation home</strong>
+                      </p>
+                      <p>
+                        Central location of documentation in the application.
+                      </p>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+              <!-- /.dropdown-documentation -->
+            </li>
+            
+            <!-- USER DROPDOWN -->
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="fa fa-user fa-fw fa-lg"></i>  <i class="fa fa-caret-down"></i>
+              </a>
+              <ul class="dropdown-menu dropdown-user">
+                <li tal:repeat="(href, glyph, text) request.user_links" tal:condition="getattr(request, 'user_links', []) != []">
+                  <a href="${href}"><i class="fa fa-${glyph} fa-fw"></i> ${text}</a>
+                </li>
+                <li tal:condition="False">
+                  <a href="#" onclick="toggle_sidebar(); return false;"><i class="fa fa-gear fa-fw"></i> Expand/Collapse sidebar</a>
+                </li>
+                <li>
+                  <a href="${request.route_url('user.control_panel')}"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                </li>
+                <li class="divider"></li>
+                
+                <li tal:condition="request.runway_settings.users['allow_cron'] == 'True' or 'cron' in request.user.permissions()">
+                  <a href="${request.route_url('cron.user.control_panel')}"><i class="fa fa-clock-o fa-fw"></i> Cron jobs</a>
+                </li>
+                <li tal:condition="request.runway_settings.users['allow_widgets'] == 'True' or 'widgets' in request.user.permissions()">
+                  <a href="${request.route_url('widgets.user.control_panel')}"><i class="fa fa-tachometer fa-fw"></i> Widgets</a>
+                </li>
+                <li tal:condition="request.runway_settings.users['allow_triggers'] == 'True' or 'triggers' in request.user.permissions()">
+                  <a href="${request.route_url('triggers.user.control_panel')}"><i class="fa fa-link fa-fw"></i> Triggers</a>
+                </li>
+                
+                <li tal:condition="request.runway_settings.users['allow_groups'] == 'True'">
+                  <a href="${request.route_url('user.groups.list')}"><i class="fa fa-users fa-fw"></i> Groups</a>
+                </li>
+                
+                <li class="divider"></li>
+                
+                <li><a href="${request.route_url('core.logout')}" tal:condition="hasattr(request, 'user')"><i class="fa fa-sign-out fa-fw"></i> Logout ${request.user.username}</a>
+                </li>
+              </ul>
+              <!-- /.dropdown-user -->
+            </li>
+            
+          </ul>
+        </nav>
+        
+        <div class="col-sm-12 hidden-md hidden-lg" class="top-nav-wrapper">
+          <span tal:condition="'developer' in request.user.permissions()">
+            <a href="${request.route_url('dev.home')}">
+              Developer
+            </a>
+            &nbsp;&nbsp;&nbsp;
+          </span>
+          
+          <span tal:condition="'admin' in request.user.permissions()">
+            <a href="${request.route_url('admin.home')}">
+              Admin
+            </a>
+            &nbsp;&nbsp;&nbsp;
+          </span>
+          
+          <span tal:repeat="tm request.render['site_menu']">
+            <a href="${request.route_url(tm['route'])}">${tm['text']}</a>
+            &nbsp;&nbsp;&nbsp;
+          </span>
+        </div>
+        
+        <div class="hidden-xs hidden-sm col-md-2 left-navigation no-padding-right" id="left-nav-wrapper">
+          <nav class="navbar-default navbar-static-side" role="navigation" id="nav_sidebar">
+            
+            
+            <ul class="nav" id="side-menu">
+              <li class="sidebar-logo">
+                <div metal:define-slot="sidebar_logo">Sidebar logo</div>
+              </li>
+              
+              <li class="sidebar-search" tal:condition="False">
+                <div class="input-group custom-search-form">
+                  <input type="text" class="form-control" placeholder="Search...">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">
+                      <i class="fa fa-search"></i>
+                    </button>
+                  </span>
+                </div>
+                <!-- /input-group -->
+              </li>
+              
+              <li id="sidebar_home">
+                <a href="${request.route_url('/')}">
+                  <i class="fa fa-home fa-fw fa-lg"></i>
+                  &nbsp;
+                  Home
+                </a>
+              </li>
+              <li tal:condition="'developer' in request.user.permissions()" id="sidebar_developer">
+                <a href="${request.route_url('dev.home')}">
+                  <i class="fa fa-power-off fa-fw fa-lg"></i>
+                  &nbsp;
+                  Developer
+                </a>
+              </li>
+              <li tal:condition="'admin' in request.user.permissions()" id="sidebar_admin">
+                <a href="${request.route_url('admin.home')}">
+                  <i class="fa fa-group fa-fw fa-lg"></i>
+                  &nbsp;
+                  Admin
+                </a>
+              </li>
+              
+              <li>&nbsp;</li>
+              
+              <!-- Module entries -->
+              <li id="sidebar_${sm['id']}" tal:repeat="sm request.render['site_menu']">
+                <a href="${request.route_url(sm['route'])}">
+                  <i class="fa fa-fw ${sm['icon']} fa-lg"></i>
+                  &nbsp;
+                  ${sm['text']}
+                </a>
+              </li>
+            </ul>
+            
+            
+          </nav>
+        </div>
+        
+        <!-- Main content cols -->
+        <div class="col-sm-12 col-md-10" id="content-wrapper">
+          <div metal:define-slot="content" id="content">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="right-content">
+                  Content
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div id="push"></div>
       </div>
+      <div id="push"></div>
     </div>
-    
-  </body>
+  </div>
+  
+</body>
 </html>
