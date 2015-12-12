@@ -35,6 +35,9 @@ def set_setting(name, value):
     DBSession.add(the_setting)
 
 def get_settings(*names):
+    if len(names) == 0:
+        return {}
+    
     r = DBSession.query(Setting.name, Setting.value).filter(Setting.name.in_(names)).order_by(Setting.name)
     
     result = OrderedDict()
