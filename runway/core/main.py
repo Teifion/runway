@@ -193,43 +193,34 @@ def install():
     
     # Plugins
     for plugin_name in find.scan_for_plugins(_folder_path):
-        if route_settings.get(plugin_name, 'False') != 'True':
-            continue
-        
-        exec("from ..plugins import %s" % plugin_name, plugins.__dict__)
-        the_plugin = plugins.__dict__[plugin_name]
-        
-        plugins_f.check_plugin(plugin_name, the_plugin)
+        # Is this plugin listed in the modules?
+        # If it's not listed then add it to the list and move on
+        # it's certainly not going to be enabled yet
         
         if "runway.modules.{}".format(plugin_name) not in route_settings:
             setting_dict["runway.modules.{}".format(plugin_name)] = "False"
+            continue
         
-        setting_dict.update(install_f.get_module_settings(the_plugin))
+        # Is this plugin enabled?
+        if route_settings.get("runway.modules.{}".format(plugin_name), 'False') != 'True':
+            continue
         
-        # If it's got a specific install function we'll call that
-        if hasattr(the_plugin, "install"):
-            the_plugin.install()
+        # Import the plugin
+        exec("from ..plugins import %s" % plugin_name, plugins.__dict__)
+        the_plugin = plugins.__dict__[plugin_name]
         
-        # If there's a static folder, copy that over
-        plugin_static = "{fp}/plugins/{plugin}/static/".format(fp=_folder_path, plugin=plugin_name)
-        if os.path.isdir(plugin_static):
-            cmd = "cp -R {plugin_static} {fp}/static/{plugin}".format(fp=_folder_path, plugin=plugin_name, plugin_static=plugin_static)
-            
-            os.system(cmd)
+        # Check to make sure certain requirements are there (schema etc)
+        plugins_f.check_plugin(plugin_name, the_plugin)
         
-        # Check for a schema
-        if hasattr(the_plugin, "schema"):
-            # Now check to see if the schema is the latest version
-            if plugin_name not in schema_versions:
-                # If we can't find the version then we've not installed this plugin before
-                # and this is a fresh install
-                with transaction.manager:
-                    schema_f.add_schema(plugin_name, the_plugin.schema.version)
-            else:
-                with transaction.manager:
-                    if the_plugin.schema.version > schema_versions[plugin_name].version:
-                        schema_f.update_schema(the_plugin.schema.schema, schema_versions[plugin_name].version)
-                        schema_f.add_schema(plugin_name, the_plugin.schema.version)
+        # Have we installed the schema for this plugin?
+        # If no schema yet then we do a full install
+        # if we have got a schema then we have to assume
+        # we've run an intial install script and instaed
+        # we will just update the module
+        if plugin_name not in schema_versions:
+            plugins_f.install_module(the_plugin)
+        else:
+            plugins_f.update_module(the_plugin)
     
     # Now do the schema thing with the main module too
     runway_name = "runway"

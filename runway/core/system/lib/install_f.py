@@ -63,7 +63,6 @@ def install_groups():
         UserPermissionGroup.group == 'developer'
     ).first()
     
-    
     if root_is_dev is None:
         with transaction.manager:
             DBSession.add(UserPermissionGroup(

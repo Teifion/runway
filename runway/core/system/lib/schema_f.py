@@ -19,27 +19,12 @@ queries is the sequence of queries which perform the change
 
 def get_versions():
     return {row.module:row for row in DBSession.query(Schema)}
+
+def get_version(module_name):
+    r = DBSession.query(Schema.version).filter(Schema.module == module_name).first()
     
-    
-    # for plugin_name in find.scan_for_plugins(_folder_path):
-    #     exec("from ..plugins import %s" % plugin_name, plugins.__dict__)
-    #     the_plugin = plugins.__dict__[plugin_name]
-        
-    #     if "runway.modules.{}".format(plugin_name) not in route_settings:
-    #         setting_dict["runway.modules.{}".format(plugin_name)] = "False"
-        
-    #     setting_dict.update(install_f.get_module_settings(the_plugin))
-        
-    #     # If it's got a specific install function we'll call that
-    #     if hasattr(the_plugin, "install"):
-    #         the_plugin.install()
-        
-    #     # If there's a static folder, copy that over
-    #     plugin_static = "{fp}/plugins/{plugin}/static/".format(fp=_folder_path, plugin=plugin_name)
-    #     if os.path.isdir(plugin_static):
-    #         cmd = "cp -R {plugin_static} {fp}/static/{plugin}".format(fp=_folder_path, plugin=plugin_name, plugin_static=plugin_static)
-            
-    #         os.system(cmd)
+    if r is None: return None
+    return r[0]
 
 def add_schema(module, version):
     the_schema = DBSession.query(Schema).filter(Schema.module == module).first()
