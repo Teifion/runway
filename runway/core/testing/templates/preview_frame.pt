@@ -69,8 +69,8 @@
     <header>
         <nav class="frame" role="navigation">
             <div class="container-fluid">
-                <a href="http://almsaeedstudio.com/" class="brand">
-                    Runway preview frame
+                <a class="brand">
+                  Runway preview frame
                 </a>
                 <div class="buttons pull-right">
                   <a class="first hidden-xs" id="display-full" href="#" data-toggle="tooltip" data-placement="bottom" title="Display Desktop - full width"><i class="fa fa-desktop fa-lg"></i></a>
@@ -129,13 +129,6 @@
         $("#remove-frame").click(function(e){
             e.preventDefault();
             window.location.href = "${request.route_url('/')}";
-        });
-        
-        $(".ad").hide().delay(3000).show(500);
-        
-        $("#close-ad").click(function(e){
-            e.preventDefault();
-            $(".ad").remove();
         });
       });
     </script>
