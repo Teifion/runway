@@ -172,23 +172,15 @@ def menu_tween_factory(handler, registry):
             permissions = request.user.permissions()
         # permissions = None
         
-        side_menu = []
-        for sm in site_settings_f._hidden_settings['side_menu'].values():
+        site_menu = []
+        for sm in site_settings_f._hidden_settings['site_menu'].values():
             if all(req in permissions for req in sm['permissions']):
-                side_menu.append(sm)
-        
-        top_menu = []
-        top_order = []
-        for tm in site_settings_f._hidden_settings['top_menu'].values():
-            if all(req in permissions for req in tm['permissions']):
-                top_menu.append(tm)
+                site_menu.append(sm)
         
         request._documentation = []
         request.render = defaultdict(dict)
-        request.render["side_menu"] = side_menu
-        request.render["top_menu"] = top_menu
+        request.render["site_menu"] = site_menu
         request.render["documentation"] = []
-        
         
         # request.add_documentation = _adder(request, "_documentation")
         request.add_documentation = request.render["documentation"].append

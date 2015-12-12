@@ -18,16 +18,10 @@ def home(request):
     request.add_documentation("admin.user")
     request.add_documentation("admin.settings")
     
-    section_dict = {v[2]:v for v in call_hook("admin.sections")}
-    section_keys = list(section_dict.keys())
-    section_keys.sort()
-    
-    sections = [section_dict[k] for k in section_keys]
-    
     return dict(
         title    = "Admin: Home",
         layout   = layout,
-        sections = sections,
+        sections = admin_f.get_admin_menu(),
     )
 
 def settings(request):

@@ -1,3 +1,5 @@
+plugins = []
+
 def check_plugin(plugin_name, the_plugin):
     # Route prefix
     if hasattr(the_plugin, "route_prefix"):

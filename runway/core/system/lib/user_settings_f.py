@@ -12,11 +12,6 @@ _settings_collection = None
 
 _settings_structure = []
 _hidden_settings = {
-    # "side_menu": {},
-    # "top_menu": {},
-    
-    # "render.side_menu": [],
-    # "render.top_menu": [],
 }
 
 def get_setting(user_id, name, default=None):

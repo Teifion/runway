@@ -8,10 +8,12 @@ from ...system.models.user import (
 from ...system.lib import auth, user_f
 from sqlalchemy import and_, or_
 from ...lib import funcs
+from ...plugins.lib import plugins_f
 from functools import reduce
 from sqlalchemy.orm import aliased
-
+from functools import lru_cache
 from datetime import date
+import os
 
 def admin_user_permissions(the_admin, the_user, the_user_groups):
     # Root can do anything, even edit themselves
@@ -258,3 +260,21 @@ def blank_group():
     the_group.group_owner = 2
     
     return the_group
+
+@lru_cache(maxsize=1)
+def get_admin_menu():
+    menu = []
+    
+    from .. import admin_menu
+    menu.extend(admin_menu)
+    
+    for p in plugins_f.plugins:
+        if hasattr(p, "admin_menu"):
+            menu.extend(p.admin_menu)
+    
+    section_dict = {v[2]:v for v in menu}
+    section_keys = list(section_dict.keys())
+    section_keys.sort()
+    
+    menu = [section_dict[k] for k in section_keys]
+    return menu

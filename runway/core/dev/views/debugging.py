@@ -55,7 +55,7 @@ def test_page(request):
     
     request.add_documentation("dev.home")
     
-    request.render['left-dropdowns'] = [
+    request.render['dropdowns'] = [
         render_f.dropdown_menu("Block menu", "block", "fa-power-off", "", "", (
             render_f.dropdown_menu_item("Item 1", "yesterday", "fa-newspaper", "lorem ipsum loads of bacon is really really tasty and I love the smell of bacon", "?url=left-dropdowns.block.item1"),
             render_f.dropdown_menu_item("Item 2", "2 days ago", "fa-house", "lorem ipsum", "?url=left-dropdowns.block.item2"),
@@ -64,9 +64,6 @@ def test_page(request):
             render_f.dropdown_menu_item("Item 1", "yesterday", "fa-newspaper", "lorem ipsum loads of bacon is really really tasty and I love the smell of bacon", "?url=left-dropdowns.inline.item1"),
             render_f.dropdown_menu_item("Item 2", "2 days ago", "fa-home", "lorem ipsum", "?url=left-dropdowns.inline.item2"),
         )),
-    ]
-    
-    request.render['right-dropdowns'] = [
         render_f.dropdown_menu("Status updates", "bars", "fa-power-off", "", "", (
             render_f.dropdown_menu_item("Item 1", "One hour", "danger", "60", "?url=bars1"),
             render_f.dropdown_menu_item("Item 2", "Three hours", "success", "80", "?url=bars2"),

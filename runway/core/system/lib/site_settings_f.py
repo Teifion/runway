@@ -12,11 +12,8 @@ _server_ini = None
 
 _settings_structure = []
 _hidden_settings = {
-    "side_menu": {},
-    "top_menu": {},
-    
-    "render.side_menu": [],
-    "render.top_menu": [],
+    "site_menu": {},
+    "render.site_menu": [],
 }
 
 def get_setting(name, default=None):
@@ -117,8 +114,4 @@ def include_plugin(setting_list):
         _settings_structure[index][1].extend(group_contents)
 
 def process_settings():
-    # First off, lets sort out the order of this side menu
-    # menu_items = {v['name']:v['order'] for v in _hidden_settings['side_menu'].values()}
-    
-    
-    _hidden_settings['render.side_menu'] = tuple(_hidden_settings['side_menu'].values())
+    _hidden_settings['render.site_menu'] = tuple(_hidden_settings['site_menu'].values())

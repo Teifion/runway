@@ -45,6 +45,3 @@ def includeme(config):
     from .widgets import (
         example_widget,
     )
-    
-    # from ...core.hooks import append_to_hook
-    # append_to_hook("admin.sections", lambda: ("widgets.admin.home", "fa-tachometer", "Widgets", "widgets.admin"))

@@ -12,8 +12,7 @@ def sort_menu(the_menu):
     return new_menu
 
 def order_menus():
-    site_settings_f._hidden_settings['side_menu'] = sort_menu(site_settings_f._hidden_settings['side_menu'])
-    site_settings_f._hidden_settings['top_menu'] = sort_menu(site_settings_f._hidden_settings['top_menu'])
+    site_settings_f._hidden_settings['site_menu'] = sort_menu(site_settings_f._hidden_settings['site_menu'])
 
 
 """

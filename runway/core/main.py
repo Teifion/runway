@@ -59,7 +59,7 @@ def routes(config, routing_name=""):
 
 def plugin_routes(config, route_settings, routing_name=""):
     from .. import plugins
-    from .plugins.lib import find
+    from .plugins.lib import find, plugins_f
     from .system.lib import site_settings_f, user_settings_f
     
     for plugin_name in find.scan_for_plugins(_folder_path):
@@ -68,6 +68,8 @@ def plugin_routes(config, route_settings, routing_name=""):
         
         exec("from ..plugins import %s" % plugin_name, plugins.__dict__)
         the_plugin = plugins.__dict__[plugin_name]
+        
+        plugins_f.plugins.append(the_plugin)
         
         if hasattr(the_plugin, "route_prefix"):
             config.include(the_plugin, route_prefix=routing_name+the_plugin.route_prefix)
@@ -78,11 +80,8 @@ def plugin_routes(config, route_settings, routing_name=""):
         if hasattr(the_plugin, "site_settings"):
             site_settings_f.include_plugin(the_plugin.site_settings)
         
-        if hasattr(the_plugin, "side_menu"):
-            site_settings_f._hidden_settings['side_menu'][the_plugin.side_menu['id']] = the_plugin.side_menu
-        
-        if hasattr(the_plugin, "top_menu"):
-            site_settings_f._hidden_settings['top_menu'][the_plugin.top_menu['id']] = the_plugin.top_menu
+        if hasattr(the_plugin, "site_menu"):
+            site_settings_f._hidden_settings['site_menu'][the_plugin.site_menu['id']] = the_plugin.site_menu
     
     return config
 
