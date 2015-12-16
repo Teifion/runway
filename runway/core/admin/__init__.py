@@ -138,6 +138,13 @@ def usage_views(config):
     
     config.add_view(usage.latest, route_name='admin.usage.latest', renderer='templates/usage/latest.pt', permission='admin.usage')
 
+def audit_views(config):
+    from .views import audit
+    
+    config.add_route('admin.audit.list_logs', 'audit/list_logs')
+    
+    config.add_view(audit.list_logs, route_name='admin.audit.list_logs', renderer='templates/audit/list_logs.pt', permission='admin.usage')
+
 def documentation_views(config):
     from ..documentation import basic_view
     from . import documentation
@@ -169,9 +176,10 @@ def documentation_views(config):
 def init_auth():
     from ..system.lib import auth
     
-    ag = auth.add("admin", 'Moderator',                 {'moderator', 'user.view', 'user.search'}, rank=1, admin_rank=1)
+    ag = auth.add("admin", 'Moderator',                 {'moderator', 'user.view', 'user.search', 'aggregate_usage'}, rank=1, admin_rank=1)
     ag = auth.add("admin", 'Administrator',        ag | {'user.edit', 'user.create'}, rank=2, admin_rank=2)
-    ag = auth.add("admin", 'Senior administrator', ag | {'usage', 'su'}, rank=3, admin_rank=3)
+    ag = auth.add("admin", 'Senior administrator', ag | {'usage'}, rank=3, admin_rank=3)
+    ag = auth.add("admin", 'Superuser',            ag | {'su'}, rank=3, admin_rank=4)
     
     # Set developer to admin_rank of 10
     auth.RootFactory.__acl__[0].kwargs['admin_rank'] = 10
@@ -184,6 +192,7 @@ def includeme(config):
     user_views(config)
     group_views(config)
     usage_views(config)
+    audit_views(config)
     documentation_views(config)
     init_auth()
     

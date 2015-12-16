@@ -25,6 +25,17 @@ class UserSetting(Base):
     name          = Column(String, primary_key=True)
     value         = Column(String, nullable=False)
 
+class AuditLog(Base):
+    __tablename__ = 'runway_audit_logs'
+    id            = Column(Integer, primary_key=True)
+    user          = Column(Integer, ForeignKey("runway_users.id"), nullable=True)
+    
+    action        = Column(String, nullable=False, default="")
+    details       = Column(String, nullable=False, default="")
+    
+    timestamp     = Column(DateTime)
+    ip            = Column(String, nullable=False, default="")
+
 class ViewLog(Base):
     __tablename__ = 'runway_logs'
     id           = Column(Integer, primary_key=True)
