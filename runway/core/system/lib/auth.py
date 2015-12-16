@@ -75,8 +75,6 @@ class AuthGroup(object):
         self.permissions = set(permissions)
         self.rank = rank
         
-        # print(self.namespace, self.permissions)
-        
         # Allows for custom behaviour
         self.kwargs = kwargs
             
@@ -85,6 +83,7 @@ class AuthGroup(object):
 
 user_groups = []
 permissions = []
+global_permissions = ["view", "loggedin"]
 class RootFactory(object):
     __acl__ = [
         AuthGroup(Allow, 'developer',   {'developer', 'errors', 'su', 'backup'}, rank=5, system_only=True),
@@ -125,6 +124,8 @@ def add(namespace, group, ag_permissions, rank=1, label=None, action=Allow, **kw
 group_lookup = {}
 ag_lookup = {}
 def init():
+    RootFactory.__acl__[3].permissions.update(set(global_permissions))
+    
     for auth_group in RootFactory.__acl__:
         group_lookup[auth_group.name] = tuple(auth_group.permissions)
         ag_lookup[auth_group.name] = auth_group
