@@ -33,8 +33,6 @@ def install_module(the_plugin):
     """
     Called when we have nothing for a module and need to install it from scratch
     """
-    print("INSTALL ", the_plugin.route_prefix)
-    
     # with transaction.manager:
     #     site_settings_f.install_settings(install_f.get_module_settings(the_plugin))
     
