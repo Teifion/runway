@@ -112,8 +112,8 @@ def main(global_config, **settings):
         # warnings.simplefilter('error', SAWarning)
         
         inspector = Inspector.from_engine(engine)
-        _settings_table_found = "runway_settings" in inspector.get_table_names()
-    
+        _settings_table_found = "runway_settings" in inspector.get_table_names()    
+        
     if not _settings_table_found:
         print("\n\n")
         print(cli_f.shell_text("[r]WARNING: No runway_settings table found[/r]"))
@@ -166,6 +166,7 @@ def main(global_config, **settings):
     # Call startup hook
     from .hooks import call_hook
     call_hook("startup")
+    call_hook("post_startup")
     
     if _settings_table_found:
         with transaction.manager:
