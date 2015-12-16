@@ -14,7 +14,7 @@ class UserTests(RunwayTester):
             "/",
             "Error trying to view the Runway homepage",
         )
-        
+    
     def test_general(self):
         with transaction.manager:
             DBSession.execute("DELETE FROM {} WHERE id = -6789".format(User.__tablename__))
@@ -38,7 +38,7 @@ class UserTests(RunwayTester):
         
         page_result = self.make_request(
             app,
-            "/user/control_panel",
+            "/user/account",
             "Error trying to view user control panel",
         )
         
