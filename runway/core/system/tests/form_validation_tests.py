@@ -35,5 +35,5 @@ class FunctionTester(unittest.TestCase):
         self.assertEqual(results['good_empty_value'], "")
         self.assertEqual(results['bad_empty_value'], "text")
         
-        self.assertEqual(errors['good_empty_value'], ["Expected a non-empty value"])
+        self.assertEqual(errors['good_empty_value'], ["Expected a non-empty value, make sure you've not left this field accidentally blank"])
         
