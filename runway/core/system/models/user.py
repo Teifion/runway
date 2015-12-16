@@ -9,6 +9,7 @@ from sqlalchemy import (
 
 from pyramid.security import (
     forget,
+    Authenticated,
 )
 
 from sqlalchemy import func
@@ -102,8 +103,6 @@ class User(Base):
             # self._permissions.extend(auth.group_lookup[g])
             self._permissions.append(g)
         
-        self._permissions.extend(["view", "loggedin"])
-        
         # self._permissions = set(self._permissions)
         self._permissions = auth.PermissionSet(self._permissions)
         return self._permissions
@@ -177,7 +176,7 @@ def groupfinder(user_id, request):
         request.user = the_user
         DBSession.expunge(the_user)
     
-    return request.user.permissions() | {"loggedin"}
+    return request.user.permissions() | {"loggedin", Authenticated}
 
 class UserRelationshipType(Base):
     __tablename__   = 'runway_user_relationship_types'

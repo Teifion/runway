@@ -198,11 +198,12 @@ def includeme(config):
     
     from ..hooks import register_hook, append_to_hook
     register_hook("startup", "Called when the framework starts up (after creating routes etc). Passes no arguments.")
+    register_hook("post_startup", "Called after startup.")
     
     from .lib import site_settings_f, user_settings_f, render_f
     append_to_hook("startup", site_settings_f.process_settings)
     append_to_hook("startup", user_settings_f.process_settings)
-    append_to_hook("startup", render_f.order_menus)
+    append_to_hook("post_startup", render_f.order_menus)
     
     # Commands
     from ...core.commands import register_commands
