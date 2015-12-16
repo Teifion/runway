@@ -7,6 +7,7 @@ from sqlalchemy.sql.expression import label
 import transaction
 from datetime import date
 from collections import namedtuple
+from time import sleep
 
 from ...lib import common
 from . import errors_f
@@ -60,12 +61,22 @@ def auth(user_password, entered_password):
 
 def update_session_ip(user_id, session_ip):
     with transaction.manager:
-        DBSession.execute("UPDATE {table} SET session_ip = '{session_ip}' WHERE id = {user_id:d}".format(
-            table      = User.__tablename__,
-            session_ip = session_ip,
-            user_id    = user_id,
-        ))
+        try:
+            DBSession.execute("UPDATE {table} SET session_ip = '{session_ip}' WHERE id = {user_id:d}".format(
+                table      = User.__tablename__,
+                session_ip = session_ip,
+                user_id    = user_id,
+            ))
+        except Exception as e:
+            sleep(0.1)
+            DBSession.execute("UPDATE {table} SET session_ip = '{session_ip}' WHERE id = {user_id:d}".format(
+                table      = User.__tablename__,
+                session_ip = session_ip,
+                user_id    = user_id,
+            ))
+        
         DBSession.execute("COMMIT")
+        
 
 def get_user_security_checks(user_id):
     return DBSession.query(SecurityCheck).filter(SecurityCheck.user == user_id)
