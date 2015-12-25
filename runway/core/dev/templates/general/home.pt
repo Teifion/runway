@@ -106,7 +106,7 @@ sidebar_active('developer');
             <a href="${request.route_url('dev.debugging.test_page')}" class="btn btn-block btn-default">Test page</a>
             
             <br /><br />
-            <a href="${request.route_url('dev.restart')}" class="btn btn-block btn-default">Restart</a>
+            <a href="${request.route_url('admin.schedule_restart')}" class="btn btn-block btn-default">Restart</a>
           </div>
         </div>
       </div>

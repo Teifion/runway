@@ -24,7 +24,7 @@ sidebar_active('developer');
           </div>
           
           <div class="panel-body">
-            <a href="${request.route_url('dev.restart')}" class="btn btn-danger pull-right">
+            <a href="${request.route_url('admin.schedule_restart')}" class="btn btn-danger pull-right">
               <i class="fa fa-fw fa-refresh"></i>
               Restart
             </a>

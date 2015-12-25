@@ -10,9 +10,9 @@ import json
 def slow_pages(request):
     request.do_not_log = True
     
-    data = debugging.get_slow_pages()
+    data   = debugging.get_slow_pages()
     
-    layout      = common.render("viewer")
+    layout = common.render("viewer")
     
     return dict(
         title       = 'Slow pages',

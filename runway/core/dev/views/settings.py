@@ -32,7 +32,7 @@ def module_scan(request):
             site_settings_f.set_setting("runway.modules.{}".format(plugin_name), "False")
             settings["runway.modules.{}".format(plugin_name)] = "False"
     
-    layout      = common.render("viewer")
+    layout = common.render("viewer")
     
     return dict(
         title         = "Developer: Settings",

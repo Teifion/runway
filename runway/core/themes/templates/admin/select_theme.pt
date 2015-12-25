@@ -30,7 +30,7 @@
               Back to Themes
             </a>
             
-            <a href="${request.route_url('dev.restart')}" class="btn btn-default" tal:condition="'developer' in request.user.permissions()">Restart</a>
+            <a href="${request.route_url('admin.schedule_restart')}" class="btn btn-default" tal:condition="'developer' in request.user.permissions()">Restart</a>
           </div>
         </div>
       </div>

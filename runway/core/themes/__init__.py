@@ -27,6 +27,11 @@ def includeme(config):
     from .lib import themes_f
     from ..hooks import append_to_hook
     
+    from ...core.commands import register_commands
+    from .commands import themes
+    
+    register_commands(themes)
+    
     append_to_hook("startup", themes_f._startup)
     
     

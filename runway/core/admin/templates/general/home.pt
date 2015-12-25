@@ -165,7 +165,7 @@
           </div>
           
           <div class="panel-body">
-            <a href="${request.route_url('admin.site_stats')}" class="btn btn-default btn-block" style="text-align:left;padding-left:10px;" tal:condition="'admin.usage' in request.user.permissions()">
+            <a href="${request.route_url('admin.site_stats')}" class="btn btn-default btn-block" style="text-align:left;padding-left:10px;" tal:condition="'admin.aggregate_usage' in request.user.permissions()">
               <!-- <i class="fa fa-users fa-fw"></i> -->
               Site stats
             </a>
@@ -178,14 +178,14 @@
         </div>
         
         
-        <div class="panel panel-default" tal:condition="'admin.usage' in request.user.permissions()">
+        <div class="panel panel-default" tal:condition="'admin.audit' in request.user.permissions()">
           <div class="panel-heading">
             <i class="fa fa-check fa-fw"></i>
             Audit
           </div>
           
           <div class="panel-body">
-            <a href="${request.route_url('admin.audit.list_logs')}" class="btn btn-default btn-block" style="text-align:left;padding-left:10px;" tal:condition="'admin.usage' in request.user.permissions()">
+            <a href="${request.route_url('admin.audit.list_logs')}" class="btn btn-default btn-block" style="text-align:left;padding-left:10px;" tal:condition="'admin.audit' in request.user.permissions()">
               <i class="fa fa-bars fa-fw"></i>
               Audit logs
             </a>

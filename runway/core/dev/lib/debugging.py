@@ -12,6 +12,7 @@ def get_slow_pages(path = None):
         ViewLog.path,
         l,
         c,
+        label("cumulative_time", func.sum(ViewLog.load_time)),
         label("stddev", func.stddev_pop(ViewLog.load_time)),
         label("maximum", func.max(ViewLog.load_time)),
         label("minimum", func.min(ViewLog.load_time)),

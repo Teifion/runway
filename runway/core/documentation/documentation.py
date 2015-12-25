@@ -5,7 +5,7 @@ class DocumentationHelp(Documentation):
     route = "documentation.help"
     
     title = "Using the documentation"
-    brief = "A brief walkthrough of how documentation works on Venustate."
+    brief = "A brief walkthrough of how documentation works on this system."
     keywords = ("documentation", "help")
     
     icons = ("question",)

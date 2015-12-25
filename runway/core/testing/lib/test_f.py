@@ -19,7 +19,7 @@ from ...base import (
 )
 from ...system.models.user import User
 
-from ...system.lib import errors_f
+from ...system.lib import errors_f, site_settings_f
 
 from ...main import main, routes, plugin_routes
 
@@ -56,6 +56,8 @@ class RunwayTesterBase(unittest.TestCase):
     _multiprocess_can_split_ = True    
 
 class RunwayTester(RunwayTesterBase):
+    plugin_name = None
+    
     def setUp(self):
         self.session = _initTestingDB()
         self.config = plugin_routes(routes(testing.setUp()), route_settings=AlwaysTrueDict())
@@ -220,7 +222,7 @@ Msg: {msg}""".format(
                 if exception_str in allow_graceful:
                     failure_handled = True
                 
-                elif exception_str == expect_exception:
+                elif exception_str.strip() == expect_exception.strip():
                     failure_handled = True
             
             else:
@@ -230,7 +232,7 @@ Msg: {msg}""".format(
                 if exception_re != None:
                     exception_str = exception_re.groups()[0].strip()
                 
-                if exception_str == expect_exception:
+                if exception_str.strip() == expect_exception.strip():
                     failure_handled = True
             
             # Now, do we fail?

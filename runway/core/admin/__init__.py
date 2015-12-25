@@ -1,7 +1,7 @@
 admin_menu = (
     ("admin.settings", "fa-gears", "Settings", "su"),
     ("themes.admin.home", "fa-paste", "Themes", "su"),
-    ("admin.usage.home", "fa-line-chart", "Usage reports", "admin.usage"),
+    ("admin.usage.home", "fa-line-chart", "Usage reports", "admin.aggregate_usage"),
     ("admin.groups.list", "fa-group", "User groups", ""),
     ("cron.admin.home", "fa-clock-o", "Cron jobs", "cron.admin"),
 )
@@ -16,7 +16,7 @@ def general_views(config):
     
     config.add_view(general.home, route_name='admin.home', renderer='templates/general/home.pt', permission='admin')
     config.add_view(general.settings, route_name='admin.settings', renderer='templates/general/settings.pt', permission='su')
-    config.add_view(general.site_stats, route_name='admin.site_stats', renderer='templates/general/site_stats.pt', permission='admin.usage')
+    config.add_view(general.site_stats, route_name='admin.site_stats', renderer='templates/general/site_stats.pt', permission='admin.aggregate_usage')
     config.add_view(general.schedule_restart, route_name='admin.schedule_restart', renderer='templates/general/schedule_restart.pt', permission='admin.su')
 
 def group_views(config):
@@ -134,7 +134,7 @@ def usage_views(config):
     config.add_view(usage.group_history, route_name='admin.usage.group.history', renderer='templates/usage/group_history.pt', permission='admin.usage')
     config.add_view(usage.group_overview, route_name='admin.usage.group.overview', renderer='templates/usage/group_overview.pt', permission='admin.usage')
     
-    config.add_view(usage.aggregate, route_name='admin.usage.aggregate', renderer='templates/usage/aggregate.pt', permission='admin.usage')
+    config.add_view(usage.aggregate, route_name='admin.usage.aggregate', renderer='templates/usage/aggregate.pt', permission='admin.aggregate_usage')
     
     config.add_view(usage.latest, route_name='admin.usage.latest', renderer='templates/usage/latest.pt', permission='admin.usage')
 
@@ -143,7 +143,7 @@ def audit_views(config):
     
     config.add_route('admin.audit.list_logs', 'audit/list_logs')
     
-    config.add_view(audit.list_logs, route_name='admin.audit.list_logs', renderer='templates/audit/list_logs.pt', permission='admin.usage')
+    config.add_view(audit.list_logs, route_name='admin.audit.list_logs', renderer='templates/audit/list_logs.pt', permission='admin.audit')
 
 def documentation_views(config):
     from ..documentation import basic_view
@@ -178,7 +178,7 @@ def init_auth():
     
     ag = auth.add("admin", 'Moderator',                 {'moderator', 'user.view', 'user.search', 'aggregate_usage'}, rank=1, admin_rank=1)
     ag = auth.add("admin", 'Administrator',        ag | {'user.edit', 'user.create'}, rank=2, admin_rank=2)
-    ag = auth.add("admin", 'Senior administrator', ag | {'usage'}, rank=3, admin_rank=3)
+    ag = auth.add("admin", 'Senior administrator', ag | {'usage', 'audit'}, rank=3, admin_rank=3)
     ag = auth.add("admin", 'Superuser',            ag | {'su'}, rank=3, admin_rank=4)
     
     # Set developer to admin_rank of 10

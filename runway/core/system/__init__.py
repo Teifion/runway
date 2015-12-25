@@ -35,7 +35,7 @@ Takes effect on restart"""),
 The email address for anything were the developer needs to be emailed."""),
         ("runway.system.admin_email", "admin", "Admin email", "str", "", """
 The email address for the site owner."""),
-        ("runway.system.name", "developer", "Site name", "str", "Venustate", """
+        ("runway.system.name", "developer", "Site name", "str", "Runway", """
 The name of the site. Takes effect on restart"""),
         ("runway.system.dev_message", "developer", "Developer message", "str", "", """
 A developer written message to appear on the front page of the site."""),

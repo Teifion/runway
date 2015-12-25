@@ -143,6 +143,8 @@ def edit(request):
             password1 = request.params['password1']
             password2 = request.params['password2']
             
+            # if user_f.auth(the_user.password, password)
+            
             if password1 != "":
                 if password1 == password2:
                     the_user.new_password(password1)

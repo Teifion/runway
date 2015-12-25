@@ -12,10 +12,9 @@
   <div metal:fill-slot="content">
     <script src="${request.rel('static/validator.js')}"></script>
     <script type="text/javascript" charset="utf-8">
+      sidebar_active('admin');
+      
       $(function() {
-        $('#sidebar_admin').addClass('menu-active');
-        $('#sidebar_admin a').addClass('icon-active');
-        
         $('#theme_panel_${site_theme}').removeClass('panel-default');
         $('#theme_panel_${site_theme}').addClass('panel-success');
       });

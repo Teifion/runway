@@ -33,6 +33,9 @@ def perform_backup(config):
     with transaction.manager:
         site_settings_f.set_setting("runway.latest_backup", file_path)
     
+    os.system("rm {};".format(file_path, "/tmp/temp_duplicate.sql"))
+    os.system("cp {} {};".format(file_path, "/tmp/temp_duplicate.sql"))
+    
     return file_path
 
 def restore(file_path):

@@ -30,14 +30,14 @@ def general_views(config):
     from .views import general
     
     config.add_route('dev.home', 'home')
-    config.add_route('dev.restart', 'restart')
+    # config.add_route('dev.restart', 'restart')
     config.add_route('dev.generate_exception', 'generate_exception')
     config.add_route('dev.installer', 'installer')
     config.add_route('dev.schemas', 'schemas')
     config.add_route('dev.get_backup', 'get_backup')
     
     config.add_view(general.home, route_name='dev.home', renderer='templates/general/home.pt', permission='developer')
-    config.add_view(general.restart, route_name='dev.restart', renderer='templates/general/restart.pt', permission='developer')
+    # config.add_view(general.restart, route_name='dev.restart', renderer='templates/general/restart.pt', permission='developer')
     config.add_view(general.generate_exception, route_name='dev.generate_exception', permission='errors')
     config.add_view(general.installer, route_name='dev.installer', renderer='templates/general/installer.pt', permission='developer')
     config.add_view(general.schemas, route_name='dev.schemas', renderer='templates/general/schemas.pt', permission='developer')

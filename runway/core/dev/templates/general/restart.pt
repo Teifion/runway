@@ -34,7 +34,7 @@ sidebar_active('developer');
           
           <div class="panel-body">
             
-            <form action="${request.route_url('dev.restart')}" method="post" accept-charset="utf-8">
+            <form action="${request.route_url('admin.schedule_restart')}" method="post" accept-charset="utf-8">
               Ini file: ${ini_file}
               <br /><br />
               
