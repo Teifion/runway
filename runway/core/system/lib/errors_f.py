@@ -35,6 +35,7 @@ graceful_images = {
     "Not found": "1_to_10",
     "Process": "workflow",
     "Password": "passwords",
+    "Developer": "",
     # "Integrity": ""
     # "Already done": "",
 }

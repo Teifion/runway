@@ -16,12 +16,13 @@ def change_theme(theme_name):
     
     name_list = [t.name for t in themes_f.get_themes()]
     
-    if theme_name in name_list:
-        themes_f._write_theme(theme_name)
-        site_settings_f.set_setting("runway.themes.site_theme", theme_name)
-        return cli_f.shell_text("[g]Success: Theme changed[/g]")
-    else:
-        return cli_f.shell_text("[r]Error: No theme named {}[/r]".format(theme_name))
+    with transaction.manager:
+        if theme_name in name_list:
+            themes_f._write_theme(theme_name)
+            site_settings_f.set_setting("runway.themes.site_theme", theme_name)
+            return cli_f.shell_text("[g]Success: Theme changed[/g]")
+        else:
+            return cli_f.shell_text("[r]Error: No theme named {}[/r]".format(theme_name))
 
 def list_themes():
     """

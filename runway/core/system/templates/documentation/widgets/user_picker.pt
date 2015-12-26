@@ -1,0 +1,65 @@
+<div metal:use-macro="layout">
+  <div metal:fill-slot="sidebar_logo">
+    Developer
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('dev.home')}">Developer</a></li>
+    <li><a href="${request.route_url('dev.documentation.home')}">Documentation</a></li>
+    <li class="active">User Picker Widget</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script type="text/javascript" charset="utf-8">
+sidebar_active('developer');
+    </script>
+    
+    <div class="row first-row">
+      <div class="col-md-12">
+        <h4>Related documents</h4>
+        <a href="${request.route_url(w.route)}" tal:repeat="w documents_by_tag('widgets', the_documentation.name)" class="btn btn-xs btn-info">${w.title}</a>
+      </div>
+      
+      <div class="col-md-12">
+        <h3>UserPicker widget</h3>
+        It takes a standard input textfield and adds a modal window to it. The modal window allows you to search for users by username or actual name.
+        
+        <h3>Options</h3>
+        The call can be made to either <code>user_picker</code> or <code>user_multi_picker</code> depending on if you want to allow multiple users to be selected.
+        
+        <h3>Code</h3>
+        <h4>View code</h4>
+        <pre>from ....core.system.js_widgets import UserPicker
+
+def view_function(request):
+    UserPicker(request)</pre>
+    
+        <h4>HTML code</h4>
+        It varies from widget to widget, here is the user picker
+        <pre><strong style="font-size:1.1em;">Single picker</strong>
+&lt;div class="input-group"&gt;
+  &lt;span class="input-group-addon btn-info btn" onclick="user_picker('#user_search');"&gt;
+    &lt;i class="fa fa-users fa-fw"&gt;&lt;/i&gt;
+  &lt;/span&gt;
+  &lt;input type="text" class="form-control" id="user_search" name="user_name" placeholder="" /&gt;
+&lt;/div&gt;
+
+<strong style="font-size:1.1em;">Multi picker</strong>
+&lt;div class="input-group"&gt;
+  &lt;span class="input-group-addon btn-info btn" onclick="user_multi_picker('#user_search');"&gt;
+    &lt;i class="fa fa-users fa-fw"&gt;&lt;/i&gt;
+  &lt;/span&gt;
+  &lt;input type="text" class="form-control" id="user_search" name="user_name" placeholder="" /&gt;
+&lt;/div&gt;</pre>
+
+
+      <h4>Form processing code</h4>
+      user_f.find_groups
+      user_f.search_multiuser_string
+
+
+      </div>
+    </div>
+  </div>
+</div>

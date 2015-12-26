@@ -354,7 +354,7 @@ def get_groups(user_id=None):
         group_table.username
     )
     
-def save(the_user, flush=False):
+def save(the_user, flush=False, return_id=False):
     try:
         DBSession.add(the_user)
         if flush: DBSession.flush()
@@ -363,6 +363,16 @@ def save(the_user, flush=False):
         print(e.args)
         print("\n\n")
         raise e
+    
+    if return_id:
+        return DBSession.query(
+            User.id
+        ).filter(
+            User.username == the_user.username
+        ).order_by(
+            User.id.desc()
+        ).first()[0]
+
     
 
 def add_permission_group_membership(user_id, group_name):

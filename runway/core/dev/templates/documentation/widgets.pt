@@ -12,13 +12,13 @@
   
   <div metal:fill-slot="content">
     <script type="text/javascript" charset="utf-8">
-sidebar_active('developer');
+      sidebar_active('developer');
     </script>
     
     <div class="row first-row">
       <div class="col-md-12">
         <h4>Related documents</h4>
-        <a href="${request.route_url(doc_lookup(w).route)}" tal:repeat="w documents_by_tag.get('widgets')" class="btn btn-xs btn-info">${doc_lookup(w).title}</a>
+        <a href="${request.route_url(w.route)}" tal:repeat="w documents_by_tag('widgets', the_documentation.name)" class="btn btn-xs btn-info">${w.title}</a>
       </div>
       
       <div class="col-md-12">

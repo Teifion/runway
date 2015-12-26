@@ -2,6 +2,7 @@ from ...testing.lib.test_f import RunwayTester
 from ...base import DBSession
 from ...system.models.user import User
 import transaction
+import re
 
 class AdminTests(RunwayTester):
     def test_general(self):
@@ -51,6 +52,7 @@ class AdminTests(RunwayTester):
         self.check_request_result(
             form_result,
             "There was an error scheduling a restart",
+            expect_forward = re.compile(r"/cron/user/edit/[0-9]+"),
         )
     
     def test_user_stuff(self):

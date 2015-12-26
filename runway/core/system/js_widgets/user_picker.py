@@ -15,6 +15,10 @@ class UserPicker(JSWidget):
 """
 $(function () {
   $('[data-toggle="popover"]').popover();
+  
+  $('#user_picker_modal').on('shown.bs.modal', function (e) {
+    $('#user_picker_username').focus();
+  })
 });
 """,
 """
@@ -26,8 +30,6 @@ function user_picker (new_target) {
     $('#user_picker_username').val('');
     $('#user_picker_modal_results').html('');
     $('#user_picker_modal').modal({});
-    
-    window.setTimeout(function () {$('#user_picker_username').focus();}, 1);
 }
 
 function user_picker_select (selection) {
