@@ -53,7 +53,7 @@
             </a>
             <br /><br />
             
-            Human time is Venustate's solution to picking irregular series of timestamps.
+            Human time is Runway's solution to picking irregular series of timestamps.
             <br /><br />
             
             Defining a repeating series of timestamps is very easy, as long as they are regular. For example "3rd of each month" is easy, pick the slot in a calendar and you're sorted. This approach fails as soon as they are irregular, for example "the first Monday of every month".

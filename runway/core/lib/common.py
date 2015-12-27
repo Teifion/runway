@@ -228,6 +228,7 @@ def string_to_datetime(the_string, default=None):
         '%Y-%m-%d',
         
         '%H:%M:%S %d/%m/%Y',
+        '%H:%M %d/%m/%Y',
         '%d/%m/%Y',
     )
     
