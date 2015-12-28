@@ -174,7 +174,11 @@ def html_render(einfo=None, context=5, request=None):
             highlight[lnum[0]] = 1
             try: return linecache.getline(the_file, lnum[0])
             finally: lnum[0] += 1
-        vars = cgitb.scanvars(reader, frame, locals)
+            
+        try:
+            vars = cgitb.scanvars(reader, frame, locals)
+        except Exception:
+            raise
         
         rows = []
         if index is not None:

@@ -150,7 +150,7 @@ def main(global_config, **settings):
     from .system.models.user import groupfinder
     
     # User auth
-    authn_policy = AuthTktAuthenticationPolicy('K*WJGU&j8AA ZT?=J1T-TUfH9*lY#!>@' + _folder_name, callback=groupfinder, hashalg='sha512')
+    authn_policy = AuthTktAuthenticationPolicy(key, callback=groupfinder, hashalg='sha512')
     authz_policy = ACLAuthorizationPolicy()
     # authz_policy = RunwayACLAuthorizationPolicy()
     

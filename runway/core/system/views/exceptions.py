@@ -50,12 +50,10 @@ def general_exception(exc, request):
     get_user_object(request)
     
     layout = common.render("viewer")
-
-    
     exc._runway_log_flag = True
     
     for regex, (title, body_func, category) in _graceful_errors:
-        if regex.search(exc.args[0]):
+        if isinstance(exc.args[0], str) and regex.search(exc.args[0]):
             exc.title = title
             exc.message = body_func(exc.args[0])
             exc._runway_log_flag = False

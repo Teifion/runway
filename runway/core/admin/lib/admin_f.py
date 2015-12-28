@@ -237,7 +237,7 @@ def new_initials(display_name):
     return "".join(result).replace(" ", "")
 
 def new_groupname(display_name):
-    groupname = display_name.strip().lower()
+    groupname = display_name.strip().replace(" ", "").lower()
     return groupname
 
 def blank_group():
