@@ -1,0 +1,76 @@
+<div metal:use-macro="layout">
+  <div metal:fill-slot="sidebar_logo">
+    Developer
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('dev.home')}">Developer</a></li>
+    <li class="active">Documentation</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script type="text/javascript" charset="utf-8">
+sidebar_active('developer');
+    </script>
+    
+    <div class="row first-row"
+        tal:define="docs_by_tag documents_by_tag('dev')"
+        tal:condition="len(docs_by_tag) > 0">
+      <div class="col-md-12">
+        <h4>Related documents</h4>
+        <a href="${request.route_url(w.route)}" tal:repeat="w docs_by_tag" class="btn btn-sm btn-info">${w.title}</a>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-12">
+        <h1>What this guide is and isn't</h1>
+        This guide assumes a basic knoledge of the system and how most things work. It is intended as a reference or checklist as opposed to a tutorial. Where possible each section will link to relevant documentation from other modules.
+        <br /><br />
+        
+        <h2>File structure</h2>
+        I suggest copying the empty_module folder across (currently not in the github repo) and using it as a skeleton. The resultant file-structure should look a little something like this:
+        <pre>
+runway/
+  plugins/
+    my_module/
+      actions/
+      commands/
+      jobs/
+      js_widgets/
+      lib/
+      static/
+      templates/
+      tests/
+      triggers/
+      views/
+      widgets/
+      __init__.py
+      documentation.py
+      models.py
+      schema.py
+</pre>
+        
+        <h2>Models</h2>
+        Create the models
+        
+        <h2>Documentation</h2>
+        Create the models
+        
+        <h2>Pages</h2>
+        
+        <h2>Views</h2>
+        
+        <h2>__init__.py</h2>
+        Site settings
+        User settings
+        Admin menu link
+        List of views
+        
+        <h2>Hooks you might want to use</h2>
+        
+      </div>
+    </div>
+  </div>
+</div>

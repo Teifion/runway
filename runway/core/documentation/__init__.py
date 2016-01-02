@@ -60,7 +60,9 @@ def includeme(config):
     documentation_views(config)
     
     from .lib import docs_f
-    from ..hooks import append_to_hook
+    from ..hooks import append_to_hook, register_hook
+    
+    register_hook("collect_docs", "Called when documents are created, any calls to docs_f.document_function should be called via this, not via the startup hook.")
     
     append_to_hook("startup", docs_f.collect_instances)
     

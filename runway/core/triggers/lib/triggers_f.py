@@ -6,7 +6,7 @@ from sqlalchemy.orm import aliased
 from ..models import Trigger, TriggerScript
 from sqlalchemy import and_, or_
 # from .. import human_time
-# from ...system.lib import errors_f
+from ...system.lib import render_f
 from ...system.models.user import User
 from . import script_f
 # from datetime import datetime
@@ -103,3 +103,14 @@ def get_subscribers(trigger_name, *other_tables):
             joins.append((owner_table, and_(owner_table.id == TriggerScript.owner)))
     
     return DBSession.query(*fields).filter(*filters).join(*joins).outerjoin(*outerjoins).order_by(TriggerScript.label)
+
+
+def triggers_pre_render(request):
+    display_flag = any((request.runway_settings.users['allow_triggers'] == 'True',
+        'triggers' in request.user.permissions()
+    ))
+    
+    if display_flag:
+        request.render['user_links'].append(
+            render_f.dropdown_menu_item("", "", "link", "Triggers", request.route_url('triggers.user.control_panel'))
+        )

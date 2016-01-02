@@ -5,7 +5,7 @@ from collections import namedtuple
 from ..models import CronJob, CronLog, CronInstance
 from sqlalchemy import and_, or_
 from .. import human_time
-from ...system.lib import errors_f
+from ...system.lib import errors_f, render_f
 from ...system.models.user import User
 from datetime import datetime
 
@@ -289,3 +289,13 @@ def background_process():
     job_list = tuple(get_pending_jobs())
     for j in job_list:
         run_job(j, runner=2)
+
+def cron_pre_render(request):
+    display_flag = any((request.runway_settings.users['allow_cron'] == 'True',
+        'cron' in request.user.permissions()
+    ))
+    
+    if display_flag:
+        request.render['user_links'].append(
+            render_f.dropdown_menu_item("", "", "clock-o", "Cron jobs", request.route_url('cron.user.control_panel'))
+        )

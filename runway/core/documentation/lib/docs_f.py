@@ -1,9 +1,28 @@
 from ..models import Documentation
 from collections import OrderedDict, defaultdict
 from functools import lru_cache
+from ....core.hooks.lib.funcs import call_hook
+import os
+
+_base_path = os.path.abspath(os.path.dirname(__file__)).replace("core/documentation/lib", "")
 
 _docs = {}
 _keywords = defaultdict(list)
+
+def document_function(full_file_path, the_function):
+    """
+    Any calls to this function should be via the "collect_docs" hook
+    rather than the "startup" hook.
+    """
+    file_path = full_file_path.replace(_base_path, "/")
+    
+    print("\n\n")
+    print(file_path)
+    print(the_function.__doc__.strip())
+    print(dir(the_function))
+    # Print this so if we call this function by mistake we know what to search the codebase for
+    print("Search code: stdhenrstoidnrs")
+    print("\n\n")
 
 def sort_docs(names):
     """
@@ -39,6 +58,8 @@ def collect_instances():
     
     for k in _keywords.keys():
         _keywords[k] = sort_docs(_keywords[k])
+    
+    call_hook("collect_docs")
 
 @lru_cache(maxsize=64)
 def documents_by_tag(tag, *skip):

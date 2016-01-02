@@ -68,6 +68,7 @@ def documentation_views(config):
     config.add_route('dev.documentation.testing', 'documentation/testing')
     config.add_route('dev.documentation.form_validation', 'documentation/form_validation')
     config.add_route('dev.documentation.demo_mode', 'documentation/demo_mode')
+    config.add_route('dev.documentation.new_module', 'documentation/new_module')
     
     config.add_view(
         basic_view(documentation.Widgets),
@@ -101,6 +102,13 @@ def documentation_views(config):
         basic_view(documentation.DevHome),
         route_name='dev.documentation.home',
         renderer="templates/documentation/home.pt",
+        permission="developer"
+    )
+    
+    config.add_view(
+        basic_view(documentation.NewModule),
+        route_name='dev.documentation.new_module',
+        renderer="templates/documentation/new_module.pt",
         permission="developer"
     )
 

@@ -9,6 +9,7 @@ from datetime import date
 from collections import namedtuple
 from time import sleep
 
+from ....core.documentation.lib.docs_f import document_function
 from ...lib import common
 from . import errors_f
 
@@ -545,6 +546,9 @@ def build_signthrough(agent_name):
     return signthrough_form_html.format(agent_name=agent_name)
 
 def add_user(the_user, return_id=False):
+    """
+    Docstring
+    """
     DBSession.add(the_user)
     
     if return_id:
@@ -553,3 +557,8 @@ def add_user(the_user, return_id=False):
         
         if user_id is None: return None
         return user_id[0]
+
+# WIP, not used yet
+def document_functions():
+    pass
+    # document_function(__file__, add_user)

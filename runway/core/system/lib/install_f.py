@@ -131,6 +131,9 @@ def system_install():
     
     from ...cron.lib.installer import install_jobs as cron_install
     cron_install()
+    
+    from ...widgets.lib.installer import install as widgets_install
+    widgets_install()
 
 def create_tables():
     engine = DBSession.get_bind()

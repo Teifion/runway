@@ -82,6 +82,7 @@ def includeme(config):
     from ...core.hooks import append_to_hook
     
     append_to_hook("startup", cron_f.collect_instances)
+    append_to_hook("pre_render", cron_f.cron_pre_render)
     
     from ...core.commands import register_commands
     from .commands import cron

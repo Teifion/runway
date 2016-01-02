@@ -21,6 +21,15 @@ no_section_grep = re.compile(r"^/([a-zA-Z0-9_]+)/[a-zA-Z0-9_]+$")
 section_grep = re.compile(r"(?:/[a-zA-Z]+)?/([a-zA-Z0-9_]+?)/")
 local_section_grep = re.compile(r"([a-zA-Z0-9_]+?)/")
 
+def test_tween_skip(request):
+    if request.environ['PATH_INFO'][:8] == "/static/":
+        return True
+    
+    if request.environ['PATH_INFO'][:8] == "/favicon":
+        return True
+    
+    return False
+
 def make_rel(request):
     l = len(request.path.split("/"))
     def rel(link):
@@ -29,7 +38,7 @@ def make_rel(request):
 
 def logging_tween_factory(handler, registry):
     def logging_tween(request):
-        if request.environ['PATH_INFO'][:8] == "/static/":
+        if test_tween_skip(request):
             request.anonymous = False
             return handler(request)
         
@@ -122,7 +131,8 @@ def logging_tween_factory(handler, registry):
 
 def settings_tween_factory(handler, registry):
     def settings_tween(request):
-        if request.environ['PATH_INFO'][:8] == "/static/":
+        if test_tween_skip(request):
+            request.runway_settings = defaultdict(dict)
             return handler(request)
         
         request.runway_settings = site_settings_f._settings_collection
@@ -138,15 +148,6 @@ def _adder(request, attr):
             the_attr.append(value)
             
     return f
-
-def test_tween_skip(request):
-    if request.environ['PATH_INFO'][:8] == "/static/":
-        return True
-    
-    if request.environ['PATH_INFO'][:8] == "/favicon":
-        return True
-    
-    return False
 
 def render_tween_factory(handler, registry):
     def render_tween(request):
@@ -166,8 +167,6 @@ def render_tween_factory(handler, registry):
         request.add_js_raw   = _adder(request, "_js_raws")
         request.add_css_raw  = _adder(request, "_css_raws")
         request.add_html_raw = _adder(request, "_html_raws")
-        
-        call_hook("pre_render", request=request)
         
         return handler(request)
         
@@ -193,13 +192,17 @@ def menu_tween_factory(handler, registry):
             if all(req in permissions for req in sm['permissions']):
                 site_menu.append(sm)
         
+        
         request.render["site_menu"] = site_menu
+        request.render["user_links"] = []
         request.render["documentation"] = []
         
         # request.add_documentation = _adder(request, "_documentation")
         request.add_documentation = request.render["documentation"].append
         request.get_docs = lambda: (docs_f._docs[d] for d in request.render["documentation"])
         request.is_documentation = False
+        
+        call_hook("pre_render", request=request)
         
         return handler(request)
         

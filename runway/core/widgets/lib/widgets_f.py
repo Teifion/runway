@@ -1,5 +1,6 @@
 from ...base import DBSession
 from ...system.models.user import User
+from ...system.lib import render_f
 
 from collections import namedtuple
 from ..models import UserWidget, RunwayWidget
@@ -41,3 +42,13 @@ def save(the_uwidget, the_rwidget=None, return_id=False):
     
     if return_id:
         return DBSession.query(UserWidget.id).filter(UserWidget.label == the_uwidget.label).order_by(UserWidget.id.desc()).first()[0]
+
+def widgets_pre_render(request):
+    display_flag = any((request.runway_settings.users['allow_widgets'] == 'True',
+        'widgets' in request.user.permissions()
+    ))
+    
+    if display_flag:
+        request.render['user_links'].append(
+            render_f.dropdown_menu_item("", "", "tachometer", "Widgets", request.route_url('widgets.user.control_panel'))
+        )

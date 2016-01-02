@@ -102,6 +102,8 @@ def includeme(config):
     
     append_to_hook("startup", actions_f.collect_actions)
     append_to_hook("startup", triggers_f.collect_triggers)
+    append_to_hook("pre_render", triggers_f.triggers_pre_render)
+    
 
 # Allows much easier calling to commonly referenced things
 from .lib.triggers_f import call_trigger

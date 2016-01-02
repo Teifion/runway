@@ -48,6 +48,18 @@ class FormValidation(Documentation):
     icon_colour = "info"
 
 
+class NewModule(Documentation):
+    name = "dev.new_module"
+    route = "dev.documentation.new_module"
+    
+    title = "New module checklist"
+    brief = "A list of steps to take in creating a new module."
+    keywords = ("dev", "new_module")
+    
+    icons = ("plus", "power-off")
+    icon_colour = "info"
+
+
 class DemoMode(Documentation):
     name = "dev.demo_mode"
     route = "dev.documentation.demo_mode"

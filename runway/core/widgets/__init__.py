@@ -36,6 +36,8 @@ def includeme(config):
     from ..hooks import append_to_hook
     
     append_to_hook("startup", widgets_f.collect_widgets)
+    append_to_hook("pre_render", widgets_f.widgets_pre_render)
+    
     
     from ..system.lib import auth
     auth.add("widgets", 'User', set())

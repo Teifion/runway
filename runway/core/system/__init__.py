@@ -213,8 +213,11 @@ def includeme(config):
     append_to_hook("startup", user_settings_f.process_settings)
     append_to_hook("post_startup", render_f.order_menus)
     
+    from .lib import user_f, groups_f
+    append_to_hook("collect_docs", user_f.document_functions)
+    append_to_hook("pre_render", groups_f.groups_pre_render)
     
-    append_to_hook("pre_render", lambda request: print("\n\n{}\n\n".format(request.path)))
+    # append_to_hook("pre_render", lambda request: print("\n\n{}\n\n".format(request.path)))
     
     # Commands
     from ...core.commands import register_commands

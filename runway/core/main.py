@@ -128,9 +128,9 @@ def main(global_config, **settings):
     # Logging tween
     
     config.add_tween('.system.lib.tweens.menu_tween_factory')
+    config.add_tween('.system.lib.tweens.logging_tween_factory')
     config.add_tween('.system.lib.tweens.settings_tween_factory')
     config.add_tween('.system.lib.tweens.render_tween_factory')
-    config.add_tween('.system.lib.tweens.logging_tween_factory')
     config.add_static_view('static', '../static', cache_max_age=3600)
     
     # Routes
