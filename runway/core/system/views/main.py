@@ -11,6 +11,8 @@ from ...widgets.lib import widgets_f
 def root(request):
     layout      = common.render("viewer")
     
+    request.add_documentation("user.settings")
+    
     uwidgets = tuple(widgets_f.get_uwidgets(request.user.id))
     rwidgets = tuple(map(widgets_f.get_rwidget, uwidgets))
     ur_list = tuple(zip(uwidgets, rwidgets))

@@ -14,6 +14,8 @@ from ...lib import common
 from ..views.exceptions import get_user_object
 from collections import defaultdict
 
+from ....core.hooks.lib.funcs import call_hook
+
 ignored_filetypes = re.compile(r"(css|js|html|png|jpg|jpeg|ico|gif|woff)$")
 no_section_grep = re.compile(r"^/([a-zA-Z0-9_]+)/[a-zA-Z0-9_]+$")
 section_grep = re.compile(r"(?:/[a-zA-Z]+)?/([a-zA-Z0-9_]+?)/")
@@ -136,12 +138,18 @@ def _adder(request, attr):
             the_attr.append(value)
             
     return f
-        
+
+def test_tween_skip(request):
+    if request.environ['PATH_INFO'][:8] == "/static/":
+        return True
+    
+    if request.environ['PATH_INFO'][:8] == "/favicon":
+        return True
+    
+    return False
+
 def render_tween_factory(handler, registry):
     def render_tween(request):
-        if request.environ['PATH_INFO'][:8] == "/static/":
-            return handler(request)
-        
         request._js_libs     = []
         request._css_libs    = []
         
@@ -150,11 +158,16 @@ def render_tween_factory(handler, registry):
         
         request._html_raws   = []
         
+        if test_tween_skip(request):
+            return handler(request)
+        
         request.add_js_lib   = _adder(request, "_js_libs")
         request.add_css_lib  = _adder(request, "_css_libs")
         request.add_js_raw   = _adder(request, "_js_raws")
         request.add_css_raw  = _adder(request, "_css_raws")
         request.add_html_raw = _adder(request, "_html_raws")
+        
+        call_hook("pre_render", request=request)
         
         return handler(request)
         
@@ -163,7 +176,11 @@ def render_tween_factory(handler, registry):
 
 def menu_tween_factory(handler, registry):
     def menu_tween(request):
-        if request.environ['PATH_INFO'][:8] == "/static/":
+        request._documentation = []
+        request.render = defaultdict(dict)
+        
+        if test_tween_skip(request):
+            request.get_docs = lambda: []
             return handler(request)
         
         if not hasattr(request, "user"):
@@ -176,8 +193,6 @@ def menu_tween_factory(handler, registry):
             if all(req in permissions for req in sm['permissions']):
                 site_menu.append(sm)
         
-        request._documentation = []
-        request.render = defaultdict(dict)
         request.render["site_menu"] = site_menu
         request.render["documentation"] = []
         

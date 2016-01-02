@@ -71,6 +71,13 @@ def includeme(config):
 
 from .documentation import *
         </pre>
+        
+        
+        <h1>/views.py</h1>
+        <pre>
+def my_view(config):
+    request.add_documentation("empty_module.page_name")
+        </pre>
           
         
       </div>

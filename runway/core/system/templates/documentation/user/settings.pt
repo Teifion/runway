@@ -1,0 +1,21 @@
+<div metal:use-macro="layout">
+  <div metal:fill-slot="sidebar_logo">
+    Groups
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('user.control_panel')}">User Control Panel</a></li>
+    <li class="active">User settings documentation</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script type="text/javascript" charset="utf-8">
+      
+    </script>
+    
+    <div class="row first-row">
+      Work in progress.
+    </div>
+  </div>
+</div>

@@ -1,5 +1,22 @@
 from ...core.documentation.models import Documentation
 
+class UserSettings(Documentation):
+    name = "user.settings"
+    route = "user.documentation.settings"
+    
+    title = "User settings"
+    brief = "A guide on how to use the user settings on this system."
+    keywords = ("settings", "user")
+    
+    related_documents = (
+        # "system.form_creation",
+    )
+    
+    icons = ("wrench", "user")
+    icon_colour = "success"
+    
+    ordering = 80
+
 class EditGroup(Documentation):
     name = "user.groups.edit_group"
     route = "user.groups.documentation.edit_group"

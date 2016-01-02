@@ -5,9 +5,9 @@ from ...main import _folder_path
 from ....core.system.lib import user_f
 import transaction
 from ....core.base import DBSession
+from ....core.system.models import Setting
 from ....core.system.models.user import (
     User,
-
 )
 
 from ...system.lib import site_settings_f
@@ -36,6 +36,23 @@ def list_modules():
         modules.append("{:20} {}".format(plugin_name, active))
     
     return "\n".join(modules)
+
+def activate_all_modules():
+    """
+    () -> IO String
+    Activates all modules it can find in the plugins folder
+    """
+    
+    query = """UPDATE {}
+        SET value = 'True'
+        WHERE "name" LIKE 'runway.modules.%'
+        """.format(Setting.__tablename__)
+    
+    with transaction.manager:
+        DBSession.execute(query)
+        DBSession.execute("COMMIT")
+    
+    return "Activated everything"
 
 def activate_module(*names):
     """

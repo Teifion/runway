@@ -1,6 +1,7 @@
 from ..system.lib import settings_f
 
 def activate_module(options):
+    raise Exception("Depreciated")
     results = []
     
     for module_name in options.vals:
@@ -12,6 +13,7 @@ def activate_module(options):
     return "\n".join(results)
 
 def deactivate_module(options):
+    raise Exception("Depreciated")
     results = []
     
     for module_name in options.vals:

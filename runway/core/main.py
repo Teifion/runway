@@ -107,8 +107,7 @@ def main(global_config, **settings):
         DBSession.configure(bind=engine)
         
         # Take this out if the debug toolbar is activated
-        # warnings.simplefilter('error')
-        # TODO: uncomment above line
+        warnings.simplefilter('error')
         
         # warnings.simplefilter('error', SAWarning)
         

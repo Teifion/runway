@@ -71,8 +71,8 @@ def test_page(request):
     ]
     
     request.render['user-links'] = [
-        render_f.dropdown_menu_item("Link 1", "", "home", "", "?url=user-link1"),
-        render_f.dropdown_menu_item("Link 2", "", "plane", "", "?url=user-link2"),
+        render_f.dropdown_menu_item("Link 1", "", "home", "Body 1", "?url=user-link1"),
+        render_f.dropdown_menu_item("Link 2", "", "plane", "Body 2", "?url=user-link2"),
     ]
     
     layout      = common.render("viewer")

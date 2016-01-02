@@ -118,11 +118,19 @@ def documentation_views(config):
     from . import documentation
     
     config.add_route('user.groups.documentation.edit_group', 'user/groups/documentation/edit_group')
+    config.add_route('user.documentation.settings', 'user/documentation/settings')
     
     config.add_view(
         basic_view(documentation.EditGroup),
         route_name='user.groups.documentation.edit_group',
         renderer="templates/documentation/user/groups/edit_group.pt",
+        permission="loggedin"
+    )
+    
+    config.add_view(
+        basic_view(documentation.UserSettings),
+        route_name='user.documentation.settings',
+        renderer="templates/documentation/user/settings.pt",
         permission="loggedin"
     )
     
@@ -148,7 +156,6 @@ def documentation_views(config):
         renderer="templates/documentation/widgets/combo_picker.pt",
         permission="developer"
     )
-    
 
 def exception_views(config):
     from .views import exceptions
@@ -199,11 +206,15 @@ def includeme(config):
     from ..hooks import register_hook, append_to_hook
     register_hook("startup", "Called when the framework starts up (after creating routes etc). Passes no arguments.")
     register_hook("post_startup", "Called after startup.")
+    register_hook("pre_render", "Called after startup. Passes the request object.")
     
     from .lib import site_settings_f, user_settings_f, render_f
     append_to_hook("startup", site_settings_f.process_settings)
     append_to_hook("startup", user_settings_f.process_settings)
     append_to_hook("post_startup", render_f.order_menus)
+    
+    
+    append_to_hook("pre_render", lambda request: print("\n\n{}\n\n".format(request.path)))
     
     # Commands
     from ...core.commands import register_commands
