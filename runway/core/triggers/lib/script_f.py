@@ -146,7 +146,7 @@ def _perform_action(action_dict, data, test_mode=True):
     try:
         return the_action()(*args, **kwargs)
     except Exception as e:
-        # raise
+        raise
         raise Exception("Error running action {} ({}): Exception of {}".format(
             action_dict['label'],
             action_dict['name'],
@@ -344,7 +344,7 @@ def dry_run(the_trigger_script, the_owner=None):
     
     # Add trigger data
     the_trigger = get_trigger(the_trigger_script.trigger)
-    data['trigger'] = the_trigger.examples[0]
+    data['trigger'] = the_trigger.example_inputs[0]
     
     # Find out which (if any) actions we need to evaluate for the conditional
     names = _find_condition_names(script_data['conditions'])
@@ -409,7 +409,11 @@ def execute_trigger_script(the_trigger_script, the_owner, trigger_data):
         names.remove(a['name'])
     
     # Do we actually run the trigger?
-    conditions_met = make_eval(data)(script_data['conditions'])
+    if script_data['conditions'] != []:
+        conditions_met = make_eval(data)(script_data['conditions'])
+    else:
+        conditions_met = True
+    
     if not conditions_met:
         return False
     
@@ -558,7 +562,7 @@ def build_value_tree(the_trigger_script, the_owner=None):
         "type": " ",
         "example": " ",
         "description": " ",
-        "values": [{"key":name, "type":ty.__name__, "example": _disp(the_trigger.examples[0][name]), "description":desc} for (name, ty, desc) in the_trigger.outputs],
+        "values": [{"key":name, "type":ty.__name__, "example": _disp(the_trigger.example_inputs[0][name]), "description":desc} for (name, ty, desc) in the_trigger.outputs],
     })
     
     data.append({
@@ -580,7 +584,7 @@ def build_value_tree(the_trigger_script, the_owner=None):
         action_data = []
         the_action = get_action(a['action'])
         for oname, otype, olabel in the_action.outputs:
-            action_data.append(d(oname, otype, _disp(the_action.examples[0][1][oname]), olabel))
+            action_data.append(d(oname, otype, _disp(the_action.example_inputs[0][1][oname]), olabel))
         
         data.append({
             "key": "{} ({})".format(a['name'], a['label']),

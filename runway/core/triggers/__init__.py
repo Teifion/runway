@@ -73,6 +73,19 @@ def admin_views(config):
     # config.add_view(admin.home, route_name='triggers.admin.home', renderer='templates/admin/home.pt', permission='triggers.admin')
     # config.add_view(admin.job_types, route_name='triggers.admin.job_types', renderer='templates/admin/job_types.pt', permission='triggers.admin')
 
+def documentation_views(config):
+    from . import documentation
+    from ...core.documentation import basic_view
+    
+    config.add_route('triggers.documentation.add', 'documentation/add')
+    
+    config.add_view(
+        basic_view(documentation.Add),
+        route_name='triggers.documentation.add',
+        renderer="templates/documentation/add.pt",
+        permission="developer"
+    )
+
 def init_auth():
     from ..system.lib import auth
     
@@ -84,6 +97,7 @@ def includeme(config):
     dev_views(config)
     user_views(config)
     admin_views(config)
+    documentation_views(config)
     # log_views(config)
     
     init_auth()
@@ -104,6 +118,7 @@ def includeme(config):
     append_to_hook("startup", triggers_f.collect_triggers)
     append_to_hook("pre_render", triggers_f.triggers_pre_render)
     
+from .documentation import *
 
 # Allows much easier calling to commonly referenced things
 from .lib.triggers_f import call_trigger

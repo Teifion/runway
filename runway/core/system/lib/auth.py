@@ -34,6 +34,9 @@ class PermissionSet(object):
         if required is None:
             return True
         
+        if required in ("dev", "devel"):
+            raise Exception("No permission set of '{}', did you mean 'developer'?".format(required))
+        
         return required in self.permissions
     
     def __str__(self):

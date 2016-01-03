@@ -41,6 +41,7 @@
                 <tr>
                   <th colspan="2">Trigger</th>
                   <th>&nbsp;</th>
+                  <th>&nbsp;</th>
                 </tr>
               </thead>
               <tbody>
@@ -80,6 +81,7 @@
               <thead>
                 <tr>
                   <th colspan="2">Action</th>
+                  <th>&nbsp;</th>
                   <th>&nbsp;</th>
                 </tr>
               </thead>

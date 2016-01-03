@@ -124,6 +124,10 @@ def includeme(config):
         load_widget,
     )
     
+    from .triggers import (
+        error,
+    )
+    
     from ...core.commands import register_commands
     from .commands import dev
     

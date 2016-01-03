@@ -31,7 +31,7 @@ def view_trigger(request):
     
     trigger_name = request.matchdict['trigger_name']
     the_trigger = triggers_f.get_trigger(trigger_name)
-    subscribers = triggers_f.get_subscribers(trigger_name, "owner")
+    subscribers = triggers_f.get_subscribers(trigger_name, False, "owner")
     
     return dict(
         title       = "Developer: Triggers",
@@ -47,7 +47,7 @@ def run_trigger(request):
     
     trigger_name = request.matchdict['trigger_name']
     the_trigger = triggers_f.get_trigger(trigger_name)
-    subscribers = triggers_f.get_subscribers(trigger_name, "owner")
+    subscribers = triggers_f.get_subscribers(trigger_name, True, "owner")
     
     if "data" in request.params:
         kwargs = json.loads(request.params['data'])

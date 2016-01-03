@@ -96,6 +96,18 @@ def log_error(exc, request, description="", context=5, extra_html=""):
             # of the normal transaction block
             DBSession.execute(stmt, args)
             DBSession.execute("COMMIT")
+            
+            # Now pull the log details for our trigger
+            from ....core.triggers import call_trigger
+            call_trigger("dev_error_trigger",
+                log_id    = DBSession.execute("SELECT id FROM runway_exceptions ORDER BY id DESC LIMIT 1"),
+                timestamp   = args['timestamp'],
+                path        = args['path'],
+                user        = args['user'],
+                description = args['description'],
+                traceback   = args['traceback'],
+                data        = args['data'],
+            )
     
     # with transaction.manager:
     #     exception_id = DBSession.query(ExceptionLog.id).order_by(ExceptionLog.id.desc()).first()[0]

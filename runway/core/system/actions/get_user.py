@@ -9,6 +9,7 @@ class GetUser(Action):
     label = "Get User"
     description = """Gets user details from the database."""
     documentation = """HTML DOC"""
+    location = __file__
     
     inputs = (
         ("user", User, "The User to pull from the database"),

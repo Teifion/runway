@@ -48,6 +48,9 @@ def check_permission(the_user, owner):
     return False
 
 def call_trigger(trigger_name, **kwargs):
+    """
+    This is the main call-point for triggers
+    """
     if not _triggers_enabled:
         return
     
@@ -55,7 +58,7 @@ def call_trigger(trigger_name, **kwargs):
     
     results = the_trigger()(**kwargs)
     
-    subscribers = get_subscribers(trigger_name, "owner")
+    subscribers = get_subscribers(trigger_name, True, "owner")
     
     for the_trigger_script, the_owner in subscribers:
         script_f.execute_trigger_script(the_trigger_script, the_owner, results)
@@ -85,7 +88,7 @@ def get_trigger_script(trigger_script_id):
     return DBSession.query(TriggerScript).filter(TriggerScript.id == trigger_script_id).first()
 
 
-def get_subscribers(trigger_name, *other_tables):
+def get_subscribers(trigger_name, only_active, *other_tables):
     """
     Get a list of all TriggerScripts which subscribe to this trigger.
     """
@@ -94,6 +97,10 @@ def get_subscribers(trigger_name, *other_tables):
     filters    = [TriggerScript.trigger == trigger_name]
     joins      = []
     outerjoins = []
+    
+    if only_active:
+        filters.append(TriggerScript.active == True)
+        
     
     # By using a loop we take into account the order of the arguments
     for t in other_tables:

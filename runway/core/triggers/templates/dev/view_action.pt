@@ -55,6 +55,10 @@
                   <td><strong>Permissions:</strong></td>
                   <td>${", ".join(the_action.permissions)}</td>
                 </tr>
+                <tr>
+                  <td><strong>Location:</strong><br />
+                  ${the_action.location}</td>
+                </tr>
               </tbody>
             </table>
             

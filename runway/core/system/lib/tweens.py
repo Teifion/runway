@@ -37,6 +37,9 @@ def make_rel(request):
     return rel
 
 def logging_tween_factory(handler, registry):
+    """
+    This is the tween which logs error messages.
+    """
     def logging_tween(request):
         if test_tween_skip(request):
             request.anonymous = False
@@ -112,15 +115,6 @@ def logging_tween_factory(handler, registry):
                 # For some reason it won't let us use DBSession.add()
                 DBSession.execute(stmt, args)
                 DBSession.execute("COMMIT")
-                
-                # DBSession.add(ViewLog(
-                #     timestamp = datetime.today(),
-                #     path      = request.path.replace("'", "''"),
-                #     section   = section,
-                #     user      = u,
-                #     load_time = time() - start,
-                #     ip        = request.remote_addr if request.remote_addr != None else '',
-                # ))
             
             # print("\n\n---\n")
             # print("\n5\n")

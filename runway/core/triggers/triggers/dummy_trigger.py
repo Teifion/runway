@@ -15,8 +15,9 @@ class DummyTrigger(Trigger):
     documentation -> HTML content explaining how the trigger works, like a description
         but in a lot more detail, it is shown to the users when they click an "info" button
     data -> A sequence of 3 length tuples (name, type, description)
-    examples -> A list of example outputs that could be produced by the trigger
+    example_outputs -> A list of example outputs that could be produced by the trigger
         the first example is used in the dev section to provide blank data
+    location -> The location of the file itself
     
     Optionally:
     permissions -> A list of permissions required to use this trigger
@@ -29,6 +30,7 @@ class DummyTrigger(Trigger):
     label = "Dummy trigger"
     description = "A dummy trigger, can only be fired using the relevant developer page"
     documentation = "A dummy trigger"
+    location = __file__
     
     # The data the trigger is expected to produce
     outputs = (
@@ -42,7 +44,7 @@ class DummyTrigger(Trigger):
     
     example_inputs = [{}]
     
-    examples = [{
+    example_outputs = [{
         "field1": 0.456,
         "field2": "abcde",
         "field3": [0.11, 0.22, 0.15, 0.98, 0.33],

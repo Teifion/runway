@@ -6,6 +6,7 @@ class Formatter(Action):
     label = "Formatter"
     description = """Takes multiple inputs and formats them according to a scheme. Ultimately just a wrapper for the string.format function in Python."""
     documentation = """HTML DOC"""
+    location = __file__
     
     # The data the trigger is expected to produce
     inputs = (

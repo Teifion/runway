@@ -31,11 +31,11 @@
           
           <div class="panel-body">
             <a href="${request.route_url('user.control_panel')}" class="btn btn-default">
-              <i class="fa fa-user fa-fw"></i>
+              <i class="fa fa-level-up fa-fw"></i>
               Back to User Control Panel
             </a>
             <a tal:condition="'triggers.admin' in request.user.permissions()" href="${request.route_url('triggers.admin.home')}" class="btn btn-default">
-              <i class="fa fa-link fa-fw"></i>
+              <i class="fa fa-users fa-fw"></i>
               Triggers Admin
             </a>
             <a href="${request.route_url('triggers.user.create')}" class="btn btn-default">

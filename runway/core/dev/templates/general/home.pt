@@ -137,7 +137,7 @@ sidebar_active('developer');
             <a href="${request.route_url('dev.schemas')}" class="btn btn-block btn-default">Schemas</a>
             <a href="${request.route_url('commands.dev.list_commands')}" class="btn btn-block btn-default">Commands</a>
             <a href="${request.route_url('hooks.dev.list_hooks')}" class="btn btn-block btn-default">Hooks</a>
-            <a href="${request.route_url('triggers.dev.home')}" class="btn btn-block btn-default">Triggers</a>
+            <a href="${request.route_url('triggers.dev.home')}" class="btn btn-block btn-default">Triggers and Actions</a>
             
           </div>
         </div>

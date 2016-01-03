@@ -18,6 +18,7 @@ class DummyAction(Action):
         indicates no returned values (e.g. an email action)
     examples -> A list of example input to output combinations that could be produced
         by the action, the first example is used in the dev section to provide blank data
+    location -> The location of the file itself
     
     Optionally:
     permissions -> A list of permissions required to use this action
@@ -29,6 +30,7 @@ class DummyAction(Action):
     description = """A dummy action, it prints a message to the log as DEBUG level.
 Additionally it will produce a True boolean and an Integer of value 1."""
     documentation = """A dummy action, it takes stuff and prints it."""
+    location = __file__
     
     # The data the trigger is expected to produce
     inputs = (

@@ -31,6 +31,8 @@ Takes effect on restart"""),
 Takes effect on restart"""),
     ]],
     ["System", [
+        ("runway.system.domain", "developer", "Site domain", "str", "", """
+The XYZ.com of the site."""),
         ("runway.system.dev_email", "developer", "Developer email", "str", "", """
 The email address for anything were the developer needs to be emailed."""),
         ("runway.system.admin_email", "admin", "Admin email", "str", "", """

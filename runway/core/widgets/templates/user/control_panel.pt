@@ -31,11 +31,11 @@
           
           <div class="panel-body">
             <a href="${request.route_url('user.control_panel')}" class="btn btn-default">
-              <!-- <i class="fa fa-wrench fa-fw"></i> -->
+              <i class="fa fa-level-up fa-fw"></i>
               Back to User Control Panel
             </a>
             <a href="${request.route_url('widgets.user.add_widget')}" class="btn btn-default">
-              <!-- <i class="fa fa-wrench fa-fw"></i> -->
+              <i class="fa fa-plus fa-fw"></i>
               New widget
             </a>
             <br /><br />

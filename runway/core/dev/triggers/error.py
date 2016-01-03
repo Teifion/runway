@@ -1,58 +1,63 @@
+from datetime import datetime
 from ....core.triggers import Trigger
+from ....core.system.models.user import User
 
 class ErrorTrigger(Trigger):
     """
-    You are required to define the following fields
-    
-    name -> Machine name of the trigger, I'd suggest the use of a namespace
-    label -> Human readable name of the trigger
-    description -> Human readable description of the trigger, designed to inform
-        end users about what the trigger does and when/where it will fire
-    data -> A sequence of 3 length tuples (name, type, description)
-    
-    Optionally:
-    permissions -> A list of permissions required to use this trigger
-    examples -> A list of example outputs that could be produced by the trigger
-        the first example is used in the dev section to provide blank data
+    This fires when an error is logged.
     """
     
-    name = "dev_dummy_trigger"
-    label = "Error"
-    description = "Triggers on the creation of an error log"
+    name = "dev_error_trigger"
+    group = "Dev"
+    label = "Runway error"
+    description = "This fires when an error is logged."
+    documentation = ""
+    location = __file__
     
     # The data the trigger is expected to produce
     outputs = (
-        ("field1", int, "Random number between 0 and 1"),
-        ("field2", str, "Random string of 5 characters"),
-        ("field3", list, "List of 5 random numbers (between 0 and 1)"),
-        ("field4", list, "An empty list"),
+        ("log_id", int, "The ID of the log which was just added to the database"),
+        ("timestamp", datetime, "The datetime of the error"),
+        ("path", str, "The path being accessed"),
+        ("user", User, "The ID of the user in question"),
+        ("description", float, "The message that the exception genreated"),
+        ("traceback", str, "The traceback of the page"),
+        ("data", str, "The data submitted by the user"),
     )
     
     permissions = ["developer"]
     
-    example_inputs = [{}]
-    
-    examples = [{
-        "field1": 0.456,
-        "field2": "abcde",
-        "field3": [0.11, 0.22, 0.15, 0.98, 0.33],
-        "field4": [],
-    },
-    {
-        "field1": 0.999,
-        "field2": "zzzzz",
-        "field3": [0.99] * 5,
-        "field4": [],
+    example_inputs = [{
+        "log_id":      1,
+        "timestamp":   datetime(2016, 1, 4, 12, 33, 14),
+        "path":        "admin/home",
+        "user":        1,
+        "description": "Error msg description",
+        "traceback":   "<<traceback>>",
+        "data":        '{"arg1":1,"arg2":"2"}'
     }]
     
-    def __call__(self):
+    example_outputs = [{
+        "log_id":      1,
+        "timestamp":   datetime(2016, 1, 4, 12, 33, 14),
+        "path":        "admin/home",
+        "user":        1,
+        "description": "Error msg description",
+        "traceback":   "<<traceback>>",
+        "data":        '{"arg1":1,"arg2":"2"}',
+    }]
+    
+    def __call__(self, log_id, timestamp, path, user, description, traceback, data):
         """
-        This dummy trigger expects no arguments. However, it's quite possible you'd want
-        to add arguments for various things (e.g. ID of user added).
+        The input data is essentially an error log constructor
         """
         
         return {
-            "field1": random.random(),
-            "field2": "".join([random.choice(string.ascii_lowercase) for i in range(5)]),
-            "field3": [random.random() for i in range(5)],
+            "log_id": log_id,
+            "timestamp": timestamp,
+            "path": path,
+            "user": user,
+            "description": description,
+            "traceback": traceback,
+            "data": data
         }
