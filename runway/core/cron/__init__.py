@@ -58,6 +58,20 @@ def admin_views(config):
     config.add_view(admin.home, route_name='cron.admin.home', renderer='templates/admin/home.pt', permission='cron.admin')
     config.add_view(admin.job_types, route_name='cron.admin.job_types', renderer='templates/admin/job_types.pt', permission='cron.admin')
 
+def documentation_views(config):
+    from . import documentation
+    from ...core.documentation import basic_view
+    
+    config.add_route('cron.documentation.add', 'documentation/add')
+    
+    config.add_view(
+        basic_view(documentation.AddCronJob),
+        route_name='cron.documentation.add',
+        renderer="templates/documentation/add.pt",
+        permission="developer"
+    )
+
+
 def init_auth():
     from ..system.lib import auth
     
@@ -70,6 +84,7 @@ def includeme(config):
     user_views(config)
     admin_views(config)
     log_views(config)
+    documentation_views(config)
     
     init_auth()
     
@@ -92,3 +107,4 @@ def includeme(config):
     
     
 
+from .documentation import *

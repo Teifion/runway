@@ -69,6 +69,7 @@ def documentation_views(config):
     config.add_route('dev.documentation.form_validation', 'documentation/form_validation')
     config.add_route('dev.documentation.demo_mode', 'documentation/demo_mode')
     config.add_route('dev.documentation.new_module', 'documentation/new_module')
+    config.add_route('dev.documentation.schemas', 'documentation/schemas')
     
     config.add_view(
         basic_view(documentation.Widgets),
@@ -111,6 +112,13 @@ def documentation_views(config):
         renderer="templates/documentation/new_module.pt",
         permission="developer"
     )
+    
+    config.add_view(
+        basic_view(documentation.Schemas),
+        route_name='dev.documentation.schemas',
+        renderer="templates/documentation/schemas.pt",
+        permission="developer"
+    )
 
 def includeme(config):
     general_views(config)
@@ -132,3 +140,5 @@ def includeme(config):
     from .commands import dev
     
     register_commands(dev)
+
+from .documentation import *

@@ -1,0 +1,81 @@
+<div metal:use-macro="layout">
+  <div metal:fill-slot="sidebar_logo">
+    Documentation
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('admin.home')}">Admin</a></li>
+    <li><a href="${request.route_url('documentation.home')}">Documentation</a></li>
+    <li class="active">User permissions</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script type="text/javascript" charset="utf-8">
+      sidebar_active('admin');
+    </script>
+    
+    <div class="row">
+      <div class="col-md-12">
+        <h1>Terminology</h1>
+        A user can belong to multiple <strong>user groups</strong>, each user group bestows one or more <strong>permissions</strong> on each member. A user has the combined permissions of every single group they are a member of.
+        <br /><br />
+        
+        <h3>Example: Admin section</h3>
+        <table class="table table-striped">
+          <tr>
+            <th>Group</th>
+            <th>Permissions</th>
+          </tr>
+          <tr>
+            <td>Moderator</td>
+            <td>
+              <span class="label label-default">moderator</span>
+              <span class="label label-default">user.view</span>
+              <span class="label label-default">user.search</span>
+            </td>
+          </tr>
+          <tr>
+            <td>Administrator</td>
+            <td>
+              <span class="label label-default">moderator</span>
+              <span class="label label-default">user.view</span>
+              <span class="label label-default">user.search</span>
+              <span class="label label-default">user.edit</span>
+              <span class="label label-default">user.create</span>
+            </td>
+          </tr>
+          <tr>
+            <td>Senior administrator</td>
+            <td>
+              <span class="label label-default">moderator</span>
+              <span class="label label-default">user.view</span>
+              <span class="label label-default">user.search</span>
+              <span class="label label-default">user.edit</span>
+              <span class="label label-default">user.create</span>
+              <span class="label label-default">usage</span>
+              <span class="label label-default">audit</span>
+            </td>
+          </tr>
+          <tr>
+            <td>Superuser</td>
+            <td>
+              <span class="label label-default">moderator</span>
+              <span class="label label-default">user.view</span>
+              <span class="label label-default">user.search</span>
+              <span class="label label-default">user.edit</span>
+              <span class="label label-default">user.create</span>
+              <span class="label label-default">usage</span>
+              <span class="label label-default">audit</span>
+              <span class="label label-default">su</span>
+            </td>
+          </tr>
+        </table>
+        
+        As you can see, as you go through the ranks each group gains more and more permissions. Plugins may not always have this same hierarchy; all of them should have a "user groups" style page of documentation listing the groups and what they do.
+        
+      </div>
+    </div>
+    
+  </div>
+</div>

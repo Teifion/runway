@@ -170,6 +170,8 @@ def edit(request):
     # Grab the user created groups they are a part of
     user_groups = admin_f.get_user_groups(user_id)
     
+    request.add_documentation("admin.permissions")
+    
     return dict(
         title                = "Admin: Edit user",
         layout               = layout,
@@ -293,6 +295,12 @@ def quick_add(request):
 
     
 def add_permission_group_membership(request):
+    if 'group' not in request.params:
+        return HTTPFound(request.route_url('admin.user.edit', user_id=user_id))
+    
+    if 'user_id' not in request.params:
+        return HTTPFound(request.route_url('admin.home'))
+    
     user_id    = int(request.params['user_id'])
     group_name = request.params['group']
     

@@ -32,3 +32,14 @@ class Settings(Documentation):
     
     icons = ("wrench", "gears")
     icon_colour = "warning"
+
+class Permissions(Documentation):
+    name = "admin.permissions"
+    route = "admin.documentation.permissions"
+    
+    title = "Permissions administration"
+    brief = "An explanation of the permissions in the application."
+    keywords = ("admin", "permissions")
+    
+    icons = ("wrench", "gears")
+    icon_colour = "warning"

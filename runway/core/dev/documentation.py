@@ -24,6 +24,18 @@ class Widgets(Documentation):
     icon_colour = "info"
 
 
+class Schemas(Documentation):
+    name = "dev.schemas"
+    route = "dev.documentation.schemas"
+    
+    title = "Schema documentation"
+    brief = "How to use and develop schemas."
+    keywords = ("dev", "schemas")
+    
+    icons = ("gears", "power-off")
+    icon_colour = "info"
+
+
 class Testing(Documentation):
     name = "dev.testing"
     route = "dev.documentation.testing"

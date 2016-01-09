@@ -1,0 +1,69 @@
+<div metal:use-macro="layout">
+  <div metal:fill-slot="sidebar_logo">
+    Documentation
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('documentation.home')}">Documentation</a></li>
+    <li class="active">Schemas</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script type="text/javascript" charset="utf-8">
+      sidebar_active('developer');
+    </script>
+    
+    <div class="row first-row"
+        tal:define="docs_by_tag documents_by_tag('quick-guide', the_documentation.name)"
+        tal:condition="len(docs_by_tag) > 0">
+      <div class="col-md-12">
+        <h4>Related documents</h4>
+        <a href="${request.route_url(w.route)}" tal:repeat="w docs_by_tag" class="btn btn-xs btn-info">${w.title}</a>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-12">
+        <h1>Example schema</h1>
+        <pre>version = 0.2
+
+        schema = {
+            (0.1, 0.1, 0.2): (
+                'ALTER TABLE module_table ADD COLUMN other_user_col INTEGER;',
+                'ALTER TABLE module_table ADD CONSTRAINT module_table_other_user_col_fkey FOREIGN KEY (other_user_col) REFERENCES runway_users (id) MATCH FULL;',
+            ),
+        }</pre>
+
+
+        <h1>Structure</h1>
+        <pre>{
+            (min_target, max_target, new_result): [queries &amp; functions],
+        }</pre>
+
+        <p>
+          The <strong>min_target</strong> is the earliest version of the existing schema this update can target.<br />
+          The <strong>max_target</strong> is the newest version of the existing schema this update can target.<br />
+          The <strong>new_result</strong> the version of the schema this update will bring it to.<br />
+        </p>
+
+        <div class="col-lg-6 col-md-8">
+          <h1>Explanation</h1>
+          <p>
+            Each schema has a version stored in the database. When the "runway install" command is executed, each module is scanned and the code version and database version compared. If the code version is more up to date then the schema files will be used to convert the database structure automatically. It will also update the schema version kept on record.
+          </p>
+
+          <p>
+            To bring a schema up to the most recent version the system will scan through all update blocks and using the min_target, max_target and new_result it will calculate which updates to run and which to ignore. The use of a range of values for the target means that in some cases what might have been multiple steps can be compressed into a single step.
+          </p>
+
+          <p>
+            Queries can be either strings or functions. Strings will be passed straight into the DBSession.execute() function and functions will be executed without any parameters being passed to them.
+          </p>
+        </div>
+          
+      </div>
+    </div>
+  
+  </div>
+</div>

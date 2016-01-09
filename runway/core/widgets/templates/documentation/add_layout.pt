@@ -1,0 +1,107 @@
+<div metal:use-macro="layout">
+  <div metal:fill-slot="sidebar_logo">
+    Documentation
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('documentation.home')}">Documentation</a></li>
+    <li class="active">Adding new Layout Widgets</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script type="text/javascript" charset="utf-8">
+      
+    </script>
+    
+    <div class="row first-row"
+        tal:define="docs_by_tag documents_by_tag('quick-guide', the_documentation.name)"
+        tal:condition="len(docs_by_tag) > 0">
+      <div class="col-md-12">
+        <h4>Related documents</h4>
+        <a href="${request.route_url(w.route)}" tal:repeat="w docs_by_tag" class="btn btn-xs btn-info">${w.title}</a>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-12">
+        <h1>/jobs/dummy_job.py</h1>
+        <pre>from ....core.widgets.models import RunwayWidget
+from ....core.lib import common
+import json
+import os
+
+_form_template = """
+  &lt;div class="form-group">
+    &lt;label for="time_period" class="col-sm-2 control-label">Message:&lt;/label>
+    &lt;div class="col-sm-10">
+      &lt;input type="text" name="message" id="message" value="{message}" placeholder="Hello world" class="form-control" />
+    &lt;/div>
+  &lt;/div>
+"""
+
+_view_template = """
+  &lt;div>
+    &lt;div class="alert alert-info alert-dismissible" role="alert">
+      &lt;button type="button" class="close" data-dismiss="alert">
+        &lt;span aria-hidden="true">&times;&lt;/span>&lt;span class="sr-only">Close&lt;/span>
+      &lt;/button>
+      {message}
+    &lt;/div>
+  &lt;/div>
+"""
+
+class ExampleWidget(RunwayWidget):
+    widget_name = "widgets_example_widget"
+    widget_label = "Example widget"
+    
+    js_libs = []
+    css_libs = []
+    
+    default_data = """{
+        "message": "Hello world"
+    }"""
+    
+    def load(self, the_uwidget):
+        """Take a JSON string from the database and create data"""
+        data = json.loads(the_uwidget.data)
+        
+        self.message = data['message']
+    
+    def save(self):
+        """Return a JSON string of the data for the database"""
+        return json.dumps({
+            'message': self.message,
+        })
+    
+    def form_render(self, request, the_uwidget):
+        return _form_template.format(
+            message = self.message
+        )
+    
+    def form_save(self, params):
+        self.message = params.get('message', 'Hello world')
+    
+    def view_render(self, request, the_uwidget):
+        return _view_template.format(
+            message = self.message,
+        )
+
+
+</pre>
+        
+        <h1>/__init__.py</h1>
+        <pre>def includeme(config):
+    from .widgets import (
+        example_widget,
+    )
+        </pre>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+
+
+

@@ -377,10 +377,18 @@ def save(the_user, flush=False, return_id=False):
     
 
 def add_permission_group_membership(user_id, group_name):
-    return DBSession.add(UserPermissionGroup(
-        user  = user_id,
-        group = group_name,
-    ))
+    try:
+        return DBSession.add(UserPermissionGroup(
+            user  = user_id,
+            group = group_name,
+        ))
+    except Exception as e:
+        raise common.GracefulException(
+            "Oops, something went wrong",
+            "There was an error with the database. I'm not sure why this happened, at best I think it happened because the page was refreshed before expected (you've done nothing wrong). We've logged this error so there's nothing you need to do.",
+            log_anyway=True
+        )
+    
 
 def remove_permission_group_membership(user_id, group_name):
     return DBSession.query(UserPermissionGroup).filter(

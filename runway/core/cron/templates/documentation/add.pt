@@ -1,0 +1,93 @@
+<div metal:use-macro="layout">
+  <div metal:fill-slot="sidebar_logo">
+    Documentation
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('documentation.home')}">Documentation</a></li>
+    <li class="active">Quickly add new documentation</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script type="text/javascript" charset="utf-8">
+      
+    </script>
+    
+    <div class="row first-row"
+        tal:define="docs_by_tag documents_by_tag('quick-guide', the_documentation.name)"
+        tal:condition="len(docs_by_tag) > 0">
+      <div class="col-md-12">
+        <h4>Related documents</h4>
+        <a href="${request.route_url(w.route)}" tal:repeat="w docs_by_tag" class="btn btn-xs btn-info">${w.title}</a>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-12">
+        <h1>/jobs/dummy_job.py</h1>
+        <pre>
+from ....core.cron.models import CronInstance
+from ....core.cron.lib import actions
+import json
+
+_form_template = """
+  &lt;div class="form-group">
+    &lt;label for="a_or_b" class="col-sm-2 control-label">A or B:&lt;/label>
+    &lt;div class="col-sm-10">
+      &lt;select name="a_or_b" id="a_or_b" class="form-control">
+        &lt;option value="A">A&lt;/option>
+        &lt;option value="B">B&lt;/option>
+      &lt;/select>
+    &lt;/div>
+  &lt;/div>
+"""
+
+class DummyJob(CronInstance):
+    """
+    Dummy docstring which will be shown in the Cron -> Admin -> Job type page
+    """
+    
+    job_name = "my_module_dummy_job"
+    job_label = "Dummy job"
+    
+    permissions = ["developer"]
+    
+    default_data = """{
+        "a_or_b": "A"
+    }"""
+    
+    def load(self, the_job):
+        """Take a JSON string from the database and create data"""
+        self.json_data = json.loads(the_job.data)
+    
+    def save(self):
+        """Return a JSON string of the data for the database"""
+        return json.dumps(self.json_data)
+    
+    def form_render(self, request, the_job):
+        return _form_template
+    
+    def form_save(self, params):
+        self.json_data = {
+          "a_or_b": params["a_or_b"],
+        }
+    
+    def perform_job(self, the_job):
+        return "Dummy job ran; you selected '{}'".format(self.json_data["a_or_b"]), actions.no_action()</pre>
+        
+        <h1>/__init__.py</h1>
+        <pre>
+def includeme(config):
+    from .jobs import (
+        dummy_job,
+    )</pre>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+
+
+

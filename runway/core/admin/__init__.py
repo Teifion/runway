@@ -152,6 +152,7 @@ def documentation_views(config):
     config.add_route('admin.documentation.user', 'admin/documentation/user')
     config.add_route('admin.documentation.adding_users', 'admin/documentation/adding_users')
     config.add_route('admin.documentation.settings', 'admin/documentation/settings')
+    config.add_route('admin.documentation.permissions', 'admin/documentation/permissions')
     
     config.add_view(
         basic_view(documentation.UserAdministration),
@@ -169,6 +170,12 @@ def documentation_views(config):
         basic_view(documentation.Settings),
         route_name='admin.documentation.settings',
         renderer="templates/documentation/settings.pt",
+        permission="admin"
+    )
+    config.add_view(
+        basic_view(documentation.Settings),
+        route_name='admin.documentation.permissions',
+        renderer="templates/documentation/permissions.pt",
         permission="admin"
     )
     

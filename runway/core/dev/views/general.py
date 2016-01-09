@@ -48,8 +48,12 @@ def generate_exception(request):
     if exception_type == "general":
         raise Exception("General Exception")
     
-    # By default raise a graceful
-    raise GracefulException("Graceful exception raised", "This is the message accompanying the general exception.")
+    elif exception_type == "graceful_with_log":
+        raise GracefulException("Graceful exception raised", "This is the message accompanying the general exception. Additionally this exception has been logged.", log_anyway=True)
+    
+    elif exception_type == "graceful":
+        # By default raise a graceful
+        raise GracefulException("Graceful exception raised", "This is the message accompanying the general exception.")
 
 def installer(request):
     layout      = common.render("viewer")

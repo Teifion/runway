@@ -69,6 +69,10 @@ def send_email(to, subject, text_message="", html_message="", email_from=None, t
         return (email_from, to, msg.as_string())
 
 def _send(from_email_address, to, msg):
+    # My local dev doesn't send emails, to prevent tests erroring I've added this line
+    if __file__[:14] == "/home/teifion/":
+        return
+    
     s = smtplib.SMTP('localhost')
     # sendmail function takes 3 arguments: sender's address, recipient's address
     # and message to send - here it is sent as one string.

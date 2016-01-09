@@ -83,6 +83,7 @@ sidebar_active('developer');
             
             <a href="${request.route_url('dev.generate_exception')}?type=general&amp;dev_log_anyway=True" class="btn btn-block btn-default">General Exception</a>
             <a href="${request.route_url('dev.generate_exception')}?type=graceful&amp;dev_log_anyway=True" class="btn btn-block btn-default">Graceful Exception</a>
+            <a href="${request.route_url('dev.generate_exception')}?type=graceful_with_log&amp;dev_log_anyway=True" class="btn btn-block btn-default">Graceful Exception with Log</a>
             <a href="404/404?dev_log_anyway=True" class="btn btn-block btn-default">404 Not Found</a>
           </div>
         </div>

@@ -27,10 +27,32 @@ def user_views(config):
     config.add_view(user.remove_widget, route_name='widgets.user.remove_widget', renderer='templates/user/remove_widget.pt', permission='loggedin')
     config.add_view(user.view_widget, route_name='widgets.user.view_widget', renderer='templates/user/view_widget.pt', permission='loggedin')
 
+def documentation_views(config):
+    from . import documentation
+    from ...core.documentation import basic_view
+    
+    config.add_route('widgets.documentation.add_layout', 'documentation/add_layout')
+    config.add_route('widgets.documentation.add_js_widget', 'documentation/add_js_widget')
+    
+    config.add_view(
+        basic_view(documentation.AddLayoutWidget),
+        route_name='widgets.documentation.add_layout',
+        renderer="templates/documentation/add_layout.pt",
+        permission="developer"
+    )
+    
+    config.add_view(
+        basic_view(documentation.AddJSWidget),
+        route_name='widgets.documentation.add_js_widget',
+        renderer="templates/documentation/add_js_widget.pt",
+        permission="developer"
+    )
+
 def includeme(config):
     dev_views(config)
     user_views(config)
     admin_views(config)
+    documentation_views(config)
     
     from .lib import widgets_f
     from ..hooks import append_to_hook
@@ -47,3 +69,5 @@ def includeme(config):
     from .widgets import (
         example_widget,
     )
+
+from .documentation import *

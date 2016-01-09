@@ -13,6 +13,8 @@ from ...system.lib import errors_f
 
 from ...base import DBSession
 from ...system.models.user import UserPermissionGroup
+from ...system.models import ExceptionLog
+from sqlalchemy import func
 import transaction
 
 
@@ -87,15 +89,32 @@ text is found in errors_f.traceback_info and is shown below:\n
         app = self.get_app("guest")
         
         with transaction.manager:
+            DBSession.execute('DELETE FROM {};'.format(ExceptionLog.__tablename__))
             DBSession.execute('DELETE FROM {} WHERE "user" = 2;'.format(UserPermissionGroup.__tablename__))
             DBSession.execute("INSERT INTO {} VALUES (2, 'errors');".format(UserPermissionGroup.__tablename__))
             DBSession.execute("COMMIT")
         
+        # Graceful
         self.make_request(
             app,
             "/dev/generate_exception?type=graceful",
             allow_graceful = "This is the message accompanying the general exception."
         )
+        
+        error_count = DBSession.query(func.count(ExceptionLog.id)).first()[0]
+        self.assertEqual(error_count, 0,
+            msg="There should be no error logs after a graceful exception")
+        
+        # Graceful with log
+        self.make_request(
+            app,
+            "/dev/generate_exception?type=graceful_with_log",
+            allow_graceful = "This is the message accompanying the general exception. Additionally this exception has been logged."
+        )
+        
+        error_count = DBSession.query(func.count(ExceptionLog.id)).first()[0]
+        self.assertEqual(error_count, 1,
+            msg="There should be 1 error log after the graceful exception with a log")
         
         # Cleanup
         with transaction.manager:

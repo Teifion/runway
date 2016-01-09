@@ -113,7 +113,6 @@ def display_graceful_exception(exc, request):
     
     layout = common.render("viewer")
 
-    
     if exc.category not in errors_f.graceful_images:
         fail_image = errors_f.graceful_images['default']
     else:
