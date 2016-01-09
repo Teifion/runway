@@ -14,6 +14,7 @@ from sqlalchemy.orm import aliased
 from functools import lru_cache
 from datetime import date
 import os
+import warnings
 
 def admin_user_permissions(the_admin, the_user, the_user_groups):
     # Root can do anything, even edit themselves
@@ -214,9 +215,21 @@ def new_username(display_name):
     username = user_f.make_username(display_name)
     
     # Now find all the usernames this collides with
-    the_filter = "username SIMILAR TO '{}'".format(username + r'[0-9]*')
+    the_filter = """ "username" SIMILAR TO '{}' """.format(username + r'[0-9]*')
+    
+    # Dev mode has warnings on, this above query can generate
+    # an SQL warning which we want to ignore
+    # The warning generated is:
+    # 
+    # Textual SQL expression ' "username" SIMILAR TO \'1...' should be explicitly declared as text(' "username" SIMILAR TO \'1...') (this warning may be suppressed after 10 occurrences)
+    # 
+    existing_warnings = list(warnings.filters)
+    warnings.resetwarnings()
     
     existing_usernames = {n[0] for n in DBSession.query(User.username).filter(the_filter)}
+    
+    # Now we revert our change
+    warnings.filters = existing_warnings
     
     if username not in existing_usernames:
         return username
