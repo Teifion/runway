@@ -84,6 +84,12 @@ body {
   margin-right: 0;
 }
 
+.navbar-top-links .dropdown-menu .dropdown-divider {
+  height: 3px;
+  background-color: #EEE;
+  border-color: #EEE;
+}
+
 .navbar-top-links .dropdown-menu li a {
   padding: 3px 20px;
   min-height: 0;
@@ -386,6 +392,13 @@ li .pad
 
 .block {display: block;}
 .inblock {display: inline-block;}
+
+
+.block-link {
+  text-align: center;
+  display: inline-block;
+  width: 100%;
+}
 
 .tabs-below > .nav-tabs > li > a:hover,
 .tabs-below > .nav-tabs > li > a:focus {

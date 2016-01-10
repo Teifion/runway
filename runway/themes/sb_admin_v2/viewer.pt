@@ -24,8 +24,8 @@
   
   <style type="text/css" media="screen" tal:condition="request.remote_addr == '127.0.0.1'">
     .navbar, .breadcrumb {
-      background-color: #EFE;
-      border-color: #0A0;
+      background-color: #FEE;
+      border-color: #A00;
     }
   </style>  <script type="text/javascript" charset="utf-8">
     function sidebar_active (name) {
@@ -37,11 +37,11 @@
   </script>
   
   <style type="text/css" media="screen">
-    ${structure:"\n".join(request._css_raws)}
+    {structure:"\n".join(request._css_raws)}
   </style>
   
   <script type="text/javascript" charset="utf-8">
-    ${structure:"\n".join(request._js_raws)}
+    {structure:"\n".join(request._js_raws)}
   </script>
 </head>
   
@@ -180,23 +180,15 @@
                 <li>
                   <a href="${request.route_url('user.control_panel')}"><i class="fa fa-gear fa-fw"></i> Settings</a>
                 </li>
-                <li class="divider"></li>
+                <li class="dropdown-divider"></li>
                 
-                <li tal:condition="request.runway_settings.users['allow_cron'] == 'True' or 'cron' in request.user.permissions()">
-                  <a href="${request.route_url('cron.user.control_panel')}"><i class="fa fa-clock-o fa-fw"></i> Cron jobs</a>
-                </li>
-                <li tal:condition="request.runway_settings.users['allow_widgets'] == 'True' or 'widgets' in request.user.permissions()">
-                  <a href="${request.route_url('widgets.user.control_panel')}"><i class="fa fa-tachometer fa-fw"></i> Widgets</a>
-                </li>
-                <li tal:condition="request.runway_settings.users['allow_triggers'] == 'True' or 'triggers' in request.user.permissions()">
-                  <a href="${request.route_url('triggers.user.control_panel')}"><i class="fa fa-link fa-fw"></i> Triggers</a>
-                </li>
                 
-                <li tal:condition="request.runway_settings.users['allow_groups'] == 'True'">
-                  <a href="${request.route_url('user.groups.list')}"><i class="fa fa-users fa-fw"></i> Groups</a>
+                <li tal:repeat="the_item request.render['user_links']">
+                  <a href="${the_item.url}">
+                    <i class="fa fa-${the_item.icon} fa-fw"></i> ${the_item.body}
+                  </a>
                 </li>
-                
-                <li class="divider"></li>
+                <li class="dropdown-divider"></li>
                 
                 <li><a href="${request.route_url('core.logout')}" tal:condition="hasattr(request, 'user')"><i class="fa fa-sign-out fa-fw"></i> Logout ${request.user.username}</a>
                 </li>

@@ -1,5 +1,5 @@
 name = "sb_admin_v2"
 label = "SB Admin V2"
 version = "1"
-creator = "Tefion"
+creator = ""
 url = "http://mywebsite.com"
