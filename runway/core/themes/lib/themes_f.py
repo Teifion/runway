@@ -53,25 +53,8 @@ def import_theme(theme_name):
     from . import theme_holder
     
     exec("from ....themes import %s" % theme_name, theme_holder.__dict__)
-    # from ....themes import sb_admin_v2
-    # x = importlib.import_module("....themes.sb_admin_v2", package="re")
     
     result = theme_holder.__dict__[theme_name]
     del(theme_holder.__dict__[theme_name])
     
     return result
-    
-    # for plugin_name in find.scan_for_plugins(_folder_path):
-    #     if route_settings.get("runway.modules.{}".format(plugin_name), None) != "True":
-    #         continue
-        
-    #     exec("from ..plugins import %s" % plugin_name, plugins.__dict__)
-    #     the_plugin = plugins.__dict__[plugin_name]
-        
-    #     if hasattr(the_plugin, "route_prefix"):
-    #         config.include(the_plugin, route_prefix=routing_name+the_plugin.route_prefix)
-        
-    #     if hasattr(the_plugin, "settings"):
-    #         site_settings_f.include_plugin(the_plugin.settings)
-    
-    # return config
