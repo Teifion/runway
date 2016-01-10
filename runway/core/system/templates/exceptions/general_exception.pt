@@ -10,7 +10,7 @@
   
   <div metal:fill-slot="content">
     
-    <div class="row first-row" tal:condition="hasattr(request, 'user') and 'errors' in request.user.permissions()">
+    <div class="row first-row" tal:condition="localhost or (hasattr(request, 'user') and 'errors' in request.user.permissions())">
       <div class="col-md-12">
         ${structure:html_traceback}
       </div>

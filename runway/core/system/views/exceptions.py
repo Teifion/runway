@@ -90,6 +90,8 @@ def general_exception(exc, request):
         traceback      = traceback_str,
         exc            = exc,
         dev_email      = site_settings_f.get_setting("runway.system.dev_email"),
+        
+        localhost      = request.host[-5:] == ":6543",
     )
 
 def not_found_exception(exc, request):
