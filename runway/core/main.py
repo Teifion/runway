@@ -245,5 +245,15 @@ def install():
         # If there's a static folder, copy that over
         theme_static = "{fp}/{theme}/static/".format(fp=themes_f._folder_path, theme=theme_name)
         if os.path.isdir(theme_static):
-            cmd = "cp -R {theme_static} {fp}/static/themes/{theme}".format(fp=_folder_path, theme=theme_name, theme_static=theme_static)
-            os.system(cmd)
+            mk_cmd = "mkdir -p {fp}/static/themes/{theme}".format(
+                fp=_folder_path,
+                theme=theme_name,
+            )
+            cp_cmd = "cp -R {theme_static}* {fp}/static/themes/{theme}".format(
+                fp=_folder_path,
+                theme=theme_name,
+                theme_static=theme_static
+            )
+            
+            os.system(mk_cmd)
+            os.system(cp_cmd)
