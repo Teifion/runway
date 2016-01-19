@@ -30,10 +30,12 @@ def general_views(config):
     config.add_route('documentation.home', 'home')
     config.add_route('documentation.keyword', 'keyword/{keyword}')
     config.add_route('documentation.doc_list', 'doc_list')
+    config.add_route('documentation.raw_doc_list', 'raw_doc_list')
     
     config.add_view(general.home, route_name='documentation.home', renderer='templates/general/home.pt', permission='loggedin')
     config.add_view(general.keyword, route_name='documentation.keyword', renderer='templates/general/keyword.pt', permission='loggedin')
     config.add_view(general.doc_list, route_name='documentation.doc_list', renderer='templates/general/doc_list.pt', permission='developer')
+    config.add_view(general.raw_doc_list, route_name='documentation.raw_doc_list', renderer='string', permission='developer')
 
 def documentation_views(config):
     from . import documentation

@@ -66,7 +66,7 @@ def documentation_views(config):
     config.add_route('dev.documentation.home', 'documentation/home')
     config.add_route('dev.documentation.widgets', 'documentation/widgets')
     config.add_route('dev.documentation.testing', 'documentation/testing')
-    config.add_route('dev.documentation.form_validation', 'documentation/form_validation')
+    # config.add_route('dev.documentation.form_validation', 'documentation/form_validation')
     config.add_route('dev.documentation.demo_mode', 'documentation/demo_mode')
     config.add_route('dev.documentation.new_module', 'documentation/new_module')
     config.add_route('dev.documentation.schemas', 'documentation/schemas')
@@ -78,26 +78,26 @@ def documentation_views(config):
         permission="developer"
     )
     
-    config.add_view(
-        basic_view(documentation.Testing),
-        route_name='dev.documentation.testing',
-        renderer="templates/documentation/testing.pt",
-        permission="developer"
-    )
+    # config.add_view(
+    #     basic_view(documentation.Testing),
+    #     route_name='dev.documentation.testing',
+    #     renderer="templates/documentation/testing.pt",
+    #     permission="developer"
+    # )
     
-    config.add_view(
-        basic_view(documentation.FormValidation),
-        route_name='dev.documentation.form_validation',
-        renderer="templates/documentation/form_validation.pt",
-        permission="developer"
-    )
+    # config.add_view(
+    #     basic_view(documentation.FormValidation),
+    #     route_name='dev.documentation.form_validation',
+    #     renderer="templates/documentation/form_validation.pt",
+    #     permission="developer"
+    # )
     
-    config.add_view(
-        basic_view(documentation.DemoMode),
-        route_name='dev.documentation.demo_mode',
-        renderer="templates/documentation/demo_mode.pt",
-        permission="developer"
-    )
+    # config.add_view(
+    #     basic_view(documentation.DemoMode),
+    #     route_name='dev.documentation.demo_mode',
+    #     renderer="templates/documentation/demo_mode.pt",
+    #     permission="developer"
+    # )
     
     config.add_view(
         basic_view(documentation.DevHome),

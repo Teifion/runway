@@ -13,6 +13,14 @@ def home(request):
         **docs_f.get_structured_docs()
     )
 
+def raw_doc_list(request):
+    output = []
+    
+    for the_doc in docs_f._docs.values():
+        output.append("{},{}".format(the_doc.name, request.route_url(the_doc.route)))
+    
+    return "\n".join(output)
+
 def keyword(request):
     layout      = common.render("viewer")
     

@@ -214,6 +214,16 @@ def new_username(display_name):
     # First find out what the username base is
     username = user_f.make_username(display_name)
     
+    stmt = """SELECT username
+        FROM runway_users
+        WHERE "username" SIMILAR TO :username
+    """
+    
+    args = {"username":username + r"[0-9]*"}
+    
+    existing_usernames = {r[0] for r in DBSession.execute(stmt, args)}
+    
+    '''
     # Now find all the usernames this collides with
     the_filter = """ "username" SIMILAR TO '{}' """.format(username + r'[0-9]*')
     
@@ -230,6 +240,7 @@ def new_username(display_name):
     
     # Now we revert our change
     warnings.filters = existing_warnings
+    '''
     
     if username not in existing_usernames:
         return username
