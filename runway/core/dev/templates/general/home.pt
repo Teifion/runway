@@ -140,6 +140,8 @@ sidebar_active('developer');
             <a href="${request.route_url('hooks.dev.list_hooks')}" class="btn btn-block btn-default">Hooks</a>
             <a href="${request.route_url('triggers.dev.home')}" class="btn btn-block btn-default">Triggers and Actions</a>
             
+            <a href="${request.route_url('dev.debugging.permissions')}" class="btn btn-block btn-default">Permissions</a>
+            
           </div>
         </div>
       </div>

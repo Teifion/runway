@@ -5,6 +5,7 @@ from ..lib import exceptions_f, debugging
 from ...system.models import ExceptionLog
 from ...system.models.user import User
 from ...system.lib import user_f, render_f
+from collections import defaultdict
 import json
 
 def slow_pages(request):
@@ -34,6 +35,28 @@ def slow_drilldown(request):
         layout      = layout,
         overview    = overview,
         logs        = logs,
+    )
+
+def permissions(request):
+    request.do_not_log = True
+    
+    layout      = common.render("viewer")
+    
+    groups = defaultdict(list)
+    for p in request.user.permissions():
+        g = p.split(".")[0]
+        
+        groups[g].append(p)
+    
+    keys = list(groups.keys())
+    keys.sort()
+    
+    return dict(
+        title  = 'Permissions list',
+        layout = layout,
+        
+        groups = groups,
+        keys   = keys,
     )
 
 def neighbouring_logs(request):
