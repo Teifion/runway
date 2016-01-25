@@ -11,12 +11,11 @@ from ..models import WordyMove
 
 # def home(request):
 #     layout      = common.render("viewer")
-#     pre_content = common.render("general_menu")
+# 
     
 #     return dict(
 #         title       = "Page title",
 #         layout      = layout,
-#         pre_content = pre_content,
 #     )
 
 def new_game(request):
@@ -48,14 +47,12 @@ def new_game(request):
             return HTTPFound(location=request.route_url("wordy.view_game", game_id=game_id))
     
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     return dict(
         title        = "Wordy",
         message      = message,
         profile      = db.get_profile(request.user.id),
         layout       = layout,
-        pre_content  = pre_content,
     )
 
 def view_game(request):
@@ -94,7 +91,6 @@ def view_game(request):
         last_move = game_moves[-1]
     
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     return dict(
         title          = "Wordy",
@@ -110,7 +106,6 @@ def view_game(request):
         spectator      = the_user.id not in the_game.players,
         your_turn      = the_user.id == the_game.current_player and the_game.winner is None,
         layout       = layout,
-        pre_content  = pre_content,
     )
 
 def make_move(request):

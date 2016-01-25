@@ -1,11 +1,8 @@
 from pyramid.httpexceptions import HTTPFound
-from pyramid.renderers import get_renderer
 from ....core.lib import common
 from ....core.system.lib import user_f
 
 def home(request):
-    rules.check_allowed(request)
-    
     layout      = common.render("viewer")
     
     return dict(

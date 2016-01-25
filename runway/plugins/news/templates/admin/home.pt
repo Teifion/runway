@@ -1,20 +1,12 @@
-<div metal:use-macro="pre_content">
-  <div metal:fill-slot="sidebar_logo">
-    empty_module
-  </div>
-  
+<div metal:use-macro="layout">
   <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
     <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
-    <li><a href="${request.route_url('empty_module.home')}">empty_module</a></li>
-    <li class="active">empty_module section</li>
+    <li class="active">News</li>
   </ol>
   
   <div metal:fill-slot="content">
     <script type="text/javascript" charset="utf-8">
-      $(function() {
-        $('#sidebar_empty').addClass('menu-active');
-        $('#sidebar_empty a').addClass('icon-active');
-      });
+      sidebar_active('news');
     </script>
     
     <script src="${request.rel('static/validator.js')}"></script>
@@ -23,8 +15,8 @@
       <div class="col-md-12 col-lg-12">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <!-- <i class="fa fa-level-up fa-fw"></i> -->
-            empty_module
+            <i class="fa fa-newspaper-o fa-fw"></i>
+            News admin
           </div>
           
           <div class="panel-body">

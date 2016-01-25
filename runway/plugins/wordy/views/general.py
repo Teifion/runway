@@ -18,12 +18,11 @@ from ..models import (
 
 # def home(request):
 #     layout      = common.render("viewer")
-#     pre_content = common.render("general_menu")
+# 
     
 #     return dict(
 #         title       = "Page title",
 #         layout      = layout,
-#         pre_content = pre_content,
 #     )
 
 
@@ -43,7 +42,6 @@ def home(request):
     names = set(names)
     
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     return dict(
         title        = "Wordy",
@@ -51,7 +49,6 @@ def home(request):
         waiting_list = list(waiting_list),
         names        = db.get_names(names),
         layout       = layout,
-        pre_content  = pre_content,
     )
 
 def install(request):
@@ -91,13 +88,11 @@ def install(request):
         )
     
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     return dict(
         title       = "Wordy installation",
         content     = content,
         layout      = layout,
-        pre_content = pre_content,
     )
 
 def stats(request):
@@ -106,13 +101,11 @@ def stats(request):
     stats = db.get_stats(request.user.id)
     
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     return dict(
         title       = "Wordy stats",
         stats       = stats,
         layout      = layout,
-        pre_content = pre_content,
     )
 
 def head_to_head_stats(request):
@@ -155,14 +148,12 @@ def preferences(request):
         message = "success", "Changes saved"
     
     layout      = common.render("viewer")
-    pre_content = common.render("general_menu")
     
     return dict(
         title       = "Wordy preferences",
         profile     = profile,
         message     = message,
         layout      = layout,
-        pre_content = pre_content,
     )
 
 def blocked(request):

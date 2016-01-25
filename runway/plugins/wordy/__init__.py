@@ -6,14 +6,7 @@ site_settings = [
     ]],
 ]
 
-top_menu = {
-    "id": "wordy",
-    "permissions": [],
-    "route":"wordy.home",
-    "text": "wordy",
-    "order": 99,
-}
-side_menu = {
+site_menu = {
     "id": "wordy",
     "permissions": [],
     "route":"wordy.home",
