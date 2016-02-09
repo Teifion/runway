@@ -6,7 +6,7 @@ import json
 import transaction
 
 class UserTests(RunwayTester):
-    def test_api_runway_groups(self):
+    def test_runway_system_api(self):
         app = self.get_app()
         
         dev_key = api_f.get_key_by_user(1).key
