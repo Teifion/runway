@@ -24,7 +24,7 @@ def api_request(request):
             if p not in request.user.permissions():
                 return "You do not have permission to access the API function of '{}'".format(request_mode)
         
-        return the_handler()(the_handler, request)
+        return the_handler()(request, test_mode=False)
         
     
     else:

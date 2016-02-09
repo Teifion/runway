@@ -142,5 +142,9 @@ def includeme(config):
     from .commands import dev
     
     register_commands(dev)
+    
+    from .apis import (
+        dev_apis,
+    )
 
 from .documentation import *

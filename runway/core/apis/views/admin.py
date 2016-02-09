@@ -7,6 +7,8 @@ from ...lib import common
 def home(request):
     layout      = common.render("viewer")
     
+    request.add_documentation("api.add_handler")
+    
     keys = list(api_f.get_key_list())
     user_key = None
     
