@@ -12,4 +12,4 @@ class ExceptionCount(APIHandler):
     permissions = []
     
     def __call__(self, request, test_mode=False):
-        return len(exceptions_f.exception_count(request.user.id))
+        return exceptions_f.exception_count(request.user.id).get(None, 0)
