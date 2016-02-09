@@ -177,13 +177,6 @@ def exception_views(config):
     config.add_view(exceptions.dbapi_error, context=DBAPIError, renderer='templates/exceptions/dbapi_error.pt')
     config.add_view(exceptions.not_found_exception, context=NotFound, renderer='templates/exceptions/404.pt')
 
-def api_init():
-    from ..apis.lib.api_f import register_handler
-    from .apis import user_handlers
-    
-    register_handler("users", user_handlers.users, "admin")
-    register_handler("groups", user_handlers.groups, "admin")
-
 def includeme(config):
     authentication_views(config)
     main_views(config)
@@ -191,8 +184,6 @@ def includeme(config):
     exception_views(config)
     ajax_views(config)
     documentation_views(config)
-    
-    api_init()
     
     from .jobs import (
         prune_logs,
@@ -220,6 +211,10 @@ def includeme(config):
     append_to_hook("pre_render", groups_f.groups_pre_render)
     
     # append_to_hook("pre_render", lambda request: print("\n\n{}\n\n".format(request.path)))
+    
+    from .apis import (
+        user_handlers,
+    )
     
     # Commands
     from ...core.commands import register_commands

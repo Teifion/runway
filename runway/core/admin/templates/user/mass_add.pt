@@ -33,15 +33,8 @@
           </div>
               
           <div class="panel-body">
-            One person per line.
+            One person per line; just enter in a list of names and click the "check names" button. For more information see <a href="${request.route_url('admin.documentation.adding_users')}">the documentation</a>.
             <br /><br />
-            
-            <table class="table table-striped table-condensed">
-              <tr>
-                <th>Username</th>
-                <th>Actual name</th>
-              </tr>
-            </table>
             
             <form action="${request.route_url('admin.user.mass_add')}" method="post" data-toggle="validator">
               <textarea name="user_data" id="user_data" rows="8" class="form-control" autofocus="autofocus">${request.params.get('user_data','')}</textarea>
@@ -108,7 +101,7 @@
               <div class="col-md-9">
             
                 <div class="alert alert-success" style="text-align:center;">
-                  ${len(new_users)} users have been added. You are now able to add them to groups all at once from this window.
+                  ${len(new_users)} user${"s have" if len(new_users) > 1 else " has"} been added. You are now able to add them to groups all at once from this window.
                 </div>
                 
                 <form action="${request.route_url('admin.user.mass_add')}" method="post" data-toggle="validator" class="form-horizontal">
@@ -125,7 +118,7 @@
                   </div>
                   
                   <br /><br />
-                  <input type="submit" value="These names are correct, create the users" name="form.submitted" class="btn btn-primary pull-right" />
+                  <input type="submit" value="Add the users these groups" name="form.submitted" class="btn btn-primary pull-right" />
                 </form>
               </div>
             

@@ -22,7 +22,7 @@ def home(request):
         title       = "APIs: Home",
         layout      = layout,
         keys        = keys,
-        handlers    = api_f.handlers,
+        handlers    = api_f._handlers,
         user_key    = user_key,
     )
 

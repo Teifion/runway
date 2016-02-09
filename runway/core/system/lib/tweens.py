@@ -64,13 +64,21 @@ def logging_tween_factory(handler, registry):
         
         # Handle
         start = time()
-        try:
-            response = handler(request)
-        finally:
-            if hasattr(request, "user"):
-                request.user_log.user = request.user.id
-            else:
-                request.user_log.user = None
+        response = handler(request)
+        
+        if getattr(request, "api_bypass_tweens", False) == True:
+            return response
+        
+        # TODO
+        # This was erroring with the API calls and it looks
+        # like the request.user_log is never actually referenced
+        # try:
+        #     response = handler(request)
+        # finally:
+        #     if hasattr(request, "user"):
+        #         request.user_log.user = request.user.id
+        #     else:
+        #         request.user_log.user = None
         
         # If it's a forward we don't want to log it
         for h in response.headerlist:

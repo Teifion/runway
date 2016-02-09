@@ -36,16 +36,16 @@ def install_module(the_plugin):
     # with transaction.manager:
     #     site_settings_f.install_settings(install_f.get_module_settings(the_plugin))
     
-    # If it's got a specific install function we'll call that
-    if hasattr(the_plugin, "install"):
-        the_plugin.install()
-    
     # Check for a schema
     if hasattr(the_plugin, "schema"):
         # We know this is a fresh install so we don't need to check the
         # schema versioning
         with transaction.manager:
             schema_f.add_schema(the_plugin.route_prefix, the_plugin.schema.version)
+    
+    # If it's got a specific install function we'll call that
+    if hasattr(the_plugin, "install"):
+        the_plugin.install()
     
     # Now call update as that copies over things like static assets
     update_module(the_plugin)
@@ -56,10 +56,6 @@ def update_module(the_plugin):
     Called when we have a module already installed but just need to check to see
     if we need to update it (any new settings, schema etc)
     """
-    
-    # If it's got a specific update function we'll call that
-    if hasattr(the_plugin, "update"):
-        the_plugin.update()
     
     module_default_settings = install_f.get_module_settings(the_plugin)
     module_settings = site_settings_f.get_settings(*module_default_settings.keys())
@@ -86,5 +82,9 @@ def update_module(the_plugin):
     if os.path.isdir(plugin_static):
         cmd = "cp -R {plugin_static} {fp}/static/{plugin}".format(fp=_folder_path, plugin=the_plugin.route_prefix, plugin_static=plugin_static)
         os.system(cmd)
+    
+    # If it's got a specific update function we'll call that
+    if hasattr(the_plugin, "update"):
+        the_plugin.update()
     
     

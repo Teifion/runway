@@ -1,9 +1,11 @@
 from ...base import DBSession
 from ...system.models.user import User
-from ..models.models import APIKey
+from ..models import APIKey, APIHandler
 from sqlalchemy import and_
 from random import choice
 import string
+
+_handlers = {}
 
 def auth(key):
     the_key = DBSession.query(APIKey).filter(APIKey.key == key).first()
@@ -40,9 +42,27 @@ def get_user_by_key(key_id):
         APIKey.key == key_id,
     ).first()
 
-handlers = {}
-def register_handler(name, handler, permission):
-    if name in handlers and handler != handlers[name][0]:
-        raise KeyError("The handler by the name of {} already exists".format(name))
+def collect_handlers():
+    for h in APIHandler.__subclasses__():
+        _handlers[h.name] = h
+
+def get_key_by_user(user_id):
+    return DBSession.query(
+        APIKey
+    ).filter(
+        APIKey.user == user_id,
+    ).first()
+
+def test_response(result, msg=""):
+    """
+    Utility function for unit testing, checks for errors.
+    """
+    body = result.body.decode("utf-8")
     
-    handlers[name] = handler, permission
+    if body == "Key not found":
+        return "No API key supplied{}".format(msg)
+    
+    if body[:17] == "Request mode of '" and body[-14:] == "' is not valid":
+        return "Invalid mode{}".format(msg)
+    
+    return False

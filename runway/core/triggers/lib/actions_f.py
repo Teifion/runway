@@ -1,17 +1,5 @@
-# from ...base import DBSession
-# from ...system.models.user import User
-
-# from collections import namedtuple
 from ..models import Action
-# from sqlalchemy import and_, or_
-# from .. import human_time
-# from ...system.lib import errors_f
-# from ...system.models.user import User
-# from datetime import datetime
 from . import script_f
-
-# import sys
-# import transaction
 
 _actions = {}
 get_action_types = _actions.values
@@ -25,6 +13,7 @@ def collect_actions():
 
 def get_action(action_name):
     return _actions[action_name]
+
 script_f.get_action = get_action
 
 def create_instance(the_action):

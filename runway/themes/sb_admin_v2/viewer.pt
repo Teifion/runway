@@ -37,11 +37,11 @@
   </script>
   
   <style type="text/css" media="screen">
-    {structure:"\n".join(request._css_raws)}
+    ${structure:"\n".join(request._css_raws)}
   </style>
   
   <script type="text/javascript" charset="utf-8">
-    {structure:"\n".join(request._js_raws)}
+    ${structure:"\n".join(request._js_raws)}
   </script>
 </head>
   

@@ -15,6 +15,28 @@ def admin_views(config):
     config.add_view(admin.grant, route_name='api.admin.grant', permission='developer')
     config.add_view(admin.revoke, route_name='api.admin.revoke', permission='developer')
 
+def documentation_views(config):
+    from . import documentation
+    from ...core.documentation import basic_view
+    
+    config.add_route('api.documentation.add_handler', 'documentation/add_handler')
+    
+    config.add_view(
+        basic_view(documentation.AddAPIHandler),
+        route_name='api.documentation.add_handler',
+        renderer="templates/documentation/add_handler.pt",
+        permission="developer"
+    )
+
 def includeme(config):
     admin_views(config)
     entry_point_views(config)
+    documentation_views(config)
+    
+    from .lib import api_f
+    from ..hooks import append_to_hook
+    
+    append_to_hook("startup", api_f.collect_handlers)
+
+from .models import APIHandler
+from .documentation import *

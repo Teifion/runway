@@ -1,0 +1,59 @@
+<div metal:use-macro="layout">
+  <div metal:fill-slot="sidebar_logo">
+    Documentation
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('documentation.home')}">Documentation</a></li>
+    <li class="active">Adding new API Handlers</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script type="text/javascript" charset="utf-8">
+      
+    </script>
+    
+    <div class="row first-row"
+        tal:define="docs_by_tag documents_by_tag('quick-guide', the_documentation.name)"
+        tal:condition="len(docs_by_tag) > 0">
+      <div class="col-md-12">
+        <h4>Related documents</h4>
+        <a href="${request.route_url(w.route)}" tal:repeat="w docs_by_tag" class="btn btn-xs btn-info">${w.title}</a>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-12">
+        <h1>/apis/dummy_api.py</h1>
+        <pre>from ....core.apis import APIHandler
+
+class DummyAPI(APIHandler):
+    name = "module_name.dummy_api"
+    group = "module_name"
+    label = "dummy_api"
+    description = """Description."""
+    documentation = """HTML DOC"""
+    location = __file__
+    
+    permissions = []
+    
+    def __call__(self, request, test_mode=False):
+        pass
+</pre>
+        
+        <h1>/__init__.py</h1>
+        <pre>def includeme(config):
+    from .apis import (
+        dummy_api,
+    )
+        </pre>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+
+
+

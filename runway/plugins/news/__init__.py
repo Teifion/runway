@@ -44,7 +44,8 @@ def documentation_views(config):
 def init_auth():
     from ...core.system.lib import auth
     
-    ag = auth.add("news", 'Admin', {'admin'}, rank=1)
+    ag = auth.add("news", 'Admin', {'admin', 'publish'}, rank=1)
+    ag = auth.add("news", 'Publisher', {'publish'}, rank=1)
 
 def includeme(config):
     admin_views(config)
@@ -70,5 +71,15 @@ def includeme(config):
     # from .commands import user
     
     # register_commands(user)
+
+def install():
+    """Called when the schema doesn't exist (but it's called after the schema is added)"""
+    print("News install")
+
+def update():
+    """Called on install and an existing schema and when the schema doesn't exist. It is called 
+    after any schema updates."""
+    print("News update")
+
 
 from .documentation import *

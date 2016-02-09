@@ -17,6 +17,11 @@ class NewsChannel(Base):
     __tablename__ = 'news_channels'
     id            = Column(Integer, primary_key=True)
     
+    # A hidden name viewable only by the system
+    # this allows for "official" channels to be created
+    #  by various plugins
+    sys_name      = Column(String, default="")
+    
     name          = Column(String, default="")
     description   = Column(String, default="")
     permissions   = Column(String, default="")

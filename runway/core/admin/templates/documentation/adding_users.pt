@@ -15,7 +15,64 @@
     </script>
     
     <div class="row first-row">
-      
+      <div class="col-md-12">
+        <h3>How to add new users</h3>
+        <p>
+          There are two ways to add users to the system; one at a time or many at once. All new users are created with a default password of "password". You can also edit passwords through the <a href="${request.route_url('admin.home')}">admin panel</a>.
+        </p>
+        <br />
+        
+        <h4>One at a time</h4>
+        <p>
+          On the <a href="${request.route_url('admin.home')}">admin panel</a> there is a form with the label "Quick add user". A copy is below (it works too, you can add users via it).
+        </p>
+        <p>
+          Put in the user's full name (e.g. John Smith) and click the "Add" button. The new user will be created and you will be taken to their administration page where you can add groups and the like.
+        </p>
+        <div class="row">
+          <form action="${request.route_url('admin.user.quick_add')}" method="post" accept-charset="utf-8" class="form-horizontal col-lg-6 col-md-8">
+            <div class="form-group">
+              <label for="quick_username" class="col-sm-3 control-label">Quick add user: </label>
+              <div class="col-sm-7">
+                <input type="text" name="username" id="quick_username" value="" class="form-control" placeholder="First and surname of new user"/>
+              </div>
+              <div class="col-sm-2">
+                <input type="submit" value="Add" name="form.submitted" class="btn btn-primary" />
+              </div>
+            </div>
+          </form>
+        </div>
+        <br />
+        
+        <h4>Many at once</h4>
+        <p>
+          Under the form shown above is a button identical to the one below:
+        </p>
+        <div style="max-width:300px;">
+          <a href="${request.route_url('admin.user.mass_add')}" class="btn btn-default btn-block">
+            Mass add users
+          </a>
+        </div>
+        
+        <p>
+          If you click it you will be taken to a form consisting of a large text area. Enter a single name per row, enter as many names as you like and then click the "Check names" button.
+        </p>
+        <p>
+          The program will attempt to create new usernames for all the users (if a username is already taken it starts putting numbers at the end of it). If you are happy with these names then you can click the "These names are correct, create the users" button and they will be created.
+        </p>
+        
+        <strong>But wait, there's more!</strong>
+        <p>
+          Optionally; with the mass create you can add them to different user-groups you may have setup. Enter the group names in the box you are now presented with and click the "Add the users these groups" button.
+        </p>
+        
+        <p>
+          As with the single-user method each of these users will have a default password of "password" set though this can be changed through the admin interface.
+        </p>
+        
+        <br />
+        
+      </div>
     </div>
   </div>
 </div>
