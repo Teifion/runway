@@ -213,6 +213,10 @@ def includeme(config):
         restart,
     )
     
+    from .apis import (
+        usage,
+    )
+    
     register_hook("admin.sections", "Each function call should return a (url, icon, label, permissions) tuple which will be used to populate lists within the admin section.")
 
 from .documentation import *

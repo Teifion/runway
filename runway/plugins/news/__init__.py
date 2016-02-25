@@ -34,6 +34,13 @@ def admin_views(config):
     
     config.add_view(admin.home, route_name='news.admin.home', renderer='templates/admin/home.pt', permission='news.admin')
 
+def publisher_views(config):
+    from .views import admin
+    
+    config.add_route('news.publisher.home', 'admin/home')
+    
+    config.add_view(admin.home, route_name='news.admin.home', renderer='templates/admin/home.pt', permission='news.admin')
+
 def documentation_views(config):
     from ...core.documentation import basic_view
     
@@ -49,6 +56,8 @@ def init_auth():
 
 def includeme(config):
     admin_views(config)
+    # publisher_views(config)
+    # documentation_views(config)
     
     init_auth()
     

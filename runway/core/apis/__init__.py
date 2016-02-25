@@ -10,8 +10,10 @@ def admin_views(config):
     config.add_route('api.admin.home', 'admin/home')
     config.add_route('api.admin.grant', 'admin/grant')
     config.add_route('api.admin.revoke', 'admin/revoke/{key_id}')
+    config.add_route('api.admin.view', 'admin/view/{api_name}')
     
     config.add_view(admin.home, route_name='api.admin.home', renderer='templates/admin/home.pt', permission='developer')
+    config.add_view(admin.view, route_name='api.admin.view', renderer='templates/admin/view.pt', permission='developer')
     config.add_view(admin.grant, route_name='api.admin.grant', permission='developer')
     config.add_view(admin.revoke, route_name='api.admin.revoke', permission='developer')
 
@@ -37,6 +39,10 @@ def includeme(config):
     from ..hooks import append_to_hook
     
     append_to_hook("startup", api_f.collect_handlers)
+    
+    from .apis import (
+        dummy,
+    )
 
 from .models import APIHandler
 from .documentation import *

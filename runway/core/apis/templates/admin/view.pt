@@ -1,0 +1,72 @@
+<div metal:use-macro="layout">
+  <div metal:fill-slot="sidebar_logo">
+    Triggers
+  </div>
+  
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('dev.home')}">Developer</a></li>
+    <li><a href="${request.route_url('api.admin.home')}">APIs</a></li>
+    <li class="active">View API</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <div class="row first-row">
+      <div class="col-md-12 col-lg-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <!-- <i class="fa fa-wrench fa-fw"></i> -->
+            API: ${the_api.label} (${the_api.name})
+          </div>
+          
+          <div class="panel-body">
+            <a href="${request.route_url('api.admin.home')}" class="btn btn-default">
+              <i class="fa fa-level-up fa-fw"></i>
+              Back to API home
+            </a>
+            <a href="${request.route_url('api.request')}?key=${user_key.key}&amp;request=${the_api.name}" class="btn btn-default">
+              <i class="fa fa-play fa-fw"></i>
+              Open
+            </a>
+            <br /><br />
+            
+            <h3>Interface information</h3>
+            <table class="table">
+              <tbody>
+                <tr>
+                  <td><strong>Name:</strong></td>
+                  <td>${the_api.name}</td>
+                </tr>
+                <tr>
+                  <td><strong>Label:</strong></td>
+                  <td>${the_api.label}</td>
+                </tr>
+                <tr>
+                  <td colspan="2"><strong>Description:</strong><br />
+                  ${the_api.description}</td>
+                </tr>
+                <tr>
+                  <td colspan="2"><strong>Documentation:</strong><br />
+                  ${structure:the_api.documentation}</td>
+                </tr>
+                <tr>
+                  <td><strong>Permissions:</strong></td>
+                  <td>${", ".join(the_api.permissions)}</td>
+                </tr>
+                <tr>
+                  <td><strong>Location:</strong><br />
+                  ${the_api.location}</td>
+                </tr>
+              </tbody>
+            </table>
+            
+            
+          </div>
+        </div>
+      </div>
+      
+      
+    </div>
+    
+  </div>
+</div>

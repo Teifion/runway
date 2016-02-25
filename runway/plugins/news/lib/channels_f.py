@@ -6,6 +6,7 @@ from ....core.system.lib import user_f
 from ....core.base import DBSession
 import transaction
 from sqlalchemy.orm import aliased
+from sqlalchemy import and_
 
 def get_channels(owner, *other_tables):
     fields     = [NewsChannel]

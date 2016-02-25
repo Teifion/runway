@@ -4,6 +4,7 @@ from ...system.models.user import User, UserPermissionGroup
 from ...system.models import ViewLog, LogAggregate
 
 from ....core.nvd3 import pie_chart, line_chart, column_chart, colours
+from datetime import datetime, timedelta
 
 def user_sections(user_id, start_date, end_date):
     return DBSession.query(
@@ -141,3 +142,16 @@ def aggregate_charts(start_date, end_date, *filters):
         "unique_views": line_chart(start_date, end_date, unique_lines, y_label="Views"),
         "load_times": line_chart(start_date, end_date, load_lines, y_label="Average Load time (seconds)", tick_format=",.3f"),
     }
+
+def daily_tally(the_date=None):
+    if the_date is None:
+        the_date = datetime.today()
+    
+    the_date = datetime(the_date.year, the_date.month, the_date.day)
+    
+    return DBSession.query(
+        func.count(ViewLog.id),
+    ).filter(
+        ViewLog.timestamp >= the_date,
+        ViewLog.timestamp < (the_date + timedelta(days=1)),
+    ).first()[0]

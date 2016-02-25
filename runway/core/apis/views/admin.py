@@ -28,6 +28,22 @@ def home(request):
         user_key    = user_key,
     )
 
+def view(request):
+    layout   = common.render("viewer")
+    
+    api_name = request.matchdict['api_name']
+    
+    the_api = api_f._handlers[api_name]
+    user_key = api_f.get_key_by_user(request.user.id)
+    
+    return dict(
+        title    = "APIs: View",
+        layout   = layout,
+        the_api  = the_api,
+        
+        user_key = user_key,
+    )
+    
 def grant(request):
     username = request.params['username']
     
