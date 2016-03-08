@@ -83,11 +83,11 @@ def get_start_and_end_dates(params, period="month to date", start_date='start_da
     """
     
     found_end = datetime.today()
-    if params.get('end_date', '') != '':
-        found_end = datetime.strptime(params[end_date], '%Y-%m-%d')
+    if params.get('end_date', '').strip() != '':
+        found_end = datetime.strptime(params['end_date'], '%Y-%m-%d')
     
-    if params.get('start_date', '') != '':
-        found_start = datetime.strptime(params[start_date], '%Y-%m-%d')
+    if params.get('start_date', '').strip() != '':
+        found_start = datetime.strptime(params['start_date'], '%Y-%m-%d')
     else:
         if isinstance(period, str):
             if period == "month to date":
