@@ -147,11 +147,17 @@ def daily_tally(the_date=None):
     if the_date is None:
         the_date = datetime.today()
     
-    the_date = datetime(the_date.year, the_date.month, the_date.day)
+    end_date = datetime(the_date.year, the_date.month, the_date.day)
+    start_date = end_date - timedelta(days=2)
     
     return DBSession.query(
+        func.date(ViewLog.timestamp),
         func.count(ViewLog.id),
     ).filter(
-        ViewLog.timestamp >= the_date,
-        ViewLog.timestamp < (the_date + timedelta(days=1)),
-    ).first()[0]
+        ViewLog.timestamp >= start_date,
+        ViewLog.timestamp < end_date,
+    ).group_by(
+        func.date(ViewLog.timestamp)
+    ).order_by(
+        func.date(ViewLog.timestamp).desc()
+    )
