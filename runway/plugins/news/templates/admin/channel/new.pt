@@ -1,0 +1,41 @@
+<div metal:use-macro="layout">
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li class="active">News</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script type="text/javascript" charset="utf-8">
+      sidebar_active('news');
+    </script>
+    
+    <script src="${request.rel('static/validator.js')}"></script>
+    
+    <div class="row first-row">
+      <div class="col-md-6 col-lg-4">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            
+            <form action="${request.route_url('')}" method="post" class="form-horizontal" id="form">
+              <div class="form-group">
+                <label for="channel_name" class="col-sm-2 control-label">Chanel name:</label>
+                <div class="col-sm-10">
+                  <input type="text" name="name" id="channel_name" value="" placeholder="Chanel name" class="form-control" />
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="control_id" class="control-label">Chanel name:</label><br />
+                <textarea name="description" id="description" rows="8" class="form-control"></textarea>
+              </div>
+              
+              <input type="submit" value="Submit" name="form.submitted" class="btn btn-primary pull-right" />
+            </form>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>

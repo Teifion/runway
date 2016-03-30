@@ -12,6 +12,25 @@
     <script src="${request.rel('static/validator.js')}"></script>
     
     <div class="row first-row">
+      <div class="col-md-12">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            
+            <div class="row">
+              <div class="col-sm-3 col-md-2 col-lg-1">
+                <a href="${request.route_url('news.admin.channel.new')}" class="block-link">
+                  <i class="fa fa-plus fa-fw fa-3x"></i><br />
+                  New channel
+                </a>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row">
       <div class="col-md-12 col-lg-12">
         <div class="panel panel-default">
           <div class="panel-heading">
@@ -27,6 +46,7 @@
                   <th>Name</th>
                   <th>Owner</th>
                   <th>Description</th>
+                  <th>&nbsp;</th>
                 </tr>
               </thead>
               <tbody>
@@ -34,6 +54,11 @@
                   <td>${c.name}</td>
                   <td>${owner.username}</td>
                   <td>${c.description}</td>
+                  <td>
+                    <a href="{}" class="btn btn-default">
+                      Edit
+                    </a>
+                  </td>
                 </tr>
               </tbody>
             </table>

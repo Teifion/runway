@@ -14,3 +14,31 @@ def home(request):
         
         channels = channels,
     )
+
+def new_channel(request):
+    layout      = common.render("viewer")
+    
+    return dict(
+        title    = "New channel",
+        layout   = layout,
+    )
+
+    
+def edit_channel(request):
+    layout      = common.render("viewer")
+    
+    return dict(
+        title    = "Edit channel",
+        layout   = layout,
+    )
+
+    
+def delete_channel(request):
+    layout      = common.render("viewer")
+    
+    return dict(
+        title    = "Delete channel",
+        layout   = layout,
+    )
+
+

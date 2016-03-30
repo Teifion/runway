@@ -1,6 +1,7 @@
 from ....core.apis import APIHandler
 from ..lib import usage_f
 import json
+from datetime import date, timedelta
 
 class UsageAPI(APIHandler):
     name = "admin.usage"
@@ -15,12 +16,15 @@ class UsageAPI(APIHandler):
     def __call__(self, request, test_mode=False):
         results = usage_f.daily_tally()
         
+        today = date.today() - timedelta(days=1)
+        yesterday = date.today() - timedelta(days=2)
+        
         jresult = {}
         
         for r in results:
-            if jresult == {}:
+            if r[0] == today:
                 jresult['today'] = r[1]
-            else:
+            elif r[0] == yesterday:
                 jresult['yesterday'] = r[1]
         
         return json.dumps(jresult)

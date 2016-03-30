@@ -2,14 +2,14 @@ route_prefix = "news"
 
 from . import schema
 
-# site_menu = {
-#     "id": "news",
-#     "permissions": [],
-#     "route":"news.general.home",
-#     "icon": "fa-newspaper-o",
-#     "text": "News",
-#     "order": 20,
-# }
+site_menu = {
+    "id": "news",
+    "permissions": [],
+    "route":"news.general.home",
+    "icon": "fa-newspaper-o",
+    "text": "News",
+    "order": 20,
+}
 
 site_settings = [
     # ["News", [
@@ -24,7 +24,7 @@ user_settings = [
 ]
 
 admin_menu = (
-    ("news.admin.home", "fa-newspaper-o", "News", "news.admin"),
+    ("news.general.home", "fa-newspaper-o", "News", "news.admin"),
 )
 
 def admin_views(config):
@@ -32,32 +32,52 @@ def admin_views(config):
     
     config.add_route('news.admin.home', 'admin/home')
     
+    config.add_route('news.admin.channel.new', 'admin/channel/new')
+    config.add_route('news.admin.channel.edit', 'admin/channel/edit')
+    config.add_route('news.admin.channel.delete', 'admin/channel/delete')
+    
     config.add_view(admin.home, route_name='news.admin.home', renderer='templates/admin/home.pt', permission='news.admin')
+    
+    
+    config.add_view(admin.new_channel, route_name='news.admin.channel.new', renderer='templates/admin/channel/new.pt', permission='news.admin')
+    config.add_view(admin.edit_channel, route_name='news.admin.channel.edit', renderer='templates/admin/channel/edit.pt', permission='news.admin')
+    config.add_view(admin.delete_channel, route_name='news.admin.channel.delete', renderer='templates/admin/channel/delete.pt', permission='news.admin')
 
-def publisher_views(config):
-    from .views import admin
+def publish_views(config):
+    from .views import publish
     
-    config.add_route('news.publisher.home', 'admin/home')
+    config.add_route('news.publish.home', 'publish/home')
     
-    config.add_view(admin.home, route_name='news.admin.home', renderer='templates/admin/home.pt', permission='news.admin')
+    config.add_view(publish.home, route_name='news.publish.home', renderer='templates/publish/home.pt', permission='news.publish')
+
+def general_views(config):
+    from .views import general
+    
+    config.add_route('news.general.home', 'general/home')
+    config.add_route('news.general.control_panel', 'general/control_panel')
+    
+    config.add_view(general.home, route_name='news.general.home', renderer='templates/general/home.pt', permission='loggedin')
+    config.add_view(general.control_panel, route_name='news.general.control_panel', renderer='templates/general/control_panel.pt', permission='loggedin')
 
 def documentation_views(config):
-    from ...core.documentation import basic_view
+    pass
+    # from ...core.documentation import basic_view
     
-    config.add_route('news.documentation.doc_page', 'documentation/doc_page')
+    # config.add_route('news.documentation.doc_page', 'documentation/doc_page')
     
-    config.add_view(basic_view("Documentation page"), route_name='news.documentation.doc_page', renderer="templates/documentation/doc_page.pt", permission="loggedin")
+    # config.add_view(basic_view("Documentation page"), route_name='news.documentation.doc_page', renderer="templates/documentation/doc_page.pt", permission="loggedin")
 
 def init_auth():
     from ...core.system.lib import auth
     
     ag = auth.add("news", 'Admin', {'admin', 'publish'}, rank=1)
-    ag = auth.add("news", 'Publisher', {'publish'}, rank=1)
+    ag = auth.add("news", 'Publish', {'publish'}, rank=1)
 
 def includeme(config):
     admin_views(config)
-    # publisher_views(config)
-    # documentation_views(config)
+    publish_views(config)
+    documentation_views(config)
+    general_views(config)
     
     init_auth()
     

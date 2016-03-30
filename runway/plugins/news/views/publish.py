@@ -14,14 +14,4 @@ def home(request):
         stories = stories,
     )
 
-def control_panel(request):
-    layout      = common.render("viewer")
-    
-    stories = []
-    
-    return dict(
-        title   = "News",
-        layout  = layout,
-        
-        stories = stories,
-    )
+
