@@ -55,7 +55,7 @@
                   <td>${owner.username}</td>
                   <td>${c.description}</td>
                   <td>
-                    <a href="{}" class="btn btn-default">
+                    <a href="${request.route_url('news.admin.channel.edit', channel_id=c.id)}" class="btn btn-default">
                       Edit
                     </a>
                   </td>

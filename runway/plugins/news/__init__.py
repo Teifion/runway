@@ -1,10 +1,12 @@
+from ...core.system.lib import site_settings_f
+
 route_prefix = "news"
 
 from . import schema
 
 site_menu = {
     "id": "news",
-    "permissions": [],
+    "permissions": ['news'],
     "route":"news.general.home",
     "icon": "fa-newspaper-o",
     "text": "News",
@@ -12,9 +14,9 @@ site_menu = {
 }
 
 site_settings = [
-    # ["News", [
-    #     ("news.setting", "Permissions", "Label", "Type", "Default", """Description"""),
-    # ]],
+    ["News", [
+        ("news.global_visibility", "admin", "Global visibility", "boolean", "True", """Everybody will be able to see the news section as a whole. Channels can still mark themselves as private and will be hidden to those not in the relevant groups."""),
+    ]],
 ]
 
 user_settings = [
@@ -24,7 +26,7 @@ user_settings = [
 ]
 
 admin_menu = (
-    ("news.general.home", "fa-newspaper-o", "News", "news.admin"),
+    ("news.admin.home", "fa-newspaper-o", "News", "news.admin"),
 )
 
 def admin_views(config):
@@ -33,8 +35,12 @@ def admin_views(config):
     config.add_route('news.admin.home', 'admin/home')
     
     config.add_route('news.admin.channel.new', 'admin/channel/new')
-    config.add_route('news.admin.channel.edit', 'admin/channel/edit')
+    config.add_route('news.admin.channel.edit', 'admin/channel/edit/{channel_id}')
     config.add_route('news.admin.channel.delete', 'admin/channel/delete')
+    
+    config.add_route('news.admin.item.new', 'admin/item/new')
+    config.add_route('news.admin.item.edit', 'admin/item/edit/{item_id}')
+    config.add_route('news.admin.item.delete', 'admin/item/delete')
     
     config.add_view(admin.home, route_name='news.admin.home', renderer='templates/admin/home.pt', permission='news.admin')
     
@@ -42,6 +48,11 @@ def admin_views(config):
     config.add_view(admin.new_channel, route_name='news.admin.channel.new', renderer='templates/admin/channel/new.pt', permission='news.admin')
     config.add_view(admin.edit_channel, route_name='news.admin.channel.edit', renderer='templates/admin/channel/edit.pt', permission='news.admin')
     config.add_view(admin.delete_channel, route_name='news.admin.channel.delete', renderer='templates/admin/channel/delete.pt', permission='news.admin')
+    
+    
+    config.add_view(admin.new_item, route_name='news.admin.item.new', renderer='templates/admin/item/new.pt', permission='news.admin')
+    config.add_view(admin.edit_item, route_name='news.admin.item.edit', renderer='templates/admin/item/edit.pt', permission='news.admin')
+    config.add_view(admin.delete_item, route_name='news.admin.item.delete', renderer='templates/admin/item/delete.pt', permission='news.admin')
 
 def publish_views(config):
     from .views import publish
@@ -49,6 +60,51 @@ def publish_views(config):
     config.add_route('news.publish.home', 'publish/home')
     
     config.add_view(publish.home, route_name='news.publish.home', renderer='templates/publish/home.pt', permission='news.publish')
+    
+    
+    config.add_route('news.publish.channel.new', 'publish/channel/new')
+    config.add_route('news.publish.channel.edit', 'publish/channel/edit/{channel_id}')
+    config.add_route('news.publish.channel.delete', 'publish/channel/delete')
+    
+    config.add_route('news.publish.item.new', 'publish/item/new')
+    config.add_route('news.publish.item.edit', 'publish/item/edit/{item_id}')
+    config.add_route('news.publish.item.publish', 'publish/item/publish/{item_id}')
+    config.add_route('news.publish.item.review', 'publish/item/review/{item_id}')
+    config.add_route('news.publish.item.delete', 'publish/item/delete')
+    
+    
+    config.add_view(publish.new_channel, route_name='news.publish.channel.new', renderer='templates/publish/channel/new.pt', permission='news.publish')
+    config.add_view(publish.edit_channel, route_name='news.publish.channel.edit', renderer='templates/publish/channel/edit.pt', permission='news.publish')
+    config.add_view(publish.delete_channel, route_name='news.publish.channel.delete', renderer='templates/publish/channel/delete.pt', permission='news.publish')
+    
+    config.add_view(publish.new_item, route_name='news.publish.item.new', renderer='templates/publish/item/new.pt', permission='news.publish')
+    config.add_view(publish.edit_item, route_name='news.publish.item.edit', renderer='templates/publish/item/edit.pt', permission='news.publish')
+    config.add_view(publish.publish_item, route_name='news.publish.item.publish', renderer='templates/publish/item/publish.pt', permission='news.publish')
+    config.add_view(publish.review_item, route_name='news.publish.item.review', renderer='templates/publish/item/review.pt', permission='news.publish')
+    config.add_view(publish.delete_item, route_name='news.publish.item.delete', renderer='templates/publish/item/delete.pt', permission='news.publish')
+
+def channel_views(config):
+    from .views import channel
+    
+    config.add_route('news.channel.view', 'channel/view/{channel_id}')
+    config.add_route('news.channel.search', 'channel/search/{channel_id}')
+    config.add_route('news.channel.subscribe', 'channel/subscribe/{channel_id}')
+    config.add_route('news.channel.unsubscribe', 'channel/unsubscribe/{channel_id}')
+    
+    config.add_view(channel.view, route_name='news.channel.view', renderer='templates/channel/view.pt', permission='news')
+    config.add_view(channel.search, route_name='news.channel.search', renderer='templates/channel/search.pt', permission='news')
+    
+    config.add_view(channel.subscribe, route_name='news.channel.subscribe', renderer='templates/channel/subscribe.pt', permission='news')
+    config.add_view(channel.unsubscribe, route_name='news.channel.unsubscribe', renderer='templates/channel/unsubscribe.pt', permission='news')
+
+def item_views(config):
+    from .views import item
+    
+    config.add_route('news.item.view', 'item/view/{item_id}')
+    config.add_route('news.item.sign', 'item/sign/{item_id}')
+    
+    config.add_view(item.view, route_name='news.item.view', renderer='templates/item/view.pt', permission='news')
+    config.add_view(item.sign, route_name='news.item.sign', renderer='templates/item/sign.pt', permission='news')
 
 def general_views(config):
     from .views import general
@@ -56,8 +112,8 @@ def general_views(config):
     config.add_route('news.general.home', 'general/home')
     config.add_route('news.general.control_panel', 'general/control_panel')
     
-    config.add_view(general.home, route_name='news.general.home', renderer='templates/general/home.pt', permission='loggedin')
-    config.add_view(general.control_panel, route_name='news.general.control_panel', renderer='templates/general/control_panel.pt', permission='loggedin')
+    config.add_view(general.home, route_name='news.general.home', renderer='templates/general/home.pt', permission='news')
+    config.add_view(general.control_panel, route_name='news.general.control_panel', renderer='templates/general/control_panel.pt', permission='news')
 
 def documentation_views(config):
     pass
@@ -65,20 +121,26 @@ def documentation_views(config):
     
     # config.add_route('news.documentation.doc_page', 'documentation/doc_page')
     
-    # config.add_view(basic_view("Documentation page"), route_name='news.documentation.doc_page', renderer="templates/documentation/doc_page.pt", permission="loggedin")
+    # config.add_view(basic_view("Documentation page"), route_name='news.documentation.doc_page', renderer="templates/documentation/doc_page.pt", permission="news")
 
 def init_auth():
     from ...core.system.lib import auth
     
     ag = auth.add("news", 'Admin', {'admin', 'publish'}, rank=1)
     ag = auth.add("news", 'Publish', {'publish'}, rank=1)
+    
+    if site_settings_f.get_setting("news.global_visibility") == "True":
+        auth.global_permissions.extend(["news"])
+        site_menu['permissions'] = []
 
 def includeme(config):
     admin_views(config)
     publish_views(config)
-    documentation_views(config)
+    channel_views(config)
+    item_views(config)
     general_views(config)
-    
+    documentation_views(config)
+
     init_auth()
     
     # from .jobs import (

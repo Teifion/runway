@@ -24,4 +24,23 @@ def get_channels(owner, *other_tables):
             fields.append(owner_table)
             outerjoins.append((owner_table, and_(owner_table.id == NewsChannel.owner)))
     
-    return DBSession.query(*fields).filter(*filters).join(*joins).outerjoin(*outerjoins).first()
+    return DBSession.query(*fields).filter(*filters).join(*joins).outerjoin(*outerjoins)
+
+def get_channel(channel_id):
+    return DBSession.query(
+        NewsChannel
+    ).filter(
+        NewsChannel.id == channel_id
+    ).first()
+
+def add_channel(the_channel, return_id=False):
+    DBSession.add(the_channel)
+    
+    if return_id:
+        return DBSession.query(
+            NewsChannel.id,
+        ).filter(
+            NewsChannel.sys_name == the_channel.sys_name,
+        ).ordery_by(
+            NewsChannel.id.desc()
+        ).first()[0]
