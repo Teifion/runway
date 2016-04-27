@@ -1,0 +1,107 @@
+<div metal:use-macro="layout">
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('news.general.home')}">News</a></li>
+    <li><a href="${request.route_url('news.admin.home')}">Admin</a></li>
+    <li class="active">Edit item</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script type="text/javascript" charset="utf-8">
+      sidebar_active('news');
+    </script>
+    
+    <div class="row first-row">
+    
+      <!-- Main form -->
+      <div class="col-md-12 col-lg-6">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            
+            <form action="${request.route_url('news.admin.item.edit', item_id=the_item.id)}" method="post" class="form-horizontal" id="form">
+              <a href="${request.route_url('news.admin.home')}" class="btn btn-default">
+                <i class="fa fa-level-up"></i>
+                Admin home
+              </a>
+              <a href="${request.route_url('news.admin.channel.edit', channel_id=the_item.channel)}" class="btn btn-default">
+                <i class="fa fa-level-up"></i>
+                Edit parent channel
+              </a>
+              <br /><br />
+            
+              <div class="form-group">
+                <label for="title" class="col-sm-2 control-label">Title:</label>
+                <div class="col-sm-10">
+                  <input type="text" name="title" id="title" value="${the_item.title}" placeholder="Item title" class="form-control" autofocus="autofocus" />
+                </div>
+              </div>
+            
+              <div class="form-group">
+                <label for="title" class="col-sm-2 control-label">Icon:</label>
+                <div class="col-sm-10">
+                  <input type="text" name="icon" id="icon" value="${the_item.icon}" placeholder="FontAwesome Icon" class="form-control" />
+                </div>
+              </div>
+              
+            
+              <div class="form-group">
+                <label for="poster_search" class="col-sm-2 control-label" style="text-align:right;">Poster:</label>
+                <div class="col-sm-8">
+                  <div class="input-group">
+                    <span class="input-group-addon btn-info btn" onclick="user_picker('#poster_search');">
+                      <i class="fa fa-user fa-fw"></i>
+                    </span>
+                    <input type="text" class="form-control" id="poster_search" name="poster" placeholder="${request.user.username}" value="${the_poster.username}" autofocus="autofocus" />
+                  </div>
+                </div>
+                <div class="col-sm-2">
+                  <input type="submit" value="Search" name="form.submitted" class="btn btn-primary" />
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="title" class="col-sm-2 control-label">Timestamp:</label>
+                <div class="col-sm-10">
+                  <input type="datetime-local" name="timestamp" id="timestamp" value="${the_item.timestamp.strftime('%Y-%m-%dT%H:%M') if the_item.timestamp != None else ''}" class="form-control" />
+                </div>
+                <div class="col-sm-10 col-sm-offset-2">
+                  <em>If the timestamp is set in the future then the news item will not be displayed until that time.</em>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <div class="col-md-12">
+                  <label for="control_id" class="col-sm-2 control-label">Hidden:</label><br />
+                  <div class="col-sm-10">
+                    <input type="checkbox" name="hidden" id="form_hidden" value="True" class="form-control" tal:attributes="checked ('checked' if the_item.hidden else None)"/>
+                  </div>
+                </div>
+                <div class="col-sm-10 col-sm-offset-2">
+                  <em>If the item is hidden then it will not be visible regardless of when the timestamp is set to</em>
+                </div>
+              </div>
+              
+              
+              <div class="form-group">
+                <div class="col-sm-12">
+                  <label for="title" class="control-label">Content:</label><br />
+                  <textarea name="content" id="content" rows="8" class="form-control">${the_item.content}</textarea>
+                </div>
+              </div>
+              
+              
+              <a href="${request.route_url('news.admin.item.delete', item_id=the_item.id)}" class="btn btn-danger">Delete item</a>
+              
+              <input type="submit" value="Submit" name="form.submitted" class="btn btn-primary pull-right" />
+            </form>
+            
+          </div>
+        </div>
+        
+        
+        
+      </div>
+    </div>
+    
+  </div>
+</div>

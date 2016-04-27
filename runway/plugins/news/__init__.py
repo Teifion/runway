@@ -36,11 +36,12 @@ def admin_views(config):
     
     config.add_route('news.admin.channel.new', 'admin/channel/new')
     config.add_route('news.admin.channel.edit', 'admin/channel/edit/{channel_id}')
-    config.add_route('news.admin.channel.delete', 'admin/channel/delete')
+    config.add_route('news.admin.channel.delete', 'admin/channel/delete/{channel_id}')
+    config.add_route('news.admin.channel.hide', 'admin/channel/hide/{channel_id}')
     
     config.add_route('news.admin.item.new', 'admin/item/new')
     config.add_route('news.admin.item.edit', 'admin/item/edit/{item_id}')
-    config.add_route('news.admin.item.delete', 'admin/item/delete')
+    config.add_route('news.admin.item.delete', 'admin/item/delete/{item_id}')
     
     config.add_view(admin.home, route_name='news.admin.home', renderer='templates/admin/home.pt', permission='news.admin')
     
@@ -48,6 +49,7 @@ def admin_views(config):
     config.add_view(admin.new_channel, route_name='news.admin.channel.new', renderer='templates/admin/channel/new.pt', permission='news.admin')
     config.add_view(admin.edit_channel, route_name='news.admin.channel.edit', renderer='templates/admin/channel/edit.pt', permission='news.admin')
     config.add_view(admin.delete_channel, route_name='news.admin.channel.delete', renderer='templates/admin/channel/delete.pt', permission='news.admin')
+    config.add_view(admin.hide_channel, route_name='news.admin.channel.hide', permission='news.admin')
     
     
     config.add_view(admin.new_item, route_name='news.admin.item.new', renderer='templates/admin/item/new.pt', permission='news.admin')

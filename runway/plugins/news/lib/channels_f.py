@@ -44,3 +44,6 @@ def add_channel(the_channel, return_id=False):
         ).ordery_by(
             NewsChannel.id.desc()
         ).first()[0]
+
+def delete_channel(the_channel):
+    DBSession.delete(the_channel)

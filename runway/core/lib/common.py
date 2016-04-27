@@ -225,6 +225,7 @@ def string_to_datetime(the_string, default=None):
     """Takes a date represented as a string and returns a datetime"""
     attempts = (
         '%Y-%m-%dT%H:%M:%S',
+        '%Y-%m-%dT%H:%M',
         '%Y-%m-%d',
         
         '%H:%M:%S %d/%m/%Y',

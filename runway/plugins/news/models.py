@@ -26,6 +26,7 @@ class NewsChannel(Base):
     description   = Column(String, default="")
     permissions   = Column(String, default="")
     
+    hidden        = Column(Boolean, default=False)
     owner         = Column(Integer, ForeignKey("runway_users.id"), nullable=False)
 
 class NewsItem(Base):
@@ -33,9 +34,19 @@ class NewsItem(Base):
     id            = Column(Integer, primary_key=True)
     
     channel       = Column(Integer, ForeignKey("news_channels.id"), nullable=False)
-    name          = Column(String, nullable=False)
+    title         = Column(String, nullable=False)
     icon          = Column(String, nullable=False)
     content       = Column(String, nullable=False)
     
     poster        = Column(Integer, ForeignKey("runway_users.id"), nullable=False)
-    timestamp     = Column(DateTime, nullable=False)
+    timestamp     = Column(DateTime, nullable=True)
+    
+    hidden        = Column(Boolean, default=False)
+
+class NewsItemTag(Base):
+    __tablename__ = 'news_item_tags'
+    # id            = Column(Integer, primary_key=True)
+    
+    item          = Column(Integer, ForeignKey("news_items.id"), nullable=False, primary_key=True)
+    text          = Column(String, nullable=False, index=True, primary_key=True)
+

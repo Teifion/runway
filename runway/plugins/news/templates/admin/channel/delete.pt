@@ -1,0 +1,48 @@
+<div metal:use-macro="layout">
+  <div metal:fill-slot="content">
+    
+    <div class="panel panel-danger" tal:condition="the_channel != None">
+      <div class="panel-heading">
+        <h3 class="panel-title">Are you sure you want to delete this channel?</h3>
+      </div>
+      <div class="panel-body">
+        If you delete it then we cannot recover it. You could hide it instead.
+        <br /><br />
+        
+        <a href="${request.route_url('news.admin.home')}" class="btn btn-block btn-default">
+          Keep the channel
+        </a>
+        
+        <a href="${request.route_url('news.admin.channel.hide', channel_id=the_channel.id)}" class="btn btn-block btn-default">
+          Hide the channel
+        </a>
+        <br />
+        
+        <form action="${request.route_url('news.admin.channel.delete', channel_id=the_channel.id)}" method="post" class="form-horizontal" id="form">
+          <input type="hidden" name="confirm" id="confirm" value="confirm" />
+          
+          <input type="submit" value="Delete the channel" name="form.submitted" class="btn btn-block btn-danger" />
+        </form>
+        
+      </div>
+    </div>
+    
+    
+    
+    <div class="panel panel-danger" tal:condition="the_channel == None">
+      <div class="panel-heading">
+        <h3 class="panel-title">Channel deleted</h3>
+      </div>
+      <div class="panel-body">
+        The channel was successfully deleted.
+        <br /><br />
+        
+        <a href="${request.route_url('news.admin.home')}" class="btn btn-block btn-default">
+          Admin home
+        </a>
+      </div>
+    </div>
+    
+    
+  </div>
+</div>
