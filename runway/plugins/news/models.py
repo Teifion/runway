@@ -50,3 +50,12 @@ class NewsItemTag(Base):
     item          = Column(Integer, ForeignKey("news_items.id"), nullable=False, primary_key=True)
     text          = Column(String, nullable=False, index=True, primary_key=True)
 
+class NewsItemLog(Base):
+    __tablename__ = 'news_item_logs'
+    # id            = Column(Integer, primary_key=True)
+    
+    user          = Column(Integer, ForeignKey("runway_users.id"), nullable=False, primary_key=True)
+    item          = Column(Integer, ForeignKey("news_items.id"), nullable=False, primary_key=True)
+    state         = Column(Integer, nullable=False)
+    timestamp     = Column(DateTime, nullable=False)
+

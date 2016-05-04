@@ -1,7 +1,9 @@
 <div metal:use-macro="layout">
   <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
     <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
-    <li class="active">News</li>
+    <li><a href="${request.route_url('news.general.home')}">News</a></li>
+    <li><a href="${request.route_url('news.admin.home')}">Admin</a></li>
+    <li class="active">New channel</li>
   </ol>
   
   <div metal:fill-slot="content">

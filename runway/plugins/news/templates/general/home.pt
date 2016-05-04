@@ -9,8 +9,6 @@
       sidebar_active('news');
     </script>
     
-    <script src="${request.rel('static/validator.js')}"></script>
-    
     <div class="row first-row">
       <div class="col-md-12">
         <div class="panel panel-default">

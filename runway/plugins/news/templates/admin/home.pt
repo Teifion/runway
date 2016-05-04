@@ -53,7 +53,7 @@
                   <th>Name</th>
                   <th>Owner</th>
                   <th>Description</th>
-                  <th>Status</th>
+                  <th>Permissions</th>
                   <th>&nbsp;</th>
                 </tr>
               </thead>

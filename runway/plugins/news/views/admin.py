@@ -4,6 +4,7 @@ from ....core.system.lib import user_f, logs_f
 from ..lib import channels_f, items_f
 from ..models import NewsChannel, NewsItem
 from ....core.system.js_widgets import UserPicker
+from ....core.system.lib import site_settings_f, user_settings_f
 
 def home(request):
     layout      = common.render("viewer")
@@ -139,7 +140,7 @@ def new_item(request):
         )
         
         items_f.add_item(the_item)
-        return HTTPFound(request.route_url("news.admin.home"))
+        return HTTPFound(request.route_url("news.admin.channel.edit", channel_id=channel_id))
     else:
         raise common.GracefulException("We need a name", """
             We need a title for this item! Without it we can't create the item.
@@ -154,12 +155,25 @@ def new_item(request):
 def edit_item(request):
     layout      = common.render("viewer")
     
+    if request.params.get("editor", "") == "raw":
+        editor = "raw"
+    else:
+        editor = user_settings_f.get_setting(request.user.id, "news.editor")
+        if editor in ("Default", None):
+            editor = site_settings_f.get_setting("news.editor")
+    
     item_id = int(request.matchdict['item_id'])
     the_item, the_poster = items_f.get_item(item_id, "poster")
     
     UserPicker(request)
     
     if request.params.get("title","").strip() != "":
+        
+        # print("\n\n")
+        # print(request.params.get("content","").strip())
+        # print("\n\n")
+        # raise Exception("")
+        
         title = request.params.get("title","").strip()
         title = title.replace(" ", "_")
         
@@ -189,6 +203,9 @@ def edit_item(request):
         
         the_item   = the_item,
         the_poster = the_poster,
+        
+        editor     = editor,
+        cdn        = site_settings_f.get_setting("news.cdn"),
     )
 
 def delete_item(request):

@@ -1,0 +1,31 @@
+<div metal:use-macro="layout">
+  <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
+    <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
+    <li><a href="${request.route_url('news.general.home')}">News</a></li>
+    <li class="active">View item</li>
+  </ol>
+  
+  <div metal:fill-slot="content">
+    <script type="text/javascript" charset="utf-8">
+      sidebar_active('news');
+    </script>
+    
+    <div class="row first-row">
+      
+      <!-- Main form -->
+      <div class="col-md-12 col-lg-12">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            
+            ${structure:the_item.content}
+            
+          </div>
+        </div>
+      </div>
+      
+      
+      
+    </div>
+    
+  </div>
+</div>

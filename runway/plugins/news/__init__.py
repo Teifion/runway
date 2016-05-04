@@ -16,13 +16,15 @@ site_menu = {
 site_settings = [
     ["News", [
         ("news.global_visibility", "admin", "Global visibility", "boolean", "True", """Everybody will be able to see the news section as a whole. Channels can still mark themselves as private and will be hidden to those not in the relevant groups."""),
+        ("news.editor", "news.admin", "Editor", "list:TinyMCE,Summernote,ACE", "Summernote", """The type of editor used to edit documents."""),
+        ("news.cdn", "news.cdn", "CDN", "boolean", "False", """Do you want to use the CDN for loading of the editor. If yes it will use the cloudflare CDN (Content Delivery Network) rather than loading it from the server version. Defaults to off."""),
     ]],
 ]
 
 user_settings = [
-    # ["News", [
-    #     ("news.setting", True, "Label", "Type", "Default", """Description"""),
-    # ]],
+    ["News", [
+        ("news.editor", True, "Editor", "list:Default,TinyMCE,Summernote,ACE", "Default", """The editor window used when writing or editing documents."""),
+    ]],
 ]
 
 admin_menu = (

@@ -1,7 +1,9 @@
 <div metal:use-macro="layout">
   <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
     <li><a href="${request.route_url('/')}">${request.runway_settings.system['name']}</a></li>
-    <li class="active">News</li>
+    <li><a href="${request.route_url('news.general.home')}">News</a></li>
+    <li><a href="${request.route_url('news.admin.home')}">Admin</a></li>
+    <li class="active">Edit channel</li>
   </ol>
   
   <div metal:fill-slot="content">
@@ -49,9 +51,11 @@
                 </div>
               </div>
               
-              <a href="${request.route_url('news.admin.channel.delete', channel_id=the_channel.id)}" class="btn btn-danger">Delete channel</a>
+              
               
               <input type="submit" value="Submit" name="form.submitted" class="btn btn-primary pull-right" />
+              
+              <a href="${request.route_url('news.admin.channel.delete', channel_id=the_channel.id)}" class="btn btn-danger">Delete channel</a>
             </form>
             
           </div>
@@ -70,7 +74,7 @@
                   <th>Icon</th>
                   <th>Poster</th>
                   <th>Timestamp</th>
-                  <th>&nbsp;</th>
+                  <th colspan="2">&nbsp;</th>
                 </tr>
               </thead>
               <tbody>
@@ -83,7 +87,14 @@
                   <td>${poster.username}</td>
                   <td>${item.timestamp.strftime("%H:%M %d/%m/%Y") if item.timestamp != None else ""}</td>
                   <td>
+                    <a href="${request.route_url('news.item.view', item_id=item.id)}" class="btn btn-default btn-block">
+                      <i class="fa fa-eye"></i>
+                      View
+                    </a>
+                  </td>
+                  <td>
                     <a href="${request.route_url('news.admin.item.edit', item_id=item.id)}" class="btn btn-default btn-block">
+                      <i class="fa fa-wrench"></i>
                       Edit
                     </a>
                   </td>
@@ -107,7 +118,7 @@
                       &nbsp;
                     </td>
                     
-                    <td>
+                    <td colspan="2">
                       <input type="submit" value="Submit" name="form.submitted" class="btn btn-primary btn-block" />
                     </td>
                     
