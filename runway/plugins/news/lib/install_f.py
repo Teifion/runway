@@ -1,5 +1,5 @@
 from ..models import (
-    NewsChannel,
+    Channel,
 )
 from ....core.system.models.user import User
 from ....core.system.lib import user_f

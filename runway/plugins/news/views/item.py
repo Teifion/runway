@@ -2,7 +2,7 @@ from pyramid.httpexceptions import HTTPFound
 from ....core.lib import common
 from ....core.system.lib import user_f, logs_f
 from ..lib import channels_f, items_f
-from ..models import NewsChannel, NewsItem
+from ..models import Channel, Item
 from ....core.system.js_widgets import UserPicker
 
 def view(request):

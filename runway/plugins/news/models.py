@@ -13,7 +13,7 @@ from sqlalchemy.dialects.postgresql import ARRAY
 
 from ...core.base import Base
 
-class NewsChannel(Base):
+class Channel(Base):
     __tablename__ = 'news_channels'
     id            = Column(Integer, primary_key=True)
     
@@ -29,7 +29,13 @@ class NewsChannel(Base):
     hidden        = Column(Boolean, default=False)
     owner         = Column(Integer, ForeignKey("runway_users.id"), nullable=False)
 
-class NewsItem(Base):
+class Subscription(Base):
+    __tablename__ = 'news_subscriptions'
+    
+    user    = Column(Integer, ForeignKey("runway_users.id"), nullable=False, primary_key=True)
+    channel = Column(Integer, ForeignKey("news_channels.id"), nullable=False, primary_key=True)
+
+class Item(Base):
     __tablename__ = 'news_items'
     id            = Column(Integer, primary_key=True)
     
@@ -43,14 +49,14 @@ class NewsItem(Base):
     
     hidden        = Column(Boolean, default=False)
 
-class NewsItemTag(Base):
+class ItemTag(Base):
     __tablename__ = 'news_item_tags'
     # id            = Column(Integer, primary_key=True)
     
     item          = Column(Integer, ForeignKey("news_items.id"), nullable=False, primary_key=True)
     text          = Column(String, nullable=False, index=True, primary_key=True)
 
-class NewsItemLog(Base):
+class ItemLog(Base):
     __tablename__ = 'news_item_logs'
     # id            = Column(Integer, primary_key=True)
     

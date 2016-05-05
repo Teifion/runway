@@ -11,6 +11,47 @@
     </script>
     
     <div class="row first-row">
+      <div class="col-md-12">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            
+            <div class="row">
+              <div class="col-sm-3 col-md-2 col-lg-1">
+                <a href="${request.route_url('news.general.home')}" class="block-link">
+                  <i class="fa fa-newspaper-o fa-fw fa-3x"></i><br />
+                  News Home
+                </a>
+              </div>
+              
+              <div class="col-sm-3 col-md-2 col-lg-1">
+                <a href="${request.route_url('news.channel.view', channel_id=the_item.channel)}" class="block-link">
+                  <i class="fa fa-list fa-fw fa-3x"></i><br />
+                  Channel
+                </a>
+              </div>
+              
+              <div class="col-sm-3 col-md-2 col-lg-1" tal:condition="'news.admin' in request.user.permissions()">
+                <a href="${request.route_url('news.admin.home')}" class="block-link">
+                  <i class="fa fa-users fa-fw fa-3x"></i><br />
+                  Admin
+                </a>
+              </div>
+              
+              
+              <div class="col-sm-3 col-md-2 col-lg-1" tal:condition="'news.publish' in request.user.permissions()">
+                <a href="${request.route_url('news.publish.home')}" class="block-link">
+                  <i class="fa fa-print fa-fw fa-3x"></i><br />
+                  Publish
+                </a>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row">
       
       <!-- Main form -->
       <div class="col-md-12 col-lg-12">

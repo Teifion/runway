@@ -2,7 +2,7 @@ from pyramid.httpexceptions import HTTPFound
 from ....core.lib import common
 from ....core.system.lib import user_f, logs_f
 from ..lib import channels_f, items_f
-from ..models import NewsChannel, NewsItem
+from ..models import Channel, Item
 from ....core.system.js_widgets import UserPicker
 from ....core.system.lib import site_settings_f, user_settings_f
 
@@ -26,7 +26,7 @@ def new_channel(request):
         channel_name = request.params.get("channel_name","").strip()
         sys_name = channel_name.replace(" ", "_")
         
-        the_channel = NewsChannel(
+        the_channel = Channel(
             sys_name      = sys_name,
             name          = channel_name,
             
@@ -67,6 +67,7 @@ def edit_channel(request):
         return HTTPFound(request.route_url('news.admin.channel.edit', channel_id=the_channel.id))
     
     channel_items = items_f.get_items(the_channel.id, "poster")
+    subscriptions = channels_f.get_subscriptions(the_channel.id, get_users=True)
     
     return dict(
         title         = "Edit channel",
@@ -74,6 +75,7 @@ def edit_channel(request):
         
         the_channel   = the_channel,
         channel_items = channel_items,
+        subscriptions = subscriptions,
     )
 
     
@@ -127,7 +129,7 @@ def new_item(request):
         
         sys_name = title.replace(" ", "_")
         
-        the_item = NewsItem(
+        the_item = Item(
             channel       = channel_id,
             title         = title,
             icon          = "",
