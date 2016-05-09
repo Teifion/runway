@@ -1,5 +1,5 @@
 """
-This is the ...
+This is the command line interface entry point for the Runway application.
 """
 
 import os

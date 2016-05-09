@@ -129,8 +129,6 @@
                     
                   </form>
                   
-                  
-                  
                 </tr>
                 
                 
@@ -144,18 +142,17 @@
         </div>
         
         <div class="panel panel-default">
+          <div class="panel-heading">
+            <!-- <i class="fa fa-bars fa-fw"></i> -->
+            Subscriptions
+          </div>
+              
           <div class="panel-body">
-            
-            <div class="panel-heading">
-              <!-- <i class="fa fa-bars fa-fw"></i> -->
-              Subscriptions
-            </div>
-          
             <table class="table table-striped table-hover table-condensed">
               <thead>
                 <tr>
                   <th>Username</th>
-                  <th colspan="1">&nbsp;</th>
+                  <th>&nbsp;</th>
                 </tr>
               </thead>
               <tbody>
@@ -163,18 +160,28 @@
                   <td>${subscriber.username}</td>
                   
                   <td>
-                    <a href="${request.route_url('news.admin.channel.remove_subscription', channel_id=the_channel.id)}" class="btn btn-default btn-block">
-                      <i class="fa fa-trash-o"></i>
-                      Remove
+                    <a href="${request.route_url('news.admin.channel.remove_subscription', channel_id=the_channel.id, user_id=subscriber.id)}" class="btn btn-default btn-block">
+                      <i class="fa fa-minus"></i>
+                      &nbsp;
+                      Unsubscribe
                     </a>
                   </td>
                 </tr>
                 
+                <tr>
+                  <form action="${request.route_url('news.admin.channel.add_subscriptions', channel_id=the_channel.id)}" method="post" id="new_item_form">
+                    <input type="hidden" name="channel_id" id="channel_id" value="${the_channel.id}" />
+                    <td colspan="2">
+                      <textarea name="names" id="names" rows="8" class="form-control" placeholder="usernames, one per line"></textarea>
+                      <br />
+                      <input type="submit" value="Add subscribers" name="form.submitted" class="btn btn-primary btn-block" />
+                    </td>
+                    
+                  </form>
+                </tr>
+                
               </tbody>
             </table>
-            
-            <em>Note: Items added via this window will have no content and initially be marked as hidden. You will be taken to the editing window of the item where these things can be altered</em>
-            
             
           </div>
         </div>

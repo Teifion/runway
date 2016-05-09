@@ -50,7 +50,7 @@ def delete_channel(the_channel):
     DBSession.delete(the_channel)
 
 def add_subscriptions(channel_id, *user_ids):
-    DBSession.query(Subscription).filter(Subscription.channel == channel_id, Subscription.user.in_(user_ids)).delete(synchronize_session='fetch')
+    remove_subscriptions(channel_id, *user_ids)
     
     inserts = []
     
@@ -71,3 +71,6 @@ def get_subscriptions(channel_id, get_users=False):
         ).filter(
             Subscription.channel == channel_id
         )
+
+def remove_subscriptions(channel_id, *user_ids):
+    DBSession.query(Subscription).filter(Subscription.channel == channel_id, Subscription.user.in_(user_ids)).delete(synchronize_session='fetch')

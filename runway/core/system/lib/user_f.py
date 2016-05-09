@@ -92,6 +92,13 @@ def get_userid(username, allow_groups=False):
     if r == None: return None
     return r[0]
 
+def get_userids(*names):
+    names = map(
+        lambda v: v.strip().lower(),
+        names,
+    )
+    return (u[0] for u in DBSession.query(User.id).filter(User.username.in_(names)))
+
 def get_username(user_id, allow_groups=False):
     r = DBSession.query(User.username).filter(User.id == user_id)
     

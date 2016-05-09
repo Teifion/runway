@@ -41,6 +41,11 @@ def admin_views(config):
     config.add_route('news.admin.channel.delete', 'admin/channel/delete/{channel_id}')
     config.add_route('news.admin.channel.hide', 'admin/channel/hide/{channel_id}')
     
+    config.add_route('news.admin.channel.add_subscription', 'admin/channel/add_subscription/{channel_id}/{user_id}')
+    config.add_route('news.admin.channel.remove_subscription', 'admin/channel/remove_subscription/{channel_id}/{user_id}')
+    
+    config.add_route('news.admin.channel.add_subscriptions', 'admin/channel/add_subscription/{channel_id}')
+    
     config.add_route('news.admin.item.new', 'admin/item/new')
     config.add_route('news.admin.item.edit', 'admin/item/edit/{item_id}')
     config.add_route('news.admin.item.delete', 'admin/item/delete/{item_id}')
@@ -53,6 +58,10 @@ def admin_views(config):
     config.add_view(admin.delete_channel, route_name='news.admin.channel.delete', renderer='templates/admin/channel/delete.pt', permission='news.admin')
     config.add_view(admin.hide_channel, route_name='news.admin.channel.hide', permission='news.admin')
     
+    config.add_view(admin.add_subscription, route_name='news.admin.channel.add_subscription', permission='news.admin')
+    config.add_view(admin.remove_subscription, route_name='news.admin.channel.remove_subscription', permission='news.admin')
+    
+    config.add_view(admin.add_subscriptions, route_name='news.admin.channel.add_subscriptions', permission='news.admin')
     
     config.add_view(admin.new_item, route_name='news.admin.item.new', renderer='templates/admin/item/new.pt', permission='news.admin')
     config.add_view(admin.edit_item, route_name='news.admin.item.edit', renderer='templates/admin/item/edit.pt', permission='news.admin')

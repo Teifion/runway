@@ -118,6 +118,36 @@ def hide_channel(request):
     
     return HTTPFound(request.route_url('news.admin.channel.edit', channel_id=the_channel.id))
 
+
+def add_subscription(request):
+    channel_id = int(request.matchdict['channel_id'])
+    user_id = int(request.matchdict['user_id'])
+    
+    channels_f.add_subscriptions(channel_id, user_id)
+    
+    return HTTPFound(request.route_url('news.admin.channel.edit', channel_id=channel_id))
+    
+def remove_subscription(request):
+    channel_id = int(request.matchdict['channel_id'])
+    user_id = int(request.matchdict['user_id'])
+    
+    channels_f.remove_subscriptions(channel_id, user_id)
+    
+    return HTTPFound(request.route_url('news.admin.channel.edit', channel_id=channel_id))
+
+
+def add_subscriptions(request):
+    channel_id = int(request.matchdict['channel_id'])
+    names = request.params['names']
+    
+    user_ids = user_f.get_userids(*names.split("\n"))
+    channels_f.add_subscriptions(channel_id, *user_ids)
+    
+    return HTTPFound(request.route_url('news.admin.channel.edit', channel_id=channel_id))
+
+
+
+
 #  ITEMS
 def new_item(request):
     layout      = common.render("viewer")
