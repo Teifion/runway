@@ -10,16 +10,6 @@ import transaction
 
 from pyramid.config import Configurator
 
-# testing_dict = {
-#     'pyramid.debug_notfound': 'false',
-#     'pyramid.debug_routematch': 'false',
-#     'testing_mode': 'True',
-#     'pyramid.default_locale_name': 'en',
-#     'pyramid.debug_authorization': 'false',
-#     # 'pyramid.includes': '\npyramid_tm',
-#     # 'sqlalchemy.url': 'postgresql+pypostgresql://venustate:123456@localhost:5432/venustate_testing'
-# }
-
 from zope.interface import Interface
 
 from pyramid.interfaces import IRouteRequest

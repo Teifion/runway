@@ -81,7 +81,7 @@ def build_runway_settings_collection():
     result['users']['allow_groups'] = settings.get('runway.users.allow_groups', "False")
     
     result['system'] = defaultdict(lambda: 'False')
-    result['system']['name'] = settings.get('runway.system.name', "Venustate")
+    result['system']['name'] = settings.get('runway.system.name', "Runway")
     
     return RunwaySettingsCollection(**result)
 

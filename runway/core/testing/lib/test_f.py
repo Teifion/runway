@@ -144,7 +144,6 @@ class RunwayTester(RunwayTesterBase):
     def get_app(self, auth="root"):
         app = main({
             '__file__': '/tmp/a',
-            # 'here': '/var/www/wsgi_dev/venustate'
         }, **{
             'pyramid.includes': '\npyramid_tm',
             'sqlalchemy.url': engine_str,

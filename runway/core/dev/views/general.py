@@ -90,10 +90,6 @@ def schemas(request):
 # print("\n\n")
 
 def get_backup(request):
-    """
-    curl -d "username=root" -d "password=password" --cookie-jar /tmp/venu_cookiejar http://my_site.com/login?redirect=cmVkaXJlY3Q6Oi9kZXYvZ2V0X2JhY2t1cA==
-    curl --cookie /tmp/venu_cookiejar http://my_site.com/dev/get_backup
-    """
     file_path = site_settings_f.get_setting("runway.latest_backup")
     
     with open(file_path) as f:

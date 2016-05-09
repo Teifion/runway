@@ -4,7 +4,7 @@
     </div>
     
     <ol class="breadcrumb" metal:fill-slot="breadcrumbs">
-        <li class="active">Venustate home</li>
+        <li class="active">Runway home</li>
     </ol>
     
     <div metal:fill-slot="content">
@@ -17,7 +17,7 @@
         
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Venustate installation</h1>
+                <h1 class="page-header">Runway installation</h1>
             </div>
             <!-- /.col-lg-12 -->
         </div>

@@ -29,7 +29,7 @@ sidebar_active('developer');
         <div class="panel panel-default">
           <div class="panel-heading">
             <i class="fa fa-refresh fa-fw"></i>
-            Restart Venustate
+            Restart system
           </div>
           
           <div class="panel-body">
@@ -65,14 +65,14 @@ sidebar_active('developer');
           <div class="panel panel-default">
             <div class="panel-heading">
               <i class="fa fa-refresh fa-fw"></i>
-              Restart venustate
+              Restart system
             </div>
             
             <span id="server_is_up" style="display:none;"></span>
             <div class="panel-body">
               <a href="${request.route_url('/')}" class="btn btn-default">
                 <i class="fa fa-fw fa-home"></i>
-                Venustate home
+                System home
               </a>
               
               <a href="${request.route_url('dev.home')}" class="btn btn-default">

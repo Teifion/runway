@@ -498,7 +498,7 @@ trigger_script_data = {
             "input_map": {
                 "recipients": ["trigger.field3"],
                 "content": "\"Welcome to the site!\"",
-                "subject": "\"Welcome to Venustate\""
+                "subject": "\"Welcome to Runway\""
             }
         }
     ]

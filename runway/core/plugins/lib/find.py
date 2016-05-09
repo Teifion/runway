@@ -11,7 +11,6 @@ def scan_for_plugins(folder_path):
     and information about each plugin.
     """
     
-    # folder_path = '/Users/teifion/programming/python/venustate/venustate/'
     listdir = os.listdir(folder_path + '/plugins')
     
     for f in listdir:
