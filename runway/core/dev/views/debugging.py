@@ -80,16 +80,39 @@ def test_page(request):
     
     request.render['dropdowns'] = [
         render_f.dropdown_menu("Block menu", "block", "fa-power-off", "", "", (
-            render_f.dropdown_menu_item("Item 1", "yesterday", "fa-newspaper", "lorem ipsum loads of bacon is really really tasty and I love the smell of bacon", "?url=left-dropdowns.block.item1"),
-            render_f.dropdown_menu_item("Item 2", "2 days ago", "fa-house", "lorem ipsum", "?url=left-dropdowns.block.item2"),
+            render_f.dropdown_menu_item("Item 1", "yesterday", "fa-newspaper", "lorem ipsum loads of bacon is really really tasty and I love the smell of bacon", "?url=left-dropdowns.block.item1", label_colour="warning", label_text="Warn"),
+            render_f.dropdown_menu_item("Item 2", "2 days ago", "fa-home", "lorem ipsum", "?url=left-dropdowns.block.item2"),
+            render_f.dropdown_menu_item("Lots of text", "3 days ago", "fa-bullhorn", """
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                """, "?url=left-dropdowns.block.item3", label_colour="danger", label_text="danger"),
         )),
         render_f.dropdown_menu("Inline menu", "inline", "fa-power-off", "danger", "2", (
-            render_f.dropdown_menu_item("Item 1", "yesterday", "fa-newspaper", "lorem ipsum loads of bacon is really really tasty and I love the smell of bacon", "?url=left-dropdowns.inline.item1"),
+            render_f.dropdown_menu_item("Item 1", "yesterday", "fa-newspaper-o", "lorem ipsum loads of bacon is really really tasty and I love the smell of bacon", "?url=left-dropdowns.inline.item1"),
             render_f.dropdown_menu_item("Item 2", "2 days ago", "fa-home", "lorem ipsum", "?url=left-dropdowns.inline.item2"),
+            render_f.dropdown_menu_item("Item 3", "8 days ago", "fa-exclamation", "Ipsum lorem something or other", "?url=left-dropdowns.inline.item3", "danger", "danger label"),
+        )),
+        render_f.dropdown_menu("Grid", "grid", "fa-th", "success", "", (
+            # "title", "muted_text", "icon", "body", "url", "label_colour", "label_text"
+            
+            render_f.dropdown_menu_item("Item 1", "", "fa-bank", "", "?url=left-dropdowns.grid.item1", "success"),
+            render_f.dropdown_menu_item("Item 2", "", "fa-newspaper-o", "", "?url=left-dropdowns.grid.item1", "primary"),
+            render_f.dropdown_menu_item("Item 3", "", "fa-power-off", "", "?url=left-dropdowns.grid.item1", "danger"),
+            render_f.dropdown_menu_item("Item 4", "", "fa-cc", "", "?url=left-dropdowns.grid.item1", "warning"),
+            render_f.dropdown_menu_item("Item 5", "", "fa-history", "", "?url=left-dropdowns.grid.item1", "success"),
+            render_f.dropdown_menu_item("Item 6", "", "fa-anchor", "", "?url=left-dropdowns.grid.item1", "primary"),
+            render_f.dropdown_menu_item("Item 7", "", "fa-deafness", "", "?url=left-dropdowns.grid.item1", "warning"),
+            render_f.dropdown_menu_item("Item 8", "", "fa-map-pin", "", "?url=left-dropdowns.grid.item1", "danger"),
+            render_f.dropdown_menu_item("Item 9", "", "fa-suitcase", "", "?url=left-dropdowns.grid.item1", "success"),
         )),
         render_f.dropdown_menu("Status updates", "bars", "fa-power-off", "", "", (
             render_f.dropdown_menu_item("Item 1", "One hour", "danger", "60", "?url=bars1"),
-            render_f.dropdown_menu_item("Item 2", "Three hours", "success", "80", "?url=bars2"),
+            render_f.dropdown_menu_item("Item 2", "Three hours", "warning", "80", "?url=bars2"),
+            render_f.dropdown_menu_item("Item 3", "Done", "success", "100", "?url=bars3"),
         )),
     ]
     

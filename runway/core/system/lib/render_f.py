@@ -19,10 +19,14 @@ def order_menus():
 A set of functions for adding render data to the request
 """
 
-dropdown_menu = namedtuple("dropdown_menu", [
+_dropdown_menu = namedtuple("dropdown_menu", [
     "label", "style", "icon", "badge_colour", "badge_body", "contents"
 ])
+def dropdown_menu(label, style, icon, badge_colour, badge_body, contents=[]):
+    return _dropdown_menu_item(label, style, icon, badge_colour, badge_body, contents)
 
-dropdown_menu_item = namedtuple("dropdown_menu_item", [
-    "title", "muted_text", "icon", "body", "url"
+_dropdown_menu_item = namedtuple("dropdown_menu_item", [
+    "title", "muted_text", "icon", "body", "url", "label_colour", "label_text"
 ])
+def dropdown_menu_item(title, muted_text, icon, body, url, label_colour="", label_text=""):
+    return _dropdown_menu_item(title, muted_text, icon, body, url, label_colour, label_text)
