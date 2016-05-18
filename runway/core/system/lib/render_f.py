@@ -23,7 +23,7 @@ _dropdown_menu = namedtuple("dropdown_menu", [
     "label", "style", "icon", "badge_colour", "badge_body", "contents"
 ])
 def dropdown_menu(label, style, icon, badge_colour, badge_body, contents=[]):
-    return _dropdown_menu_item(label, style, icon, badge_colour, badge_body, contents)
+    return _dropdown_menu(label, style, icon, badge_colour, badge_body, contents)
 
 _dropdown_menu_item = namedtuple("dropdown_menu_item", [
     "title", "muted_text", "icon", "body", "url", "label_colour", "label_text"

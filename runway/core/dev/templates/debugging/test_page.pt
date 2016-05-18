@@ -17,7 +17,7 @@ sidebar_active('developer');
     </script>
     
     <div class="row first-row">
-      <div class="col-md-12 col-lg-12">
+      <div class="col-md-12">
         <div class="panel panel-default">
           <div class="panel-heading">
             <i class="fa fa-search fa-fw"></i>
@@ -31,6 +31,308 @@ sidebar_active('developer');
             consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
             cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
             proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-3">
+        <div class="panel panel-success">
+          <div class="panel-heading">
+            <i class="fa fa-search fa-fw"></i>
+            Title
+          </div>
+          
+          <div class="panel-body">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          </div>
+          
+          <div class="panel-footer">
+            <i class="fa fa-home fa-fw"></i>
+            Footer
+          </div>
+          
+        </div>
+      </div>
+      
+      <div class="col-md-3">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <i class="fa fa-search fa-fw"></i>
+            Title
+          </div>
+          
+          <div class="panel-body">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          </div>
+          
+          <div class="panel-footer">
+            <i class="fa fa-home fa-fw"></i>
+            Footer
+          </div>
+          
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            
+            <table class="table table-hover table-striped">
+              <thead>
+                <tr>
+                  <th>Col 1</th>
+                  <th>Col 2</th>
+                  <th>Col 3</th>
+                  <th>Col 4</th>
+                  <th>Col 5</th>
+                </tr>
+              </thead>
+              <tbody>
+              <tr>
+                  <td>
+                      <span class="label label-success">Added</span>
+                  </td>
+                  <td class="issue-info">
+                      <a href="#">
+                          Cell text
+                      </a>
+                      <br>
+                      <small>
+                          Lorem ipsum in a table row
+                      </small>
+                  </td>
+                  <td>
+                      Some more words
+                  </td>
+                  <td>
+                      Extra words
+                  </td>
+                  <td class="text-right">
+                      <button class="btn btn-default btn-xs"> Action</button>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                      <span class="label label-info">Added</span>
+                  </td>
+                  <td class="issue-info">
+                      <a href="#">
+                          Cell text
+                      </a>
+                      <br>
+                      <small>
+                          Lorem ipsum in a table row
+                      </small>
+                  </td>
+                  <td>
+                      Some more words
+                  </td>
+                  <td>
+                      Extra words
+                  </td>
+                  <td class="text-right">
+                      <button class="btn btn-default btn-xs"> Action</button>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                      <span class="label label-success">Added</span>
+                  </td>
+                  <td class="issue-info">
+                      <a href="#">
+                          Cell text
+                      </a>
+                      <br>
+                      <small>
+                          Lorem ipsum in a table row
+                      </small>
+                  </td>
+                  <td>
+                      Some more words
+                  </td>
+                  <td>
+                      Extra words
+                  </td>
+                  <td class="text-right">
+                      <button class="btn btn-default btn-xs"> Action</button>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                      <span class="label label-info">Added</span>
+                  </td>
+                  <td class="issue-info">
+                      <a href="#">
+                          Cell text
+                      </a>
+                      <br>
+                      <small>
+                          Lorem ipsum in a table row
+                      </small>
+                  </td>
+                  <td>
+                      Some more words
+                  </td>
+                  <td>
+                      Extra words
+                  </td>
+                  <td class="text-right">
+                      <button class="btn btn-default btn-xs"> Action</button>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                      <span class="label label-info">Fixed</span>
+                  </td>
+                  <td class="issue-info">
+                      <a href="#">
+                          Cell text
+                      </a>
+                      <br>
+                      <small>
+                          Lorem ipsum in a table row
+                      </small>
+                  </td>
+                  <td>
+                      Some more words
+                  </td>
+                  <td>
+                      Extra words
+                  </td>
+                  <td class="text-right">
+                      <button class="btn btn-default btn-xs"> Action</button>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                      <span class="label label-success">Fixed</span>
+                  </td>
+                  <td class="issue-info">
+                      <a href="#">
+                          Cell text
+                      </a>
+                      <br>
+                      <small>
+                          Lorem ipsum in a table row
+                      </small>
+                  </td>
+                  <td>
+                      Some more words
+                  </td>
+                  <td>
+                      Extra words
+                  </td>
+                  <td class="text-right">
+                      <button class="btn btn-default btn-xs"> Action</button>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                      <span class="label label-success">Fixed</span>
+                  </td>
+                  <td class="issue-info">
+                      <a href="#">
+                          Cell text
+                      </a>
+                      <br>
+                      <small>
+                          Lorem ipsum in a table row
+                      </small>
+                  </td>
+                  <td>
+                      Some more words
+                  </td>
+                  <td>
+                      Extra words
+                  </td>
+                  <td class="text-right">
+                      <button class="btn btn-default btn-xs"> Action</button>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                      <span class="label label-success">Fixed</span>
+                  </td>
+                  <td class="issue-info">
+                      <a href="#">
+                          Cell text
+                      </a>
+                      <br>
+                      <small>
+                          Lorem ipsum in a table row
+                      </small>
+                  </td>
+                  <td>
+                      Some more words
+                  </td>
+                  <td>
+                      Extra words
+                  </td>
+                  <td class="text-right">
+                      <button class="btn btn-default btn-xs"> Action</button>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                      <span class="label label-info">Fixed</span>
+                  </td>
+                  <td class="issue-info">
+                      <a href="#">
+                          Cell text
+                      </a>
+                      <br>
+                      <small>
+                          Lorem ipsum in a table row
+                      </small>
+                  </td>
+                  <td>
+                      Some more words
+                  </td>
+                  <td>
+                      Extra words
+                  </td>
+                  <td class="text-right">
+                      <button class="btn btn-default btn-xs"> Action</button>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                      <span class="label label-success">Fixed</span>
+                  </td>
+                  <td class="issue-info">
+                      <a href="#">
+                          Cell text
+                      </a>
+                      <br>
+                      <small>
+                          Lorem ipsum in a table row
+                      </small>
+                  </td>
+                  <td>
+                      Some more words
+                  </td>
+                  <td>
+                      Extra words
+                  </td>
+                  <td class="text-right">
+                      <button class="btn btn-default btn-xs"> Action</button>
+                  </td>
+              </tr>
+              </tbody>
+            </table>
           </div>
           
         </div>

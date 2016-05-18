@@ -75,12 +75,17 @@
                 <li tal:repeat="menu_item the_dropdown.contents">
                   <a href="${menu_item.url}">
                     <div>
-                      <strong>${menu_item.title}</strong>
+                      <strong style="font-size: 1.2em;">${menu_item.title}</strong>
+                      &nbsp;&nbsp;&nbsp;
+                      <span class="label label-${menu_item.label_colour}" tal:condition="menu_item.label_text != ''">${menu_item.label_text}</span>
                       <span class="pull-right text-muted">
                         <em>${menu_item.muted_text}</em>
                       </span>
                     </div>
-                    <div>${menu_item.body}</div>
+                    <div style="padding: 6px 0;">
+                      <i class="fa ${menu_item.icon} fa-fw fa-2x pull-left text-${menu_item.label_colour}"></i>
+                      ${menu_item.body}
+                    </div>
                   </a>
                 </li>
               </ul>
@@ -89,7 +94,8 @@
                 <li tal:repeat="menu_item the_dropdown.contents">
                   <a href="${menu_item.url}">
                     <div>
-                      <i class="fa ${menu_item.icon} fa-fw"></i> ${menu_item.title}
+                      <i class="fa ${menu_item.icon} fa-fw text-${menu_item.label_colour}"></i> ${menu_item.title}
+                      <span class="label label-${menu_item.label_colour}" tal:condition="menu_item.label_text != ''">${menu_item.label_text}</span>
                       <span class="pull-right text-muted small">${menu_item.muted_text}</span>
                     </div>
                   </a>
@@ -103,11 +109,20 @@
                       <strong>${menu_item.title}</strong>
                       <span class="pull-right text-muted">${menu_item.muted_text}</span>
                     </p>
-                    <div class="progress progress-striped active">
+                    <div class="progress progress-striped ${'active' if menu_item.body != '100' else ''}">
                       <div class="progress-bar progress-bar-${menu_item.icon}" role="progressbar" aria-valuenow="${menu_item.body}" aria-valuemin="0" aria-valuemax="100" style="width: ${menu_item.body}%">
                         <span class="sr-only">${menu_item.body}% Complete</span>
                       </div>
                     </div>
+                  </a>
+                </li>
+              </ul>
+              
+              <ul class="dropdown-menu" tal:condition="the_dropdown.style == 'grid'">
+                <li class="pad" style="min-width:397px; text-align: center;">
+                  <a href="${menu_item.url}" tal:repeat="menu_item the_dropdown.contents" style="text-align:center; border: 0px solid #000; display:inline-block; width:130px; padding: 5px 0;">
+                      <i class="fa ${menu_item.icon} fa-fw text-${menu_item.label_colour} fa-2x"></i>
+                      <h5>${menu_item.title}</h5>
                   </a>
                 </li>
               </ul>
@@ -223,10 +238,11 @@
         <div class="hidden-xs hidden-sm col-md-2 left-navigation no-padding-right" id="left-nav-wrapper">
           <nav class="navbar-default navbar-static-side" role="navigation" id="nav_sidebar">
             
-            
             <ul class="nav" id="side-menu">
               <li class="sidebar-logo">
-                <div metal:define-slot="sidebar_logo">Sidebar logo</div>
+                <div metal:define-slot="sidebar_logo">
+                  ${request.runway_settings.system['name']} - ${title}
+                </div>
               </li>
               
               <li class="sidebar-search" tal:condition="False">
