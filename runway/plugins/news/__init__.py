@@ -11,6 +11,7 @@ site_menu = {
     "icon": "fa-newspaper-o",
     "text": "News",
     "order": 20,
+    "submenu": [],
 }
 
 site_settings = [

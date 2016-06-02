@@ -9,6 +9,27 @@
   <div metal:fill-slot="content">
     <script type="text/javascript" charset="utf-8">
       sidebar_active('news');
+      
+      function set_publish_date_to_now () {
+        var now = new Date();
+        var y = (now.getYear()+1900);
+        
+        var m = now.getMonth();
+        if (m < 10) {m = "0" + m;}
+        
+        var d = now.getDay();
+        if (d < 10) {d = "0" + d;}
+        
+        
+        var hh = now.getHours();
+        if (hh < 10) {hh = "0" + hh;}
+        
+        var mm = now.getMinutes();
+        if (mm < 10) {mm = "0" + mm;}
+        
+        var formattedDate = y + "-" + m + "-" + d + "T"+ hh + ":" + mm;
+        $('#timestamp').val(formattedDate);
+      }
     </script>
     
     
@@ -164,7 +185,12 @@
               <div class="form-group">
                 <label for="title" class="col-sm-2 control-label">Timestamp:</label>
                 <div class="col-sm-10">
-                  <input type="datetime-local" name="timestamp" id="timestamp" value="${the_item.timestamp.strftime('%Y-%m-%dT%H:%M') if the_item.timestamp != None else ''}" class="form-control" />
+                  <div class="input-group">
+                    <span class="input-group-addon btn-info btn" onclick="set_publish_date_to_now();">
+                      <i class="fa fa-clock-o fa-fw"></i> Set to now
+                    </span>
+                    <input type="datetime-local" name="timestamp" id="timestamp" value="${the_item.timestamp.strftime('%Y-%m-%dT%H:%M') if the_item.timestamp != None else ''}" class="form-control" />
+                  </div>
                 </div>
                 <div class="col-sm-10 col-sm-offset-2">
                   <em>If the timestamp is set in the future then the news item will not be displayed until that time.</em>

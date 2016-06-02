@@ -82,6 +82,7 @@ def build_runway_settings_collection():
     
     result['system'] = defaultdict(lambda: 'False')
     result['system']['name'] = settings.get('runway.system.name', "Runway")
+    result['system']['search'] = settings.get('runway.system.name', "Runway")
     
     return RunwaySettingsCollection(**result)
 

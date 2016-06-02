@@ -62,6 +62,8 @@ class ItemLog(Base):
     
     user          = Column(Integer, ForeignKey("runway_users.id"), nullable=False, primary_key=True)
     item          = Column(Integer, ForeignKey("news_items.id"), nullable=False, primary_key=True)
-    state         = Column(Integer, nullable=False)
-    timestamp     = Column(DateTime, nullable=False)
-
+    
+    # If invited is Null then they were not subscribed/invited to read it
+    invited       = Column(DateTime, nullable=True)
+    viewed        = Column(DateTime, nullable=True)
+    signed        = Column(DateTime, nullable=True)
