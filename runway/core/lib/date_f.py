@@ -69,7 +69,26 @@ def last_month(current_month = None):
         m = 12
     
     return y, m
+
+def get_start_of_month(today=None):
+    if today is None:
+        today = datetime.today()
     
+    return datetime(
+        year = today.year,
+        month = today.month,
+        day = 1,
+    )
+
+def get_start_of_year(today=None):
+    if today is None:
+        today = datetime.today()
+    
+    return datetime(
+        year = today.year,
+        month = 1,
+        day = 1,
+    )
 
 def get_start_and_end_dates(params, period="month to date", start_date='start_date', end_date='end_date'):
     """
@@ -82,7 +101,9 @@ def get_start_and_end_dates(params, period="month to date", start_date='start_da
     returns a (start_date, end_date) pair
     """
     
-    found_end = datetime.today()
+    period = period.lower()
+    
+    found_end = datetime.today() + timedelta(days=1)
     if params.get('end_date', '').strip() != '':
         found_end = datetime.strptime(params['end_date'], '%Y-%m-%d')
     
@@ -116,6 +137,9 @@ def get_start_and_end_dates(params, period="month to date", start_date='start_da
                 found_start = datetime(found_end.year-1, 1, 1)
                 found_end = datetime(found_end.year-1, 12, 31, 23, 59, 59)
             
+            elif period == 'all time':
+                found_start = datetime(1,1,1)
+            
             elif period == 'last 100 days':
                 found_start = found_end - timedelta(days=100)
             
@@ -133,7 +157,7 @@ def get_start_and_end_dates(params, period="month to date", start_date='start_da
     
     return found_start, found_end
 
-date_presets = ("Month to date", "Last month", "Year to date", "Last year", "Custom dates")
+date_presets = ("Month to date", "Last month", "Year to date", "Last year", "All time", "Custom dates")
 
 def get_last_month():
     """

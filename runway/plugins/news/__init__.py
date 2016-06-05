@@ -50,6 +50,7 @@ def admin_views(config):
     config.add_route('news.admin.item.new', 'admin/item/new')
     config.add_route('news.admin.item.edit', 'admin/item/edit/{item_id}')
     config.add_route('news.admin.item.delete', 'admin/item/delete/{item_id}')
+    config.add_route('news.admin.item.publish', 'admin/item/publish/{item_id}')
     
     config.add_view(admin.home, route_name='news.admin.home', renderer='templates/admin/home.pt', permission='news.admin')
     
@@ -67,6 +68,7 @@ def admin_views(config):
     config.add_view(admin.new_item, route_name='news.admin.item.new', renderer='templates/admin/item/new.pt', permission='news.admin')
     config.add_view(admin.edit_item, route_name='news.admin.item.edit', renderer='templates/admin/item/edit.pt', permission='news.admin')
     config.add_view(admin.delete_item, route_name='news.admin.item.delete', renderer='templates/admin/item/delete.pt', permission='news.admin')
+    config.add_view(admin.publish_item, route_name='news.admin.item.publish', renderer='templates/admin/item/publish.pt', permission='news.admin')
 
 def publish_views(config):
     from .views import publish

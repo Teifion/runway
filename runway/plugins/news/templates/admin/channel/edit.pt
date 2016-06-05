@@ -11,22 +11,52 @@
       sidebar_active('news');
     </script>
     
-    <script src="${request.rel('static/validator.js')}"></script>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            
+            <div class="row">
+              <div class="col-sm-3 col-md-2 col-lg-1">
+                <a href="${request.route_url('news.general.home')}" class="block-link">
+                  <i class="fa fa-newspaper-o fa-fw fa-3x"></i><br />
+                  News home
+                </a>
+              </div>
+              
+              <div class="col-sm-3 col-md-2 col-lg-1">
+                <a href="${request.route_url('news.admin.home')}" class="block-link">
+                  <i class="fa fa-users fa-fw fa-3x"></i><br />
+                  Admin
+                </a>
+              </div>
+              
+              <div class="col-sm-3 col-md-2 col-lg-1">
+                <a href="${request.route_url('news.admin.channel.new')}" class="block-link">
+                  <i class="fa fa-feed fa-fw fa-3x"></i><br />
+                  New channel
+                </a>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     
     <div class="row first-row">
     
     <!-- Main form -->
       <div class="col-md-12 col-lg-6">
         <div class="panel panel-default">
+          <div class="panel-heading">
+            <!-- <i class="fa fa-bars fa-fw"></i> -->
+            Channel
+          </div>
+          
           <div class="panel-body">
             
             <form action="${request.route_url('news.admin.channel.edit', channel_id=the_channel.id)}" method="post" class="form-horizontal" id="form">
-              <a href="${request.route_url('news.admin.home')}" class="btn btn-default">
-                <i class="fa fa-level-up"></i>
-                Admin home
-              </a>
-              <br /><br />
-            
               <div class="form-group">
                 <label for="channel_name" class="col-sm-2 control-label">Channel name:</label>
                 <div class="col-sm-10">
@@ -78,7 +108,7 @@
                   <th>Title</th>
                   <th>Icon</th>
                   <th>Poster</th>
-                  <th>Timestamp</th>
+                  <th>Published</th>
                   <th colspan="2">&nbsp;</th>
                 </tr>
               </thead>
@@ -86,11 +116,11 @@
                 <tr tal:repeat="(item, poster) channel_items">
                   <td>${item.title}</td>
                   <td>
-                    <i tal:condition="item.icon != ''" class="fa fa-${item.icon}"></i>
+                    <i tal:condition="item.icon != ''" class="fa fa-fw fa-${item.icon}"></i>
                     ${item.icon}
                   </td>
                   <td>${poster.username}</td>
-                  <td>${item.timestamp.strftime("%H:%M %d/%m/%Y") if item.timestamp != None else ""}</td>
+                  <td>${item.published.strftime("%H:%M %d/%m/%Y") if item.published != None else "Not published"}</td>
                   <td>
                     <a href="${request.route_url('news.item.view', item_id=item.id)}" class="btn btn-default btn-block">
                       <i class="fa fa-eye"></i>

@@ -45,9 +45,7 @@ class Item(Base):
     content       = Column(String, nullable=False)
     
     poster        = Column(Integer, ForeignKey("runway_users.id"), nullable=False)
-    timestamp     = Column(DateTime, nullable=True)
-    
-    hidden        = Column(Boolean, default=False)
+    published     = Column(DateTime, nullable=True)
 
 class ItemTag(Base):
     __tablename__ = 'news_item_tags'

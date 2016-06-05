@@ -22,7 +22,7 @@
     <script tal:repeat="j request._js_libs" src="${request.rel('static/{}'.format(j))}"></script>
   </div>
   
-  <style type="text/css" media="screen" tal:condition="request.remote_addr == '127.0.0.1'">
+  <style type="text/css" media="screen" tal:condition="request.remote_addr == '127.0.0.1' and request.params.get('hide_local_marker') != '1'">
     .navbar, .breadcrumb {
       background-color: #FEE;
       border-color: #A00;

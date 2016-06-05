@@ -111,9 +111,11 @@ def ajax_views(config):
     from .views import ajax
     config.add_route('ajax.user.search', 'ajax/user/search')
     config.add_route('ajax.group.search', 'ajax/group/search')
+    config.add_route('ajax.combo.search', 'ajax/combo/search')
     
     config.add_view(ajax.user_search, route_name='ajax.user.search', renderer="string")
     config.add_view(ajax.group_search, route_name='ajax.group.search', renderer="string")
+    config.add_view(ajax.combo_search, route_name='ajax.combo.search', renderer="string")
     
 def documentation_views(config):
     from ..documentation import basic_view

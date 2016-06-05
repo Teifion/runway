@@ -9,6 +9,7 @@ import transaction
 from sqlalchemy.orm import aliased
 from sqlalchemy import and_
 from datetime import datetime
+from . import channels_f
 
 # Most of these are not in use but have been put in incase I want to use them at a later date
 log_states = (
@@ -100,3 +101,39 @@ def log_signing(item_id, user_id, timestamp=None):
         state         = _log_signing_state,
         timestamp     = timestamp,
     ))
+
+def publish_item(the_item, publish_date):
+    the_item.published = publish_date
+    
+    invites = []
+    
+    # For each subscriber
+    for s in channels_f.get_subscriptions(the_item.channel, get_users=False):
+        invites.append(ItemLog(
+            user    = s.user,
+            item    = the_item.id,
+            invited = publish_date,
+        ))
+    
+    for i in invites:
+        DBSession.add(i)
+
+def get_items(user_id, from_date=None):
+    if from_date is None:
+        from_date = datetime.now()
+    
+    return DBSession.query(
+        Item,
+        ItemLog,
+    ).filter(
+        ItemLog.user == user_id
+    ).join(
+        (ItemLog, and_(
+            ItemLog.item == Item.id,
+            ItemLog.user == user_id
+        ))
+    ).order_by(
+        Item.published.desc(),
+    ).limit(
+        25
+    )

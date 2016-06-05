@@ -1,4 +1,4 @@
-from sqlalchemy import func, and_
+from sqlalchemy import func, and_, or_
 from sqlalchemy.orm import aliased
 from functools import reduce
 from ...system.lib import auth
@@ -37,8 +37,10 @@ def by_either_name(terms, page=1, per_page=default_per_page, allow_groups=False,
     
     return _list_users(
         [
-            func.lower(User.username).like('%{}%'.format(terms.lower())),
-            func.lower(User.display_name).like('%{}%'.format(terms.lower())),
+            or_(
+                func.lower(User.username).like('%{}%'.format(terms.lower())),
+                func.lower(User.display_name).like('%{}%'.format(terms.lower())),
+            ),
             group_filter,
         ],
         page=page,

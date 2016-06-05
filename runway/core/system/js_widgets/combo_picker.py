@@ -16,6 +16,12 @@ class ComboPicker(JSWidget):
 $(function () {
   $('[data-toggle="popover"]').popover();
 });
+
+$(function () {
+    $('#combo_picker_modal').on('shown.bs.modal', function () {
+      $('#combo_picker_username').focus();
+    })
+});
 """,
 """
 var combo_picker_target = "";
@@ -128,6 +134,10 @@ function combo_picker_search () {{
           </div>
           
         </form>
+        
+        <div>
+          &nbsp;
+        </div>
         
         <div id="combo_picker_modal_results">
         

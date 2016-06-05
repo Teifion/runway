@@ -5,6 +5,7 @@ from ..lib import channels_f, items_f
 from ..models import Channel, Item
 from ....core.system.js_widgets import UserPicker
 from ....core.system.lib import site_settings_f, user_settings_f
+from datetime import datetime, timedelta
 
 def home(request):
     layout      = common.render("viewer")
@@ -166,9 +167,7 @@ def new_item(request):
             content       = "",
             
             poster        = request.user.id,
-            timestamp     = None,
-            
-            hidden        = True,
+            published     = None,
         )
         
         items_f.add_item(the_item)
@@ -220,9 +219,7 @@ def edit_item(request):
         the_item.content   = request.params.get("content","").strip()
         
         the_item.poster    = user_id
-        the_item.timestamp = common.string_to_datetime(request.params["timestamp"], default=None)
-        
-        the_item.hidden    = "hidden" in request.params
+        # the_item.published = common.string_to_datetime(request.params["published"], default=None)
         
         items_f.add_item(the_item)
         return HTTPFound(request.route_url('news.admin.item.edit', item_id=the_item.id))
@@ -246,4 +243,33 @@ def delete_item(request):
     return dict(
         title    = "TODO",
         layout   = layout,
+    )
+
+def publish_item(request):
+    layout      = common.render("viewer")
+    
+    item_id = int(request.matchdict['item_id'])
+    the_item = items_f.get_item(item_id)
+    
+    if "confirm" in request.params:
+        the_date = request.params.get("date", "")
+        
+        #  Publish instantly
+        if the_date == "":
+            publish_date = datetime.now()
+        
+        # Publish at the established time
+        else:
+            publish_date = common.string_to_datetime("{}T{}".format(request.params['date'], request.params['time']))
+        
+        items_f.publish_item(the_item, publish_date)
+        return HTTPFound(request.route_url('news.admin.item.edit', item_id=item_id))
+    
+    return dict(
+        title    = "News admin: Publish item",
+        layout   = layout,
+        
+        the_item = the_item,
+        
+        tomorrow = datetime.now() + timedelta(days=1),
     )

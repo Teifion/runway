@@ -9,8 +9,6 @@
       sidebar_active('news');
     </script>
     
-    <script src="${request.rel('static/validator.js')}"></script>
-    
     <div class="row first-row">
       <div class="col-md-12">
         <div class="panel panel-default">
@@ -26,7 +24,7 @@
               
               <div class="col-sm-3 col-md-2 col-lg-1">
                 <a href="${request.route_url('news.admin.channel.new')}" class="block-link">
-                  <i class="fa fa-plus fa-fw fa-3x"></i><br />
+                  <i class="fa fa-feed fa-fw fa-3x"></i><br />
                   New channel
                 </a>
               </div>
